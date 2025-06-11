@@ -107,6 +107,57 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "Weblog.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Weblog.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Weblog.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Weblog.Application.dll": {}
+        }
+      },
+      "Weblog.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Weblog.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Weblog.Domain.dll": {}
+        }
+      },
+      "Weblog.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Weblog.Application": "1.0.0",
+          "Weblog.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Weblog.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Weblog.Infrastructure.dll": {}
+        }
+      },
+      "Weblog.Persistence/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Weblog.Application": "1.0.0",
+          "Weblog.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Weblog.Persistence.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Weblog.Persistence.dll": {}
+        }
       }
     }
   },
@@ -473,12 +524,35 @@
         "swashbuckle.aspnetcore.swaggerui.6.6.2.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "Weblog.Application/1.0.0": {
+      "type": "project",
+      "path": "../Weblog.Application/Weblog.Application.csproj",
+      "msbuildProject": "../Weblog.Application/Weblog.Application.csproj"
+    },
+    "Weblog.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Weblog.Domain/Weblog.Domain.csproj",
+      "msbuildProject": "../Weblog.Domain/Weblog.Domain.csproj"
+    },
+    "Weblog.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Weblog.Infrastructure/Weblog.Infrastructure.csproj",
+      "msbuildProject": "../Weblog.Infrastructure/Weblog.Infrastructure.csproj"
+    },
+    "Weblog.Persistence/1.0.0": {
+      "type": "project",
+      "path": "../Weblog.Persistence/Weblog.Persistence.csproj",
+      "msbuildProject": "../Weblog.Persistence/Weblog.Persistence.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Microsoft.AspNetCore.OpenApi >= 8.0.16",
-      "Swashbuckle.AspNetCore >= 6.6.2"
+      "Swashbuckle.AspNetCore >= 6.6.2",
+      "Weblog.Application >= 1.0.0",
+      "Weblog.Infrastructure >= 1.0.0",
+      "Weblog.Persistence >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -505,7 +579,17 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj": {
+              "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj"
+            },
+            "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj": {
+              "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj"
+            },
+            "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj": {
+              "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

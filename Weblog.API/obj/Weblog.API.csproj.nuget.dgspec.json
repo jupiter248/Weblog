@@ -25,7 +25,17 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj"
+              },
+              "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj"
+              },
+              "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -62,6 +72,236 @@
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
             },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.116/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj",
+        "projectName": "Weblog.Application",
+        "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj",
+        "packagesPath": "/home/mohammad/.nuget/packages/",
+        "outputPath": "/home/mohammad/Programming/Weblog/Weblog.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mohammad/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.116/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj",
+        "projectName": "Weblog.Domain",
+        "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj",
+        "packagesPath": "/home/mohammad/.nuget/packages/",
+        "outputPath": "/home/mohammad/Programming/Weblog/Weblog.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mohammad/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.116/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj",
+        "projectName": "Weblog.Infrastructure",
+        "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj",
+        "packagesPath": "/home/mohammad/.nuget/packages/",
+        "outputPath": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mohammad/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj"
+              },
+              "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.116/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj",
+        "projectName": "Weblog.Persistence",
+        "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj",
+        "packagesPath": "/home/mohammad/.nuget/packages/",
+        "outputPath": "/home/mohammad/Programming/Weblog/Weblog.Persistence/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mohammad/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj"
+              },
+              "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
