@@ -15,7 +15,6 @@ namespace Weblog.Domain.Models
         public required string Slug { get; set; }
         public required string Context { get; set; }
         public int Viewers { get; set; } = 1;
-        public string? Author { get; set; }
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
         public required bool IsPublished { get; set; } = false;
@@ -23,5 +22,7 @@ namespace Weblog.Domain.Models
         public DateTime? UpdatedAt { get; set; }
         public DateTime? PublishedAt { get; set; }
         public List<Medium> Media { get; set; } = new List<Medium>();
+        public List<Tag> Tags { get; set; } = new List<Tag>();
+        public List<Contributor> Contributors { get; set; } = new List<Contributor>(); // The authors of article
     }
 }

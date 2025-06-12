@@ -23,6 +23,8 @@ namespace Weblog.Domain.Models
         public TimeSpan? StartTime { get; set; }
         public TimeSpan? EndTime { get; set; }
         public List<Medium> Media { get; set; } = new List<Medium>();
+        public List<Tag> Tags { get; set; } = new List<Tag>();
+
 
     }
 }
