@@ -1,5 +1,11 @@
 
-DotNetEnv.Env.Load(Path.Combine("..", ".env")); // This loads .env into Environment variables
+using DotNetEnv;
+using Microsoft.EntityFrameworkCore;
+using Weblog.Persistence.Data;
+using Weblog.Persistence.Settings;
+
+Env.Load(Path.Combine("..", ".env")); // This loads .env into Environment variables
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDatabase();
 
 
 builder.Services.AddCors(opt =>
@@ -21,6 +29,13 @@ builder.Services.AddCors(opt =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate(); // Ensure the database is created and migrations are applied
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
