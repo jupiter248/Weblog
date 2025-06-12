@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Weblog.Persistence.Data;
 
-namespace Weblog.Persistence.Settings
+namespace Weblog.Persistence.Extensions
 {
-    public static class ConfigureSetting
+    public static class ConfigureDatabase
     {
         public static void AddDatabase(this IServiceCollection services)
         {

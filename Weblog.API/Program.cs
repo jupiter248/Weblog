@@ -1,8 +1,9 @@
 
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
+using Weblog.Infrastructure.Extension;
 using Weblog.Persistence.Data;
-using Weblog.Persistence.Settings;
+using Weblog.Persistence.Extensions;
 
 Env.Load(Path.Combine("..", ".env")); // This loads .env into Environment variables
 
@@ -17,6 +18,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDatabase();
 
+builder.Services.ApplyDependencies();
+
 
 builder.Services.AddCors(opt =>
 {
@@ -30,12 +33,12 @@ builder.Services.AddCors(opt =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var dbContext = services.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.Migrate(); // Ensure the database is created and migrations are applied
-}
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var dbContext = services.GetRequiredService<ApplicationDbContext>();
+        dbContext.Database.Migrate(); // Ensure the database is created and migrations are applied
+    }
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
