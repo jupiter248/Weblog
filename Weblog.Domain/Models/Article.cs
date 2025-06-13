@@ -18,7 +18,7 @@ namespace Weblog.Domain.Models
         public int Viewers { get; set; } = 1;
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
-        public required bool IsPublished { get; set; } = false;
+        public bool IsPublished { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
         public DateTime? PublishedAt { get; set; }
