@@ -7,7 +7,7 @@ namespace Weblog.Application.Helpers
 {
     public class FilteringParams
     {
-        public string? Name { get; set; }
+        public string? Title { get; set; }
         public int? CategoryId { get; set; }
     }
 }

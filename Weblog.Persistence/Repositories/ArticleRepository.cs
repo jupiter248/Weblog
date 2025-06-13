@@ -2,38 +2,74 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Weblog.Application.Helpers;
 using Weblog.Application.Interfaces;
 using Weblog.Application.Interfaces.IArticleRepository;
 using Weblog.Domain.Models;
+using Weblog.Persistence.Data;
 
 namespace Weblog.Persistence.Repositories
 {
     public class ArticleRepository : IArticleRepository
     {
-        public Task<Article> AddArticleAsync(Article article)
+        private readonly ApplicationDbContext _context;
+        public ArticleRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<Article> AddArticleAsync(Article article)
+        {
+            await _context.Articles.AddAsync(article);
+            await _context.SaveChangesAsync();
+            return article;
         }
 
-        public Task DeleteArticleById(Article article)
+        public async Task DeleteArticleById(Article article)
         {
-            throw new NotImplementedException();
+            _context.Articles.Remove(article);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<List<Article>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
+        public List<Article> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
         {
-            throw new NotImplementedException();
+            var articles = _context.Articles.Include(m => m.Media).Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(filteringParams.Title))
+            {
+                articles = articles.Where(p => p.Title.ToLower().Contains(filteringParams.Title.ToLower().Replace(" ", "")));
+            }
+            if (filteringParams.CategoryId.HasValue)
+            {
+                articles = articles.Where(a => a.CategoryId == filteringParams.CategoryId);
+            }
+
+            var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
+
+            return articles.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
+
         }
 
-        public Task<Article?> GetArticleByIdAsync(int articleId)
+        public async Task<Article?> GetArticleByIdAsync(int articleId)
         {
-            throw new NotImplementedException();
+            Article? article = await _context.Articles.FirstOrDefaultAsync(a => a.Id == articleId);
+            if (article == null)
+            {
+                return null;
+            }
+            return article;
         }
 
-        public Task UpdateArticleAsync(Article currentArticle, Article newArticle)
+        public async Task UpdateArticleAsync(Article currentArticle, Article newArticle)
         {
-            throw new NotImplementedException();
-        }
+            currentArticle.Title = newArticle.Title;
+            currentArticle.Slug = newArticle.Slug;
+            currentArticle.Context = newArticle.Context;
+            currentArticle.UpdatedAt = DateTime.Now;
+            currentArticle.IsPublished = newArticle.IsPublished;
+            currentArticle.CategoryId = newArticle.CategoryId;
+            currentArticle.Category = newArticle.Category;
+            await _context.SaveChangesAsync();
+        }       
     }
 }
