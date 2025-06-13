@@ -10,7 +10,7 @@ namespace Weblog.Persistence.Extensions
 {
     public static class ConfigureDatabase
     {
-        public static void AddDatabase(this IServiceCollection services)
+        public static void ConnectToDatabase(this IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(
                 options =>

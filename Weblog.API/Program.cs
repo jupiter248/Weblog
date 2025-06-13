@@ -16,9 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDatabase();
+builder.Services.ConnectToDatabase();
 
-builder.Services.ApplyDependencies();
+builder.Services.ApplyDependencies(); // Apply dependencies like repository and service scopes 
 
 
 builder.Services.AddCors(opt =>

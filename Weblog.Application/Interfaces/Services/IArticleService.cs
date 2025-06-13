@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Weblog.Application.Interfaces
+namespace Weblog.Application.Interfaces.Services
 {
-    public class IArticleRepository
+    public interface IArticleService
     {
         
     }
