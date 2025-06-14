@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wkiTUFsvUS8/GZ3p7q9J53lxY1wqecsQm1wR1TwkVE9axUJ0/lNXO4V+63Q3777bb/Y1LYjYKKKSEp71kF76hQ==",
+  "dgSpecHash": "/f++qpE2IU5FUkKbsGWMtvHk2z7CtNbj3Tc4cpBHICAiGUt8vZGGxiiNlBvWhy+bS4EQioR5TjOXhZygMClmqQ==",
   "success": true,
   "projectFilePath": "/home/mohammad/Programming/Weblog/Weblog.API/Weblog.API.csproj",
   "expectedPackageFiles": [
@@ -26,8 +26,8 @@
     "/home/mohammad/.nuget/packages/microsoft.extensions.caching.memory/8.0.0/microsoft.extensions.caching.memory.8.0.0.nupkg.sha512",
     "/home/mohammad/.nuget/packages/microsoft.extensions.configuration/1.1.2/microsoft.extensions.configuration.1.1.2.nupkg.sha512",
     "/home/mohammad/.nuget/packages/microsoft.extensions.configuration.abstractions/8.0.0/microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
-    "/home/mohammad/.nuget/packages/microsoft.extensions.dependencyinjection/9.0.6/microsoft.extensions.dependencyinjection.9.0.6.nupkg.sha512",
-    "/home/mohammad/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/9.0.6/microsoft.extensions.dependencyinjection.abstractions.9.0.6.nupkg.sha512",
+    "/home/mohammad/.nuget/packages/microsoft.extensions.dependencyinjection/8.0.0/microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
+    "/home/mohammad/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "/home/mohammad/.nuget/packages/microsoft.extensions.dependencymodel/8.0.0/microsoft.extensions.dependencymodel.8.0.0.nupkg.sha512",
     "/home/mohammad/.nuget/packages/microsoft.extensions.logging/8.0.0/microsoft.extensions.logging.8.0.0.nupkg.sha512",
     "/home/mohammad/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",

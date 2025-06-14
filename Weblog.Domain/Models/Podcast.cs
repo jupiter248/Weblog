@@ -15,6 +15,7 @@ namespace Weblog.Domain.Models
         public required string Description { get; set; }
         public required string Link { get; set; }
         public string? MadeBy { get; set; }
+        public DateTimeOffset? DisplayedAt { get; set; }
         public List<Medium> Media { get; set; } = new List<Medium>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
         public List<Contributor> Contributors { get; set; } = new List<Contributor>(); // The hosts of podcast   

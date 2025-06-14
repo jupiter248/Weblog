@@ -4,16 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblog.Application.Dtos;
 using Weblog.Application.Helpers;
+using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 
 namespace Weblog.Infrastructure.Services
 {
     public class ArticleService : IArticleService
     {
-        private readonly IArticleService _articleService;
-        public ArticleService(IArticleService articleService)
+        private readonly IArticleRepository _articleRepo;
+        public ArticleService(IArticleRepository articleRepo)
         {
-            _articleService = articleService;
+            _articleRepo = articleRepo;
         }
         public Task<ArticleDto> AddArticleAsync(AddArticleDto addArticleDto)
         {

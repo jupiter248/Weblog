@@ -19,9 +19,9 @@ namespace Weblog.Domain.Models
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
         public bool IsPublished { get; set; } = false;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? PublishedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; } = DateTime.Now;
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? PublishedAt { get; set; }
         public List<Medium> Media { get; set; } = new List<Medium>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
         public List<Contributor> Contributors { get; set; } = new List<Contributor>(); // The authors of article

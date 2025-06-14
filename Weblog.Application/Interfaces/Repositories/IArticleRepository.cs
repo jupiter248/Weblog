@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Weblog.Application.Helpers;
 using Weblog.Domain.Models;
 
-namespace Weblog.Application.Interfaces.IArticleRepository
+namespace Weblog.Application.Interfaces.Repositories
 {
     public interface IArticleRepository
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Weblog.Application.Interfaces;
-using Weblog.Application.Interfaces.IArticleRepository;
+using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Infrastructure.Services;
 using Weblog.Persistence.Repositories;
@@ -21,7 +21,6 @@ namespace Weblog.Infrastructure.Extension
             //Services
             services.AddScoped<IArticleService, ArticleService>();
 
-            
         }
     }
 }
