@@ -1,6 +1,7 @@
 
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
+using Weblog.API.Middleware;
 using Weblog.Application.Extensions;
 using Weblog.Infrastructure.Extension;
 using Weblog.Persistence.Data;
@@ -36,12 +37,14 @@ builder.Services.AddCors(opt =>
 
 var app = builder.Build();
 
-    using (var scope = app.Services.CreateScope())
-    {
-        var services = scope.ServiceProvider;
-        var dbContext = services.GetRequiredService<ApplicationDbContext>();
-        dbContext.Database.Migrate(); // Ensure the database is created and migrations are applied
-    }
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate(); // Ensure the database is created and migrations are applied
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
