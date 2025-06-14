@@ -39,5 +39,10 @@ namespace Weblog.Infrastructure.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task UpdateViewersAsync(int articleId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

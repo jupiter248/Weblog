@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Formats.Asn1;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace Weblog.Persistence.Repositories
             return article;
         }
 
-        public async Task DeleteArticleById(Article article)
+        public async Task DeleteArticleByIdAsync(Article article)
         {
             _context.Articles.Remove(article);
             await _context.SaveChangesAsync();
@@ -70,6 +71,12 @@ namespace Weblog.Persistence.Repositories
             currentArticle.CategoryId = newArticle.CategoryId;
             currentArticle.Category = newArticle.Category;
             await _context.SaveChangesAsync();
-        }       
+        }
+
+        public async Task UpdateViewersAsync(Article article)
+        {
+            article.Viewers++;
+            await _context.SaveChangesAsync();
+        }
     }
 }

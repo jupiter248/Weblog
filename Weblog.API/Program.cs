@@ -1,6 +1,7 @@
 
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
+using Weblog.Application.Extensions;
 using Weblog.Infrastructure.Extension;
 using Weblog.Persistence.Data;
 using Weblog.Persistence.Extensions;
@@ -19,6 +20,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConnectToDatabase();
 
 builder.Services.ApplyDependencies(); // Apply dependencies like repository and service scopes 
+
+builder.Services.ApplyAutoMapper();
 
 
 builder.Services.AddCors(opt =>
