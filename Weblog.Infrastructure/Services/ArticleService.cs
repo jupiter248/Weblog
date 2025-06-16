@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Weblog.Application.Dtos;
-using Weblog.Application.Helpers;
+using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Application.Queries;
 using Weblog.Domain.Models;
 using Weblog.Infrastructure.Extension;
 

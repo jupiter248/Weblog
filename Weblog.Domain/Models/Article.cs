@@ -20,7 +20,7 @@ namespace Weblog.Domain.Models
         public Category? Category { get; set; }
         public bool IsPublished { get; set; } = false;
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
-        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }  
         public DateTimeOffset? PublishedAt { get; set; }
         public List<Medium> Media { get; set; } = new List<Medium>();
         public List<Tag> Tags { get; set; } = new List<Tag>();

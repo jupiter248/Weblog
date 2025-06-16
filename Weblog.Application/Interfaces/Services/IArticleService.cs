@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblog.Application.Dtos;
-using Weblog.Application.Helpers;
+using Weblog.Application.Dtos.ArticleDtos;
+using Weblog.Application.Queries;
 
 namespace Weblog.Application.Interfaces.Services
 {

@@ -4,9 +4,9 @@ using System.Formats.Asn1;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Weblog.Application.Helpers;
 using Weblog.Application.Interfaces;
 using Weblog.Application.Interfaces.Repositories;
+using Weblog.Application.Queries;
 using Weblog.Domain.Models;
 using Weblog.Persistence.Data;
 

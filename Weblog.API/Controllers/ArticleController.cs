@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos;
+using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Interfaces.Services;
 
 namespace Weblog.API.Controllers

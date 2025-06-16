@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Weblog.Application.Dtos
+namespace Weblog.Application.Dtos.ArticleDtos
 {
     public class AddArticleDto
     {
         public required string Title { get; set; }
         public required string Context { get; set; }
         public required int CategoryId { get; set; }
-        public bool IsPublished { get; set; } = false;
+        public bool IsPublished { get; set; }
+        public AddArticleDto()
+        {
+            this.IsPublished = false;
+        }
     }
 }

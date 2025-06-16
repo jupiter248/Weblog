@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Weblog.Application.Helpers;
+using Weblog.Application.Queries;
 using Weblog.Domain.Models;
 
 namespace Weblog.Application.Interfaces.Repositories

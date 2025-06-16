@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Weblog.Application.Dtos
+namespace Weblog.Application.Dtos.ArticleDtos
 {
     public class ArticleDto
     {
@@ -13,9 +13,9 @@ namespace Weblog.Application.Dtos
         public required int Viewers { get; set; }
         public required int CategoryId { get; set; }
         public required bool IsPublished { get; set; } 
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? PublishedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? PublishedAt { get; set; }
 
         //List media
         //List tags
