@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace Weblog.Application.CustomExceptions
 {
-    public class ConflictException : Exception
+    public class NotFoundException : Exception
     {
-        public ConflictException(string message) : base(message) { }
+        public NotFoundException(string message) : base (message)
+        {
+        }
     }
-    
 }

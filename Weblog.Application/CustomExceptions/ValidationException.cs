@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace Weblog.Application.CustomExceptions
 {
-    public class ConflictException : Exception
+    public class ValidationException : Exception
     {
-        public ConflictException(string message) : base(message) { }
+        public ValidationException(string message) : base (message)
+        {
+        }
     }
-    
 }

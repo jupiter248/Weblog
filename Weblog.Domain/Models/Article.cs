@@ -15,11 +15,11 @@ namespace Weblog.Domain.Models
         public required string Title { get; set; }
         public required string Slug { get; set; }
         public required string Context { get; set; }
-        public int Viewers { get; set; } = 1;
+        public int Viewers { get; set; } 
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
         public bool IsPublished { get; set; } = false;
-        public DateTimeOffset CreatedAt { get; set; } = DateTime.Now;
+        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset? PublishedAt { get; set; }
         public List<Medium> Media { get; set; } = new List<Medium>();

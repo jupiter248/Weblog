@@ -13,9 +13,8 @@ namespace Weblog.Application.Mappers
         public MappingProfile()
         {
             CreateMap<Article, ArticleDto>();
-            CreateMap<ArticleDto, AddArticleDto>();
-            CreateMap<Article, UpdateArticleDto>();
-
+            CreateMap<AddArticleDto, Article>();
+            CreateMap<UpdateArticleDto, Article>();
         }
     }
 }

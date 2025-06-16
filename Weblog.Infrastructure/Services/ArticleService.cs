@@ -2,23 +2,39 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Weblog.Application.Dtos;
 using Weblog.Application.Helpers;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Domain.Models;
+using Weblog.Infrastructure.Extension;
 
 namespace Weblog.Infrastructure.Services
 {
     public class ArticleService : IArticleService
     {
         private readonly IArticleRepository _articleRepo;
-        public ArticleService(IArticleRepository articleRepo)
+        private readonly IMapper _mapper;
+        public ArticleService(IArticleRepository articleRepo, IMapper mapper)
         {
             _articleRepo = articleRepo;
+            _mapper = mapper;
         }
-        public Task<ArticleDto> AddArticleAsync(AddArticleDto addArticleDto)
+        public async Task<ArticleDto> AddArticleAsync(AddArticleDto addArticleDto)
         {
-            throw new NotImplementedException();
+            Article newArticle = _mapper.Map<Article>(addArticleDto);
+
+            // Category checking
+
+            newArticle.Slug = newArticle.Title.Slugify();
+
+            if (newArticle.IsPublished)
+            {
+                newArticle.PublishedAt = DateTimeOffset.Now;
+            }
+            Article addedArticle = await _articleRepo.AddArticleAsync(newArticle);
+            return _mapper.Map<ArticleDto>(addedArticle);
         }
 
         public Task DeleteArticleAsync(int articleId)
