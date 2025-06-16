@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Queries;
 using Weblog.Domain.Models;
@@ -16,29 +17,45 @@ namespace Weblog.Persistence.Repositories
         {
             _context = context;
         }
-        public Task<Category> AddCategoryAsync(Category category)
+        public async Task<Category> AddCategoryAsync(Category category)
         {
-            throw new NotImplementedException();
+            await _context.Categories.AddAsync(category);
+            await _context.SaveChangesAsync();
+            return category;
         }
 
-        public Task DeleteCategoryAsync(Category category)
+        public async Task DeleteCategoryAsync(Category category)
         {
-            throw new NotImplementedException();
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<List<Category>> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams)
+        public List<Category> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams)
         {
-            throw new NotImplementedException();
+            var categories = _context.Categories.AsQueryable();
+            if (filteringCategoryParams.CategoryParentType.HasValue)
+            {
+                categories = categories.Where(t => t.CategoryParentType == filteringCategoryParams.CategoryParentType);
+            }
+            return categories.ToList();
         }
 
-        public Task<Category> GetCategoryByIdAsync(int CategoryId)
+        public async Task<Category?> GetCategoryByIdAsync(int categoryId)
         {
-            throw new NotImplementedException();
+            Category? category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+            if (category == null)
+            {
+                return null;
+            }
+            return category;
         }
 
-        public Task UpdateCategoryAsync(Category currentCategory, Category newCategory)
+        public async Task UpdateCategoryAsync(Category currentCategory, Category newCategory)
         {
-            throw new NotImplementedException();
+            currentCategory.Name = newCategory.Name;
+            currentCategory.Description = newCategory.Description;
+            currentCategory.CategoryParentType = newCategory.CategoryParentType;
+            await _context.SaveChangesAsync();
         }
     }
 }

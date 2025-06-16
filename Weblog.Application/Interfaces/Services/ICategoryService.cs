@@ -12,7 +12,7 @@ namespace Weblog.Application.Interfaces.Services
         Task<List<CategoryDto>> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams);
         Task<CategoryDto> GetCategoryByIdAsync(int CategoryId);
         Task<CategoryDto> AddCategoryAsync(AddCategoryDto addCategoryDto);
-        Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto);
+        Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto , int categoryId);
         Task DeleteCategoryAsync(int CategoryId);
     }
 }

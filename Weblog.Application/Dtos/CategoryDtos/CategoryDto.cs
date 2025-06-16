@@ -8,6 +8,7 @@ namespace Weblog.Application.Dtos.CategoryDtos
 {
     public class CategoryDto
     {
+        public int Id { get; set;   }
         public required string Name { get; set; }
         public required string Description { get; set; }
         public required CategoryParentType CategoryParentType { get; set; }

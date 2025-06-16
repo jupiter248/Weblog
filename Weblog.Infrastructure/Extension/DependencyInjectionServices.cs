@@ -17,9 +17,13 @@ namespace Weblog.Infrastructure.Extension
         {
             //Repositories
             services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+
 
             //Services
             services.AddScoped<IArticleService, ArticleService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+
 
         }
     }

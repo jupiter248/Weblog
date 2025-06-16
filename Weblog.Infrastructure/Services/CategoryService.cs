@@ -2,43 +2,58 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.CategoryDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
+using Weblog.Domain.Models;
 
 namespace Weblog.Infrastructure.Services
 {
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepo;
-        public CategoryService(ICategoryRepository categoryRepo)
+        private readonly IMapper _mapper;
+
+        public CategoryService(ICategoryRepository categoryRepo, IMapper mapper)
         {
             _categoryRepo = categoryRepo;
+            _mapper = mapper;
         }
-        public Task<CategoryDto> AddCategoryAsync(AddCategoryDto addCategoryDto)
+        public async Task<CategoryDto> AddCategoryAsync(AddCategoryDto addCategoryDto)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteCategoryAsync(int CategoryId)
-        {
-            throw new NotImplementedException();
+            Category newCategory = _mapper.Map<Category>(addCategoryDto);
+            Category addedCategory = await _categoryRepo.AddCategoryAsync(newCategory);
+            return _mapper.Map<CategoryDto>(addedCategory);
         }
 
-        public Task<List<CategoryDto>> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams)
+        public async Task DeleteCategoryAsync(int categoryId)
         {
-            throw new NotImplementedException();
+            Category? category = await _categoryRepo.GetCategoryByIdAsync(categoryId) ?? throw new NotFoundException("Category not found");
+            await _categoryRepo.DeleteCategoryAsync(category);
         }
 
-        public Task<CategoryDto> GetCategoryByIdAsync(int CategoryId)
+        public async Task<List<CategoryDto>> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams)
         {
-            throw new NotImplementedException();
+            List<Category> categories = _categoryRepo.GetAllCategoriesAsync(filteringCategoryParams);
+            List<CategoryDto> categoryDtos = _mapper.Map<List<CategoryDto>>(categories);
+            return categoryDtos;
         }
 
-        public Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
+        public async Task<CategoryDto> GetCategoryByIdAsync(int categoryId)
         {
-            throw new NotImplementedException();
+            Category? category = await _categoryRepo.GetCategoryByIdAsync(categoryId) ?? throw new NotFoundException("Category not found");
+            return _mapper.Map<CategoryDto>(category);
+
+        }
+
+        public async Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto, int categoryId)
+        {
+            Category? currentCategory = await _categoryRepo.GetCategoryByIdAsync(categoryId) ?? throw new NotFoundException("Category not found");
+            Category newCategory = _mapper.Map<Category>(updateCategoryDto);
+            await _categoryRepo.UpdateCategoryAsync(currentCategory , newCategory);
         }
     }
 }
