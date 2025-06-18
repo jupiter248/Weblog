@@ -30,14 +30,14 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public List<Category> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams)
+        public async Task<List<Category>> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams)
         {
             var categories = _context.Categories.AsQueryable();
             if (filteringCategoryParams.CategoryParentType.HasValue)
             {
                 categories = categories.Where(t => t.CategoryParentType == filteringCategoryParams.CategoryParentType);
             }
-            return categories.ToList();
+            return await categories.ToListAsync();
         }
 
         public async Task<Category?> GetCategoryByIdAsync(int categoryId)

@@ -37,7 +37,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<List<CategoryDto>> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams)
         {
-            List<Category> categories = _categoryRepo.GetAllCategoriesAsync(filteringCategoryParams);
+            List<Category> categories = await _categoryRepo.GetAllCategoriesAsync(filteringCategoryParams);
             List<CategoryDto> categoryDtos = _mapper.Map<List<CategoryDto>>(categories);
             return categoryDtos;
         }

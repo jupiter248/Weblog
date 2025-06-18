@@ -9,7 +9,7 @@ namespace Weblog.Application.Interfaces.Repositories
 {
     public interface ICategoryRepository
     {
-        List<Category> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams);
+        Task<List<Category>> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams);
         Task<Category> AddCategoryAsync(Category category);
         Task<Category?> GetCategoryByIdAsync(int categoryId);
         Task UpdateCategoryAsync(Category currentCategory, Category newCategory);

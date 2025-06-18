@@ -20,10 +20,10 @@ namespace Weblog.API.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> GetAllCategories([FromQuery] FilteringCategoryParams filteringCategoryParams)
         {
-            List<CategoryDto> categoryDtos = await _categoryService.GetAllCategoriesAsync(filteringCategoryParams);
+            List<categoryDto> categoryDtos = await _categoryService.GetAllCategoriesAsync(filteringCategoryParams);
             return Ok(categoryDtos);
         }
         [HttpGet("{id:int}")]
