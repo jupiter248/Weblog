@@ -6,6 +6,7 @@ using AutoMapper;
 using Weblog.Application.Dtos;
 using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Dtos.CategoryDtos;
+using Weblog.Application.Dtos.TagDtos;
 using Weblog.Domain.Models;
 
 namespace Weblog.Application.Mappers
@@ -22,6 +23,10 @@ namespace Weblog.Application.Mappers
             CreateMap<Category, CategoryDto>();
             CreateMap<AddCategoryDto, Category>();
             CreateMap<UpdateCategoryDto, Category>();
+            //Tag
+            CreateMap<Tag, TagDto>();
+            CreateMap<AddTagDto, Tag>();
+            CreateMap<UpdateTagDto, Tag>();
         }
     }
 }
