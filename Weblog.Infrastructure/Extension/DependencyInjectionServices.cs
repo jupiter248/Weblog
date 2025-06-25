@@ -19,6 +19,8 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<IContributorRepository, ContributorRepository>();
+
 
 
 
@@ -26,6 +28,8 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IContributorService, ContributorService>();
+
 
 
 

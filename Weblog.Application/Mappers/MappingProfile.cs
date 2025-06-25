@@ -6,6 +6,7 @@ using AutoMapper;
 using Weblog.Application.Dtos;
 using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Dtos.CategoryDtos;
+using Weblog.Application.Dtos.ContributorDtos;
 using Weblog.Application.Dtos.TagDtos;
 using Weblog.Domain.Models;
 
@@ -19,14 +20,18 @@ namespace Weblog.Application.Mappers
             CreateMap<Article, ArticleDto>();
             CreateMap<AddArticleDto, Article>();
             CreateMap<UpdateArticleDto, Article>();
-            //Category
+            // Category
             CreateMap<Category, CategoryDto>();
             CreateMap<AddCategoryDto, Category>();
             CreateMap<UpdateCategoryDto, Category>();
-            //Tag
+            // Tag
             CreateMap<Tag, TagDto>();
             CreateMap<AddTagDto, Tag>();
             CreateMap<UpdateTagDto, Tag>();
+            // Contributor
+            CreateMap<Contributor, ContributorDto>();
+            CreateMap<AddContributorDto, Contributor>();
+            CreateMap<UpdateContributorDto, Contributor>();
         }
     }
 }
