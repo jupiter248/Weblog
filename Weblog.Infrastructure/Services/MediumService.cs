@@ -30,6 +30,13 @@ namespace Weblog.Infrastructure.Services
         public async Task DeleteMediumAsync(int mediaId)
         {
             Medium medium = await _mediumRepo.GetMediumByIdAsync(mediaId) ?? throw new NotFoundException("Media not found");
+
+            string filePath = Path.Combine(_webHost.WebRootPath, medium.Path);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+
             await _mediumRepo.DeleteMediumAsync(medium);
         }
 
@@ -82,7 +89,7 @@ namespace Weblog.Infrastructure.Services
             {
                 await mediumFile.CopyToAsync(stream);
             }
-
+            
             Medium medium = new Medium
             {
                 Name = fileName,
