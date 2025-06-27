@@ -35,7 +35,7 @@ namespace Weblog.Application.Mappers
             CreateMap<UpdateContributorDto, Contributor>();
             //Medium
             CreateMap<Medium, MediumDto>();
-            CreateMap<UpdateMediumDto, Medium>()
+            CreateMap<UpdateMediumDto, Medium>();
         }
     }
 }

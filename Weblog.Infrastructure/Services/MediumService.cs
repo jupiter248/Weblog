@@ -69,9 +69,14 @@ namespace Weblog.Infrastructure.Services
             {
                 Directory.CreateDirectory(uploadsFolder);
             }
+            if (!Directory.Exists(Path.Combine(_webHost.WebRootPath, $"uploads/{uploadMediaDto.MediumType}")))
+            {
+                Directory.CreateDirectory(Path.Combine(_webHost.WebRootPath, $"uploads/{uploadMediaDto.MediumType}"));
+            }
 
             var fileName = $"{Guid.NewGuid()}-{Path.GetFileName(mediumFile.FileName)}";
-            var filePath = Path.Combine(_webHost.WebRootPath, $"{uploadMediaDto.MediumType}", fileName);
+            var filePath = Path.Combine(_webHost.WebRootPath, $"uploads/{uploadMediaDto.MediumType}", fileName);
+            
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
@@ -81,7 +86,7 @@ namespace Weblog.Infrastructure.Services
             Medium medium = new Medium
             {
                 Name = fileName,
-                Path = "/uploads/" + filePath,
+                Path = filePath,
                 IsPrimary = uploadMediaDto.IsPrimary,
                 MediumType = uploadMediaDto.MediumType,
                 MediumParentType = uploadMediaDto.MediumParentType,
