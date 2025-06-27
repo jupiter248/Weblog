@@ -1,0 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Weblog.Domain.Enums;
+
+namespace Weblog.Application.Dtos.MediaDtos
+{
+    public class UploadMediumDto
+    {
+        public required IFormFile UploadedFile { get; set; }
+        public bool IsPrimary { get; set; }
+        public MediumParentType MediumParentType { get; set; }
+        public MediumType MediumType { get; set; }
+        public int? ArticleId { get; set; }
+        public int? EventId { get; set; }
+        public int? PodcastId  { get; set; }
+        public int? ContributorId { get; set; }
+
+    }
+}

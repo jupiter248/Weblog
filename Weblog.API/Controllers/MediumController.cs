@@ -1,0 +1,51 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Weblog.Application.Dtos.MediaDtos;
+using Weblog.Application.Interfaces.Services;
+
+namespace Weblog.API.Controllers
+{
+    [ApiController]
+    [Route("api/medium")]
+    public class MediumController : ControllerBase
+    {
+        private readonly IMediumService _mediumService;
+        public MediumController(IMediumService mediumService)
+        {
+            _mediumService = mediumService;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllMedia()
+        {
+            List<MediumDto> mediumDtos = await _mediumService.GetAllMediaAsync();
+            return Ok(mediumDtos);
+        }
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetMediumById(int id)
+        {
+            MediumDto mediumDto = await _mediumService.GetMediumByIdAsync(id);
+            return Ok(mediumDto);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddMedium(UploadMediumDto uploadMediumDto)
+        {
+            MediumDto mediumDto = await _mediumService.StoreMediumAsync(uploadMediumDto);
+            return CreatedAtAction(nameof(GetMediumById), new { id = mediumDto.Id }, mediumDto);
+        }
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateMedium(UpdateMediumDto updateMediumDto, int id)
+        {
+            await _mediumService.UpdateMediumAsync(updateMediumDto, id);
+            return NoContent();
+        }
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteMedium(int id)
+        {
+            await _mediumService.DeleteMediumAsync(id);
+            return NoContent();
+        }
+    }
+}

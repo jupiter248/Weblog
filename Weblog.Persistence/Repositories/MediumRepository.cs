@@ -10,35 +10,33 @@ using Weblog.Persistence.Data;
 
 namespace Weblog.Persistence.Repositories
 {
-    public class MediaRepository : IMediaRepository
+    public class MediumRepository : IMediumRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly IMapper _mapper;
-        public MediaRepository(ApplicationDbContext context, IMapper mapper)
+        public MediumRepository(ApplicationDbContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
-        public async Task<Medium> AddMediaAsync(Medium medium)
+        public async Task<Medium> AddMediumAsync(Medium medium)
         {
             await _context.Media.AddAsync(medium);
             await _context.SaveChangesAsync();
             return medium;
         }
 
-        public async Task DeleteMediaAsync(Medium medium)
+        public async Task DeleteMediumAsync(Medium medium)
         {
             _context.Media.Remove(medium);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Medium>> GetAllMediumAsync()
+        public async Task<List<Medium>> GetAllMediaAsync()
         {
             List<Medium> media = await _context.Media.ToListAsync();
             return media;
         }
 
-        public async Task<Medium?> GetMediaByIdAsync(int mediumId)
+        public async Task<Medium?> GetMediumByIdAsync(int mediumId)
         {
             Medium? medium = await _context.Media.FirstOrDefaultAsync(m => m.Id == mediumId);
             if (medium == null)
@@ -48,7 +46,7 @@ namespace Weblog.Persistence.Repositories
             return medium;
         }
 
-        public async Task UpdateMediaAsync(Medium medium)
+        public async Task UpdateMediumAsync(Medium medium)
         {
             _context.Media.Update(medium);
             await _context.SaveChangesAsync();

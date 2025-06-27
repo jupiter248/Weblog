@@ -7,6 +7,7 @@ using Weblog.Application.Dtos;
 using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Dtos.CategoryDtos;
 using Weblog.Application.Dtos.ContributorDtos;
+using Weblog.Application.Dtos.MediaDtos;
 using Weblog.Application.Dtos.TagDtos;
 using Weblog.Domain.Models;
 
@@ -32,6 +33,9 @@ namespace Weblog.Application.Mappers
             CreateMap<Contributor, ContributorDto>();
             CreateMap<AddContributorDto, Contributor>();
             CreateMap<UpdateContributorDto, Contributor>();
+            //Medium
+            CreateMap<Medium, MediumDto>();
+            CreateMap<UpdateMediumDto, Medium>()
         }
     }
 }
