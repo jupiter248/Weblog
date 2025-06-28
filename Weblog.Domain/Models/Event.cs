@@ -17,6 +17,7 @@ namespace Weblog.Domain.Models
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
         public bool IsDisplayed { get; set; } = false;
+        public bool IsFinished { get; set; } = false;
         public DateTimeOffset? DisplayedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset? PerformDate { get; set; }
@@ -24,7 +25,5 @@ namespace Weblog.Domain.Models
         public TimeSpan? EndTime { get; set; }
         public List<Medium> Media { get; set; } = new List<Medium>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
-
-
     }
 }

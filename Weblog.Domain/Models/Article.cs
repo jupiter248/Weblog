@@ -16,6 +16,7 @@ namespace Weblog.Domain.Models
         public required string Slug { get; set; }
         public required string Context { get; set; }
         public int Viewers { get; set; } 
+        public int Likes { get; set; } 
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
         public bool IsPublished { get; set; } = false;

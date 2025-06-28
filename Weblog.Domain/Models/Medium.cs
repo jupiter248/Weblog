@@ -24,5 +24,7 @@ namespace Weblog.Domain.Models
         public int? ContributorId { get; set; }
         public Contributor? Contributor { get; set; } 
         public bool IsPrimary { get; set; } = false;
+        public bool IsOnPoster { get; set; } = false;
+
     }
 }

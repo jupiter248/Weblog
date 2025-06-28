@@ -13,12 +13,13 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<Article?> GetArticleByIdAsync(int articleId);
         Task<Article> AddArticleAsync(Article article);
         Task UpdateViewersAsync(Article article);
+        Task UpdateLikesAsync(Article article);
         Task UpdateArticleAsync(Article currentArticle, Article newArticle);
         Task DeleteArticleByIdAsync(Article article);
-            // Add a tag
-            // Delete a tag 
-            // Add a contributor
-            // Delete a contributor
+        Task AddTagAsync(Article article, Tag tag);
+        Task DeleteTagAsync(Article article, Tag tag);
+        Task AddContributorAsync(Article article, Contributor contributor);
+        Task DeleteContributorAsync(Article article, Contributor contributor);
 
     }
 } 

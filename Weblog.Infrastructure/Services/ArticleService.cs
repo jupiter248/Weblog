@@ -19,11 +19,16 @@ namespace Weblog.Infrastructure.Services
         private readonly IArticleRepository _articleRepo;
         private readonly IMapper _mapper;
         private readonly ICategoryRepository _categoryRepo;
-        public ArticleService(IArticleRepository articleRepo, IMapper mapper, ICategoryRepository categoryRepo)
+        private readonly ITagRepository _tagRepo;
+        private readonly IContributorRepository _contributorRepo;
+
+        public ArticleService(IArticleRepository articleRepo, IMapper mapper, IContributorRepository contributorRepo, ICategoryRepository categoryRepo, ITagRepository tagRepo)
         {
             _articleRepo = articleRepo;
             _mapper = mapper;
             _categoryRepo = categoryRepo;
+            _tagRepo = tagRepo;
+            _contributorRepo = contributorRepo;
         }
         public async Task<ArticleDto> AddArticleAsync(AddArticleDto addArticleDto)
         {
@@ -38,33 +43,77 @@ namespace Weblog.Infrastructure.Services
             {
                 newArticle.PublishedAt = DateTimeOffset.Now;
             }
+
             Article addedArticle = await _articleRepo.AddArticleAsync(newArticle);
             return _mapper.Map<ArticleDto>(addedArticle);
         }
 
-        public Task DeleteArticleAsync(int articleId)
+        public async Task DeleteArticleAsync(int articleId)
         {
-            throw new NotImplementedException();
+            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
+            await _articleRepo.DeleteArticleByIdAsync(article);
         }
 
-        public Task<List<ArticleDto>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
+        public async Task<List<ArticleDto>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
         {
-            throw new NotImplementedException();
+            List<Article> articles = _articleRepo.GetAllArticlesAsync(paginationParams, filteringParams);
+            List<ArticleDto> articleDtos = _mapper.Map<List<ArticleDto>>(articles);
+            return articleDtos;
         }
 
-        public Task<ArticleDto> GetArticleByIdAsync(int articleId)
+        public async Task<ArticleDto> GetArticleByIdAsync(int articleId)
         {
-            throw new NotImplementedException();
+            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
+            return _mapper.Map<ArticleDto>(article);
         }
 
-        public Task UpdateArticleAsync(UpdateArticleDto updateArticleDto , int categoryId)
+        public async Task UpdateArticleAsync(UpdateArticleDto updateArticleDto, int categoryId, int articleId)
         {
-            throw new NotImplementedException();
+            Article currentArticle = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
+            Category category = await _categoryRepo.GetCategoryByIdAsync(categoryId) ?? throw new NotFoundException("Category not found");
+            Article newArticle = _mapper.Map<Article>(updateArticleDto);
+            newArticle.Category = category;
+            newArticle.CategoryId = categoryId;
+            await _articleRepo.UpdateArticleAsync(currentArticle, newArticle);
         }
 
-        public Task UpdateViewersAsync(int articleId)
+        public async Task UpdateViewersAsync(int articleId)
         {
-            throw new NotImplementedException();
+            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
+            await _articleRepo.UpdateViewersAsync(article);
+        }
+        public async Task UpdateLikesAsync(int articleId)
+        {
+            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
+            await _articleRepo.UpdateLikesAsync(article);
+        }
+
+        public async Task AddTagAsync(int articleId, int tagId)
+        {
+            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
+            Tag tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException("Tag not found");
+            await _articleRepo.AddTagAsync(article , tag);
+        }
+
+        public async Task DeleteTagAsync(int articleId, int tagId)
+        {
+            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
+            Tag tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException("Tag not found");
+            await _articleRepo.DeleteTagAsync(article , tag);
+        }
+
+        public async Task AddContributorAsync(int articleId, int contributorId)
+        {
+            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
+            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException("Contributor not found");
+            await _articleRepo.AddContributorAsync(article , contributor);
+        }
+
+        public async Task DeleteContributorAsync(int articleId, int contributorId)
+        {
+            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
+            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException("Contributor not found");
+            await _articleRepo.DeleteContributorAsync(article , contributor);
         }
     }
 }
