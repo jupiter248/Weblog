@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblog.Application.Dtos.TagDtos;
+using Weblog.Domain.Enums;
 
 namespace Weblog.Application.Interfaces.Services
 {

@@ -7,6 +7,7 @@ using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.TagDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Domain.Enums;
 using Weblog.Domain.Models;
 
 namespace Weblog.Infrastructure.Services

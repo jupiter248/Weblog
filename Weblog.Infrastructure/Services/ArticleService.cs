@@ -67,13 +67,13 @@ namespace Weblog.Infrastructure.Services
             return _mapper.Map<ArticleDto>(article);
         }
 
-        public async Task UpdateArticleAsync(UpdateArticleDto updateArticleDto, int categoryId, int articleId)
+        public async Task UpdateArticleAsync(UpdateArticleDto updateArticleDto, int articleId)
         {
             Article currentArticle = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
-            Category category = await _categoryRepo.GetCategoryByIdAsync(categoryId) ?? throw new NotFoundException("Category not found");
+            Category category = await _categoryRepo.GetCategoryByIdAsync(updateArticleDto.CategoryId) ?? throw new NotFoundException("Category not found");
             Article newArticle = _mapper.Map<Article>(updateArticleDto);
             newArticle.Category = category;
-            newArticle.CategoryId = categoryId;
+            newArticle.CategoryId = category.Id;
             await _articleRepo.UpdateArticleAsync(currentArticle, newArticle);
         }
 

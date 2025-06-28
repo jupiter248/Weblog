@@ -16,7 +16,7 @@ namespace Weblog.Application.Interfaces.Services
         Task<ArticleDto> AddArticleAsync(AddArticleDto addArticleDto);
         Task UpdateViewersAsync(int articleId);
         Task UpdateLikesAsync(int articleId);
-        Task UpdateArticleAsync(UpdateArticleDto updateArticleDto, int categoryId, int articleId);
+        Task UpdateArticleAsync(UpdateArticleDto updateArticleDto, int articleId);
         Task DeleteArticleAsync(int articleId);
         Task AddTagAsync(int articleId , int tagId);
         Task DeleteTagAsync(int articleId , int tagId);

@@ -7,6 +7,7 @@ namespace Weblog.Application.Dtos.ArticleDtos
 {
     public class ArticleDto
     {
+        public int Id { get; set;   }
         public required string Title { get; set; }
         public required string Slug { get; set; }
         public required string Context { get; set; }
