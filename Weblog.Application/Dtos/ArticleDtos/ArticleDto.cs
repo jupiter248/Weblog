@@ -12,6 +12,7 @@ namespace Weblog.Application.Dtos.ArticleDtos
         public required string Slug { get; set; }
         public required string Context { get; set; }
         public required int Viewers { get; set; }
+        public required int Likes { get; set; }
         public required int CategoryId { get; set; }
         public required bool IsPublished { get; set; } 
         public DateTimeOffset CreatedAt { get; set; }

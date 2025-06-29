@@ -76,7 +76,7 @@ namespace Weblog.API.Controllers
         [HttpPost("{id:int}/contributor")]
         public async Task<IActionResult> AddContributorToProduct(int id, int contributorId)
         {
-            await _articleService.AddTagAsync(id, contributorId);
+            await _articleService.AddContributorAsync(id, contributorId);
             return NoContent();
         }
         [HttpDelete("{id:int}/contributor")]
