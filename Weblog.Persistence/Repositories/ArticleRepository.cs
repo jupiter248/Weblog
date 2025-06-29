@@ -57,7 +57,7 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public List<Article> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
+        public async Task<List<Article>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
         {
             var articles = _context.Articles.Include(m => m.Media.Where(m => m.MediumParentType == MediumParentType.Article)).Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
 
@@ -72,8 +72,7 @@ namespace Weblog.Persistence.Repositories
 
             var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
 
-            return articles.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
-
+            return await articles.Skip(skipNumber).Take(paginationParams.PageSize).ToListAsync();
         }
 
         public async Task<Article?> GetArticleByIdAsync(int articleId)

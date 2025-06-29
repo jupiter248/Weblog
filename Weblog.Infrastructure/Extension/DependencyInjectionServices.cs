@@ -21,6 +21,8 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IContributorRepository, ContributorRepository>();
             services.AddScoped<IMediumRepository, MediumRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+
 
 
 

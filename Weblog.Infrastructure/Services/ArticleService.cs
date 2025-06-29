@@ -57,7 +57,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<List<ArticleDto>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
         {
-            List<Article> articles = _articleRepo.GetAllArticlesAsync(paginationParams, filteringParams);
+            List<Article> articles = await _articleRepo.GetAllArticlesAsync(paginationParams, filteringParams);
             List<ArticleDto> articleDtos = _mapper.Map<List<ArticleDto>>(articles);
             return articleDtos;
         }
