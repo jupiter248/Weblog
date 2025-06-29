@@ -18,7 +18,10 @@ namespace Weblog.Application.Mappers
         public MappingProfile()
         {
             // Article
-            CreateMap<Article, ArticleDto>();
+            CreateMap<Article, ArticleDto>()
+                .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
+                .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
+                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
             CreateMap<AddArticleDto, Article>();
             CreateMap<UpdateArticleDto, Article>();
             // Category

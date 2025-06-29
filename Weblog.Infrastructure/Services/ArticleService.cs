@@ -6,6 +6,7 @@ using AutoMapper;
 using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos;
 using Weblog.Application.Dtos.ArticleDtos;
+using Weblog.Application.Dtos.TagDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;

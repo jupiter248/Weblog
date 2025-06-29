@@ -78,7 +78,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<Article?> GetArticleByIdAsync(int articleId)
         {
-            Article? article = await _context.Articles.FirstOrDefaultAsync(a => a.Id == articleId);
+            Article? article = await _context.Articles.Include(m => m.Media.Where(m => m.MediumParentType == MediumParentType.Article)).Include(t => t.Tags).Include(c => c.Contributors).FirstOrDefaultAsync(a => a.Id == articleId);
             if (article == null)
             {
                 return null;
