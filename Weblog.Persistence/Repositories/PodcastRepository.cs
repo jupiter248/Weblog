@@ -57,7 +57,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Podcast>> GetAllPodcastsAsync(FilteringParams filteringParams, PaginationParams paginationParams)
         {
-            var podcasts = _context.Podcasts.Include(m => m.Media.Where(m => m.MediumParentType == MediumParentType.Podcast)).Include(t => t.Tags).AsQueryable();
+            var podcasts = _context.Podcasts.Include(m => m.Media.Where(m => m.ParentType == MediumParentType.Podcast)).Include(t => t.Tags).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(filteringParams.Title))
             {
@@ -75,7 +75,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<Podcast?> GetPodcastByIdAsync(int podcastId)
         {
-            Podcast? podcast = await _context.Podcasts.FirstOrDefaultAsync(p => p.Id == podcastId);
+            Podcast? podcast = await _context.Podcasts.Include(m => m.Media.Where(m => m.ParentType == MediumParentType.Podcast)).Include(t => t.Tags).FirstOrDefaultAsync(p => p.Id == podcastId);
             if (podcast == null)
             {
                 return null;

@@ -59,25 +59,32 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Article>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
         {
-            var articles = _context.Articles.Include(m => m.Media.Where(m => m.MediumParentType == MediumParentType.Article)).Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
+            var articleQuery = _context.Articles.Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(filteringParams.Title))
             {
-                articles = articles.Where(p => p.Title.ToLower().Contains(filteringParams.Title.ToLower().Replace(" ", "")));
+                articleQuery = articleQuery.Where(p => p.Title.ToLower().Contains(filteringParams.Title.ToLower().Replace(" ", "")));
             }
             if (filteringParams.CategoryId.HasValue)
             {
-                articles = articles.Where(a => a.CategoryId == filteringParams.CategoryId);
+                articleQuery = articleQuery.Where(a => a.CategoryId == filteringParams.CategoryId);
             }
 
+            var articles = await articleQuery.ToListAsync();
+            foreach (var article in articles)
+            {
+                article.Media = await _context.Media
+                    .Where(m => m.ParentTypeId == article.Id && m.ParentType == MediumParentType.Article)
+                    .ToListAsync();
+            }
             var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
 
-            return await articles.Skip(skipNumber).Take(paginationParams.PageSize).ToListAsync();
+            return articles.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
         }
 
         public async Task<Article?> GetArticleByIdAsync(int articleId)
         {
-            Article? article = await _context.Articles.Include(m => m.Media.Where(m => m.MediumParentType == MediumParentType.Article)).Include(t => t.Tags).Include(c => c.Contributors).FirstOrDefaultAsync(a => a.Id == articleId);
+            Article? article = await _context.Articles.Include(m => m.Media.Where(m => m.ParentType == MediumParentType.Article)).Include(t => t.Tags).Include(c => c.Contributors).FirstOrDefaultAsync(a => a.Id == articleId);
             if (article == null)
             {
                 return null;

@@ -11,8 +11,8 @@ using Weblog.Persistence.Data;
 namespace Weblog.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250614170921_UpdatedSomeTables")]
-    partial class UpdatedSomeTables
+    [Migration("20250630182302_AddedInitial")]
+    partial class AddedInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,6 +116,9 @@ namespace Weblog.Persistence.Migrations
                     b.Property<bool>("IsPublished")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset?>("PublishedAt")
                         .HasColumnType("datetime(6)");
 
@@ -144,6 +147,9 @@ namespace Weblog.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryParentType")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -194,14 +200,26 @@ namespace Weblog.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTimeOffset?>("DisplayedAt")
                         .HasColumnType("datetime(6)");
 
                     b.Property<TimeSpan?>("EndTime")
                         .HasColumnType("time(6)");
 
+                    b.Property<DateTimeOffset?>("FinishedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<bool>("IsDisplayed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsFinished")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("PerformDate")
                         .HasColumnType("datetime(6)");
@@ -212,6 +230,10 @@ namespace Weblog.Persistence.Migrations
 
                     b.Property<TimeSpan?>("StartTime")
                         .HasColumnType("time(6)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
@@ -235,17 +257,14 @@ namespace Weblog.Persistence.Migrations
                     b.Property<int?>("ArticleId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ContributorId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsPrimary")
+                    b.Property<bool>("IsOnPoster")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("MediumParentType")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("MediumType")
                         .HasColumnType("int");
@@ -253,6 +272,12 @@ namespace Weblog.Persistence.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("ParentType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ParentTypeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Path")
                         .IsRequired()
@@ -264,8 +289,6 @@ namespace Weblog.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ArticleId");
-
-                    b.HasIndex("ContributorId");
 
                     b.HasIndex("EventId");
 
@@ -280,8 +303,11 @@ namespace Weblog.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -290,11 +316,11 @@ namespace Weblog.Persistence.Migrations
                     b.Property<DateTimeOffset?>("DisplayedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<bool>("IsDisplayed")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Link")
                         .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("MadeBy")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -304,6 +330,9 @@ namespace Weblog.Persistence.Migrations
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -426,36 +455,28 @@ namespace Weblog.Persistence.Migrations
 
             modelBuilder.Entity("Weblog.Domain.Models.Medium", b =>
                 {
-                    b.HasOne("Weblog.Domain.Models.Article", "Article")
+                    b.HasOne("Weblog.Domain.Models.Article", null)
                         .WithMany("Media")
                         .HasForeignKey("ArticleId");
 
-                    b.HasOne("Weblog.Domain.Models.Contributor", "Contributor")
-                        .WithMany()
-                        .HasForeignKey("ContributorId");
-
-                    b.HasOne("Weblog.Domain.Models.Event", "Event")
+                    b.HasOne("Weblog.Domain.Models.Event", null)
                         .WithMany("Media")
                         .HasForeignKey("EventId");
 
-                    b.HasOne("Weblog.Domain.Models.Podcast", "Podcast")
+                    b.HasOne("Weblog.Domain.Models.Podcast", null)
                         .WithMany("Media")
                         .HasForeignKey("PodcastId");
-
-                    b.Navigation("Article");
-
-                    b.Navigation("Contributor");
-
-                    b.Navigation("Event");
-
-                    b.Navigation("Podcast");
                 });
 
             modelBuilder.Entity("Weblog.Domain.Models.Podcast", b =>
                 {
-                    b.HasOne("Weblog.Domain.Models.Category", null)
+                    b.HasOne("Weblog.Domain.Models.Category", "Category")
                         .WithMany("Podcasts")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Weblog.Domain.Models.Article", b =>

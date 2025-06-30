@@ -6,10 +6,14 @@ using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Weblog.Application.CustomExceptions;
+using Weblog.Application.Dtos.ArticleDtos;
+using Weblog.Application.Dtos.ContributorDtos;
+using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Dtos.MediaDtos;
+using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
-
+using Weblog.Domain.Enums;
 using Weblog.Domain.Models;
 
 namespace Weblog.Infrastructure.Services
@@ -17,14 +21,28 @@ namespace Weblog.Infrastructure.Services
     public class MediumService : IMediumService
     {
         private readonly IMapper _mapper;
-        private readonly IMediumRepository _mediumRepo;
         private readonly IWebHostEnvironment _webHost;
+        private readonly IMediumRepository _mediumRepo; 
+        private readonly IArticleService _articleService; 
+        private readonly IPodcastService _podcastService; 
+        private readonly IEventService _eventService; 
+        private readonly IContributorService _contributorService;
 
-        public MediumService(IMapper mapper, IMediumRepository mediumRepo, IWebHostEnvironment webHost)
+
+
+        public MediumService(
+            IMapper mapper, IMediumRepository mediumRepo, IWebHostEnvironment webHost,
+            IArticleService articleService, IPodcastService podcastService, IEventService eventService,
+            IContributorService contributorService
+            )
         {
             _mapper = mapper;
-            _mediumRepo = mediumRepo;
             _webHost = webHost;
+            _mediumRepo = mediumRepo;
+            _articleService = articleService;
+            _contributorService = contributorService;
+            _eventService = eventService;
+            _podcastService = podcastService;
         }
 
         public async Task DeleteMediumAsync(int mediaId)
@@ -55,13 +73,23 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<MediumDto> StoreMediumAsync(UploadMediumDto uploadMediaDto)
         {
-            // Article? article = null;
-            // Event? eventModel = null;
-            // Podcast? podcast = null;
-            // Contributor? contributor = null;
-
-            // Check if these exist
-
+            switch (uploadMediaDto.ParentType)
+            {
+                case MediumParentType.Article:
+                    ArticleDto articleDto = await _articleService.GetArticleByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Article not found");
+                    break;
+                case MediumParentType.Event:
+                    EventDto eventDto = await _eventService.GetEventByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Event not found");
+                    break;
+                case MediumParentType.Person:
+                    ContributorDto contributorDto = await _contributorService.GetContributorByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Contributor not found");
+                    break;
+                case MediumParentType.Podcast:
+                    PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Podcast not found");
+                    break;
+                default:
+                    throw new ValidationException("The Id is invalid");
+            }
 
 
             IFormFile mediumFile = uploadMediaDto.UploadedFile;
@@ -93,10 +121,11 @@ namespace Weblog.Infrastructure.Services
             Medium medium = new Medium
             {
                 Name = fileName,
-                Path = filePath,
+                Path = $"uploads/{uploadMediaDto.MediumType}/{fileName}",
                 IsPrimary = uploadMediaDto.IsPrimary,
                 MediumType = uploadMediaDto.MediumType,
-                MediumParentType = uploadMediaDto.MediumParentType,
+                ParentType = uploadMediaDto.ParentType,
+                ParentTypeId = uploadMediaDto.ParentTypeId
             };
 
             await _mediumRepo.AddMediumAsync(medium);

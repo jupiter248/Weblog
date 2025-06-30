@@ -11,12 +11,13 @@ namespace Weblog.Application.Dtos.MediaDtos
     {
         public required IFormFile UploadedFile { get; set; }
         public bool IsPrimary { get; set; }
-        public MediumParentType MediumParentType { get; set; }
+        public MediumParentType ParentType { get; set; }
         public MediumType MediumType { get; set; }
-        public int? ArticleId { get; set; }
-        public int? EventId { get; set; }
-        public int? PodcastId  { get; set; }
-        public int? ContributorId { get; set; }
+        public int ParentTypeId { get; set; }
+        // public int? ArticleId { get; set; }
+        // public int? EventId { get; set; }
+        // public int? PodcastId  { get; set; }
+        // public int? ContributorId { get; set; }
 
     }
 }

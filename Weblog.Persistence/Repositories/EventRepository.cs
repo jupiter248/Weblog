@@ -45,7 +45,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Event>> GetAllEventsAsync(FilteringParams filteringParams, PaginationParams paginationParams)
         {
-            var events = _context.Events.Include(m => m.Media.Where(m => m.MediumParentType == MediumParentType.Event)).Include(t => t.Tags).AsQueryable();
+            var events = _context.Events.Include(m => m.Media.Where(m => m.ParentType == MediumParentType.Event)).Include(t => t.Tags).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(filteringParams.Title))
             {
@@ -63,7 +63,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<Event?> GetEventByIdAsync(int eventId)
         {
-            Event? eventModel = await _context.Events.FirstOrDefaultAsync(e => e.Id == eventId);
+            Event? eventModel = await _context.Events.Include(m => m.Media.Where(m => m.ParentType == MediumParentType.Event)).Include(t => t.Tags).FirstOrDefaultAsync(e => e.Id == eventId);
             if (eventModel == null)
             {
                 return null;

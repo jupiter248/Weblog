@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Weblog.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AddedInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,7 +24,8 @@ namespace Weblog.Persistence.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CategoryParentType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,16 +71,19 @@ namespace Weblog.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Slug = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Context = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Viewers = table.Column<int>(type: "int", nullable: false),
+                    Likes = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     IsPublished = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    PublishedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
+                    PublishedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -99,17 +103,23 @@ namespace Weblog.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Slug = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Context = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Viewers = table.Column<int>(type: "int", nullable: false),
+                    Likes = table.Column<int>(type: "int", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     IsDisplayed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    DisplayedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    PerformDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    IsFinished = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DisplayedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
+                    PerformDate = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
+                    FinishedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
                     StartTime = table.Column<TimeSpan>(type: "time(6)", nullable: true),
                     EndTime = table.Column<TimeSpan>(type: "time(6)", nullable: true)
                 },
@@ -131,17 +141,19 @@ namespace Weblog.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Slug = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Slug = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
                     Link = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    MadeBy = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CategoryId = table.Column<int>(type: "int", nullable: true)
+                    IsDisplayed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    DisplayedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -150,7 +162,8 @@ namespace Weblog.Persistence.Migrations
                         name: "FK_Podcasts_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -265,12 +278,13 @@ namespace Weblog.Persistence.Migrations
                     Path = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MediumType = table.Column<int>(type: "int", nullable: false),
-                    MediumParentType = table.Column<int>(type: "int", nullable: false),
+                    ParentType = table.Column<int>(type: "int", nullable: false),
+                    ParentTypeId = table.Column<int>(type: "int", nullable: false),
+                    IsPrimary = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsOnPoster = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ArticleId = table.Column<int>(type: "int", nullable: true),
                     EventId = table.Column<int>(type: "int", nullable: true),
-                    PodcastId = table.Column<int>(type: "int", nullable: true),
-                    ContributorId = table.Column<int>(type: "int", nullable: true),
-                    IsPrimary = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    PodcastId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -279,11 +293,6 @@ namespace Weblog.Persistence.Migrations
                         name: "FK_Media_Articles_ArticleId",
                         column: x => x.ArticleId,
                         principalTable: "Articles",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Media_Contributors_ContributorId",
-                        column: x => x.ContributorId,
-                        principalTable: "Contributors",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Media_Events_EventId",
@@ -359,11 +368,6 @@ namespace Weblog.Persistence.Migrations
                 column: "ArticleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Media_ContributorId",
-                table: "Media",
-                column: "ContributorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Media_EventId",
                 table: "Media",
                 column: "EventId");
@@ -406,10 +410,10 @@ namespace Weblog.Persistence.Migrations
                 name: "PodcastTag");
 
             migrationBuilder.DropTable(
-                name: "Articles");
+                name: "Contributors");
 
             migrationBuilder.DropTable(
-                name: "Contributors");
+                name: "Articles");
 
             migrationBuilder.DropTable(
                 name: "Events");
