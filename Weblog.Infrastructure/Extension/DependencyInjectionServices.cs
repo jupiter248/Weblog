@@ -22,6 +22,8 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IContributorRepository, ContributorRepository>();
             services.AddScoped<IMediumRepository, MediumRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IPodcastRepository, PodcastRepository>();
+
 
 
 

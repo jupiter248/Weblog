@@ -10,9 +10,10 @@ namespace Weblog.Domain.Models
     {
         [Key]
         public int Id { get; set; }
-        public required string Title { get; set; }
-        public required string Slug { get; set; }
         public required string Name { get; set; }
+        public required string Slug { get; set; }
+        public int CategoryId { get; set; }
+        public Category? Category { get; set; }
         public required string Description { get; set; }
         public required string Link { get; set; }
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;

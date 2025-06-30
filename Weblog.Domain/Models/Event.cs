@@ -25,7 +25,6 @@ namespace Weblog.Domain.Models
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset? PerformDate { get; set; }
         public DateTimeOffset? FinishedAt { get; set; }
-
         public TimeSpan? StartTime { get; set; }
         public TimeSpan? EndTime { get; set; }
         public List<Medium> Media { get; set; } = new List<Medium>();
