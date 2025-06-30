@@ -80,9 +80,11 @@ namespace Weblog.Infrastructure.Services
         public async Task UpdateEventAsync(UpdateEventDto updateEventDto, int eventId)
         {
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
+            Category category = await _categoryRepo.GetCategoryByIdAsync(updateEventDto.CategoryId) ?? throw new NotFoundException("Category not found");
             eventModel.Title = updateEventDto.Title;
             eventModel.Capacity = updateEventDto.Capacity;
             eventModel.CategoryId = updateEventDto.CategoryId;
+            eventModel.Category = category;
             eventModel.Context = updateEventDto.Context;
             eventModel.IsDisplayed = updateEventDto.IsDisplayed;
             eventModel.IsFinished = updateEventDto.IsFinished;

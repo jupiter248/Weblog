@@ -9,6 +9,7 @@ using Weblog.Application.Dtos.CategoryDtos;
 using Weblog.Application.Dtos.ContributorDtos;
 using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Dtos.MediaDtos;
+using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Dtos.TagDtos;
 using Weblog.Domain.Models;
 
@@ -46,6 +47,13 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
             CreateMap<AddEventDto, Event>();
             CreateMap<UpdateEventDto, Event>();
+            //Podcast
+            CreateMap<Podcast, PodcastDto>()
+                .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
+                .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
+                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
+            CreateMap<AddPodcastDto, Podcast>();
+            CreateMap<UpdatePodcastDto, Podcast>();
         }
     }
 }

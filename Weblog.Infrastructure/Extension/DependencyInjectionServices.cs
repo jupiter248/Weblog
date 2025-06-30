@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Weblog.Application.Interfaces;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Domain.Models;
 using Weblog.Infrastructure.Services;
 using Weblog.Persistence.Repositories;
 
@@ -37,6 +38,8 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IContributorService, ContributorService>();
             services.AddScoped<IMediumService, MediumService>();
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IPodcastService, PodcastService>();
+
 
 
 
