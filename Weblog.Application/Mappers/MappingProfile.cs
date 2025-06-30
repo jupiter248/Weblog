@@ -7,6 +7,7 @@ using Weblog.Application.Dtos;
 using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Dtos.CategoryDtos;
 using Weblog.Application.Dtos.ContributorDtos;
+using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Dtos.MediaDtos;
 using Weblog.Application.Dtos.TagDtos;
 using Weblog.Domain.Models;
@@ -39,6 +40,12 @@ namespace Weblog.Application.Mappers
             //Medium
             CreateMap<Medium, MediumDto>();
             CreateMap<UpdateMediumDto, Medium>();
+            //Event
+            CreateMap<Event, EventDto>()
+                .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
+                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
+            CreateMap<AddEventDto, Event>();
+            CreateMap<UpdateEventDto, Event>();
         }
     }
 }

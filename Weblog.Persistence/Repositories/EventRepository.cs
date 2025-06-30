@@ -76,5 +76,17 @@ namespace Weblog.Persistence.Repositories
             _context.Events.Update(eventModel);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateLikesAsync(Event eventModel)
+        {
+            eventModel.Likes++;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateViewersAsync(Event eventModel)
+        {
+            eventModel.Viewers++;
+            await _context.SaveChangesAsync();
+        }
     }
 }

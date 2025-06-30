@@ -14,6 +14,7 @@ namespace Weblog.Domain.Models
         public required string Slug { get; set; }
         public required string Context { get; set; }
         public int Viewers { get; set; } 
+        public int Likes { get; set; } 
         public int? Capacity { get; set; }
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
@@ -23,6 +24,8 @@ namespace Weblog.Domain.Models
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset? PerformDate { get; set; }
+        public DateTimeOffset? FinishedAt { get; set; }
+
         public TimeSpan? StartTime { get; set; }
         public TimeSpan? EndTime { get; set; }
         public List<Medium> Media { get; set; } = new List<Medium>();

@@ -34,6 +34,8 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IContributorService, ContributorService>();
             services.AddScoped<IMediumService, MediumService>();
+            services.AddScoped<IEventService, EventService>();
+
 
 
 
