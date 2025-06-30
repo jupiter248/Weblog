@@ -62,25 +62,25 @@ namespace Weblog.API.Controllers
             return NoContent();
         }
         [HttpPost("{id:int}/tag")]
-        public async Task<IActionResult> AddTagToProduct(int id, int tagId)
+        public async Task<IActionResult> AddTagToArticle(int id, int tagId)
         {
             await _articleService.AddTagAsync(id, tagId);
             return NoContent();
         }
         [HttpDelete("{id:int}/tag")]
-        public async Task<IActionResult> DeleteTagOfProduct(int id, int tagId)
+        public async Task<IActionResult> DeleteTagOfArticle(int id, int tagId)
         {
             await _articleService.DeleteTagAsync(id, tagId);
             return NoContent();
         }
         [HttpPost("{id:int}/contributor")]
-        public async Task<IActionResult> AddContributorToProduct(int id, int contributorId)
+        public async Task<IActionResult> AddContributorToArticle(int id, int contributorId)
         {
             await _articleService.AddContributorAsync(id, contributorId);
             return NoContent();
         }
         [HttpDelete("{id:int}/contributor")]
-        public async Task<IActionResult> DeleteContributorOfProduct(int id, int contributorId)
+        public async Task<IActionResult> DeleteContributorOfArticle(int id, int contributorId)
         {
             await _articleService.DeleteContributorAsync(id , contributorId);
             return NoContent();
