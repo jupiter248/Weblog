@@ -28,35 +28,43 @@ namespace Weblog.Application.Features
         {
             var keyword = request.Keyword.ToLower();
 
-            var articleResults = await _articleRepo.SearchByTitleAsync(keyword);
-            var podcastResults = await _podcastRepo.SearchByTitleAsync(keyword);
-            var eventResults = await _eventRepo.SearchByTitleAsync(keyword);
-
             var results = new List<SearchResultDto>();
 
-            results.AddRange(articleResults.Select(a => new SearchResultDto
+            if (request.Type == null || request.Type == CategoryParentType.Article)
             {
-                categoryParentType = CategoryParentType.Article,
-                ParentId = a.Id,
-                Title = a.Title,
-                Description = a.Description,
-            }));
+                var articleResults = await _articleRepo.SearchByTitleAsync(keyword);
+                results.AddRange(articleResults.Select(a => new SearchResultDto
+                {
+                    categoryParentType = CategoryParentType.Article,
+                    ParentId = a.Id,
+                    Title = a.Title,
+                    Description = a.Description,
+                }));
+            }
 
-            results.AddRange(podcastResults.Select(p => new SearchResultDto
+            if (request.Type == null || request.Type == CategoryParentType.Podcast)
             {
-                categoryParentType = CategoryParentType.Article,
-                ParentId = p.Id,
-                Title = p.Name,
-                Description = p.Description,
-            }));
+                var podcastResults = await _podcastRepo.SearchByTitleAsync(keyword);
+                results.AddRange(podcastResults.Select(a => new SearchResultDto
+                {
+                    categoryParentType = CategoryParentType.Podcast,
+                    ParentId = a.Id,
+                    Title = a.Name,
+                    Description = a.Description,
+                }));
+            }
 
-            results.AddRange(eventResults.Select(e => new SearchResultDto
+            if (request.Type == null || request.Type == CategoryParentType.Event)
             {
-                categoryParentType = CategoryParentType.Article,
-                ParentId = e.Id,
-                Title = e.Title,
-                Description = e.Description,
-            }));
+                var eventResults = await _eventRepo.SearchByTitleAsync(keyword);
+                results.AddRange(eventResults.Select(a => new SearchResultDto
+                {
+                    categoryParentType = CategoryParentType.Event,
+                    ParentId = a.Id,
+                    Title = a.Title,
+                    Description = a.Description,
+                }));
+            }
 
             return results.ToList();
         }
