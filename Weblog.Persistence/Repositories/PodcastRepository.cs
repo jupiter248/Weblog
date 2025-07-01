@@ -57,25 +57,35 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Podcast>> GetAllPodcastsAsync(FilteringParams filteringParams, PaginationParams paginationParams)
         {
-            var podcasts = _context.Podcasts.Include(m => m.Media.Where(m => m.ParentType == MediumParentType.Podcast)).Include(t => t.Tags).AsQueryable();
+            var podcastQuery = _context.Podcasts.Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
 
             if (filteringParams.CategoryId.HasValue)
             {
-                podcasts = podcasts.Where(a => a.CategoryId == filteringParams.CategoryId);
+                podcastQuery = podcastQuery.Where(a => a.CategoryId == filteringParams.CategoryId);
             }
 
+            var podcasts = await podcastQuery.ToListAsync();
+            foreach (var podcast in podcasts)
+            {
+                podcast.Media = await _context.Media
+                    .Where(m => m.EntityId == podcast.Id && m.EntityType == EntityType.Podcast)
+                    .ToListAsync();
+            }
             var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
 
-            return await podcasts.Skip(skipNumber).Take(paginationParams.PageSize).ToListAsync();
+            return podcasts.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
         }
 
         public async Task<Podcast?> GetPodcastByIdAsync(int podcastId)
         {
-            Podcast? podcast = await _context.Podcasts.Include(m => m.Media.Where(m => m.ParentType == MediumParentType.Podcast)).Include(t => t.Tags).FirstOrDefaultAsync(p => p.Id == podcastId);
+            Podcast? podcast = await _context.Podcasts.Include(m => m.Media.Where(m => m.EntityType == EntityType.Podcast)).Include(t => t.Tags).FirstOrDefaultAsync(p => p.Id == podcastId);
             if (podcast == null)
             {
                 return null;
             }
+            podcast.Media = await _context.Media
+                .Where(m => m.EntityId == podcast.Id && m.EntityType == EntityType.Podcast)
+                .ToListAsync();
             return podcast;
         }
 

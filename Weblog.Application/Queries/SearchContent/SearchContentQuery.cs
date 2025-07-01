@@ -7,17 +7,17 @@ using Weblog.Application.Dtos.SearchResultDto;
 using Weblog.Domain.Enums;
 using Weblog.Domain.Models;
 
-namespace Weblog.Application.Features
+namespace Weblog.Application.Queries.SearchContent
 {
     public class SearchContentQuery : IRequest<List<SearchResultDto>>
     {
         public string Keyword { get; set; }
-        public CategoryParentType? Type { get; set; } // "Article", "Podcast", "Event"
+        public EntityType? EntityType { get; set; } // "Article", "Podcast", "Event" ,"Person"
 
-        public SearchContentQuery(string keyword , CategoryParentType type)
+        public SearchContentQuery(string keyword , EntityType entityType)
         {
             Keyword = keyword;
-            Type = type;
+            EntityType = entityType;
         }
     }
 }

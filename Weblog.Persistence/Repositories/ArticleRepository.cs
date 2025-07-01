@@ -70,7 +70,7 @@ namespace Weblog.Persistence.Repositories
             foreach (var article in articles)
             {
                 article.Media = await _context.Media
-                    .Where(m => m.ParentTypeId == article.Id && m.ParentType == MediumParentType.Article)
+                    .Where(m => m.EntityId == article.Id && m.EntityType == EntityType.Article)
                     .ToListAsync();
             }
             var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
@@ -80,11 +80,14 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<Article?> GetArticleByIdAsync(int articleId)
         {
-            Article? article = await _context.Articles.Include(m => m.Media.Where(m => m.ParentType == MediumParentType.Article)).Include(t => t.Tags).Include(c => c.Contributors).FirstOrDefaultAsync(a => a.Id == articleId);
+            Article? article = await _context.Articles.Include(t => t.Tags).Include(c => c.Contributors).FirstOrDefaultAsync(a => a.Id == articleId);
             if (article == null)
             {
                 return null;
             }
+            article.Media = await _context.Media
+                .Where(m => m.EntityId == article.Id && m.EntityType == EntityType.Article)
+                .ToListAsync();
             return article;
         }
 

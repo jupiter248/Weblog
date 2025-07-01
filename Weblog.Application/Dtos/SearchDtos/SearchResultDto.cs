@@ -10,7 +10,7 @@ namespace Weblog.Application.Dtos.SearchResultDto
     {
         public int ParentId { get; set; }
         public required string Title { get; set; }
-        public required CategoryParentType categoryParentType { get; set; }
+        public required EntityType EntityType { get; set; }
         public string? Description { get; set; }
     }
 }

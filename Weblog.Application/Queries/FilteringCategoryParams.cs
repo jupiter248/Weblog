@@ -8,6 +8,6 @@ namespace Weblog.Application.Queries
 {
     public class FilteringCategoryParams
     {
-        public CategoryParentType? CategoryParentType { get; set; }
+        public EntityType? EntityType { get; set; }
     }
 }

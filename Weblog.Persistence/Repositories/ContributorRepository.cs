@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblog.Application.Interfaces.Repositories;
+using Weblog.Domain.Enums;
 using Weblog.Domain.Models;
 using Weblog.Persistence.Data;
 
@@ -33,12 +34,25 @@ namespace Weblog.Persistence.Repositories
         public async Task<List<Contributor>> GetAllContributorsAsync()
         {
             List<Contributor> contributors = await _context.Contributors.ToListAsync();
+            foreach (var contributor in contributors)
+            {
+                contributor.Media = await _context.Media
+                    .Where(m => m.EntityId == contributor.Id && m.EntityType == EntityType.Contributor)
+                    .ToListAsync();
+            }
             return contributors;
         }
 
         public async Task<Contributor?> GetContributorByIdAsync(int contributorId)
         {
             Contributor? contributor = await _context.Contributors.FirstOrDefaultAsync(t => t.Id == contributorId) ?? null;
+            if (contributor == null)
+            {
+                return null;
+            }
+            contributor.Media = await _context.Media
+                .Where(m => m.EntityId == contributor.Id && m.EntityType == EntityType.Contributor)
+                .ToListAsync();
             return contributor;
         }
 
@@ -46,7 +60,14 @@ namespace Weblog.Persistence.Repositories
         {
             currentContributor.FirstName = newContributor.FirstName;
             currentContributor.FamilyName = newContributor.FamilyName;
+            currentContributor.FullName = $"{newContributor.FirstName} {newContributor.FamilyName}";
             await _context.SaveChangesAsync();
+        }
+        public async Task<List<Contributor>> SearchByNameAsync(string keyword)
+        {
+            return await _context.Contributors
+            .Where(a => a.FullName.ToLower().Contains(keyword))
+            .ToListAsync();
         }
     }
 }

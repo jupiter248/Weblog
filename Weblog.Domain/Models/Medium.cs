@@ -14,7 +14,7 @@ namespace Weblog.Domain.Models
         public required string Name { get; set; }
         public required string Path { get; set; }
         public MediumType MediumType { get; set; }
-        public MediumParentType ParentType { get; set; }
+        public EntityType EntityType { get; set; }
         // public int? ArticleId { get; set; }
         // public Article? Article { get; set; } 
         // public int? EventId { get; set; }
@@ -23,7 +23,7 @@ namespace Weblog.Domain.Models
         // public Podcast? Podcast { get; set; }  
         // public int? ContributorId { get; set; }
         // public Contributor? Contributor { get; set; } 
-        public required int ParentTypeId { get; set; }
+        public required int EntityId { get; set; }
         public bool IsPrimary { get; set; } = false;
         public bool IsOnPoster { get; set; } = false;
 

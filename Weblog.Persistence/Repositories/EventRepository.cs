@@ -45,25 +45,35 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Event>> GetAllEventsAsync(FilteringParams filteringParams, PaginationParams paginationParams)
         {
-            var events = _context.Events.Include(m => m.Media.Where(m => m.ParentType == MediumParentType.Event)).Include(t => t.Tags).AsQueryable();
+            var eventQuery = _context.Events.Include(t => t.Tags).AsQueryable();
 
             if (filteringParams.CategoryId.HasValue)
             {
-                events = events.Where(a => a.CategoryId == filteringParams.CategoryId);
+                eventQuery = eventQuery.Where(a => a.CategoryId == filteringParams.CategoryId);
             }
 
+            var events = await eventQuery.ToListAsync();
+            foreach (var eventModel in events)
+            {
+                eventModel.Media = await _context.Media
+                    .Where(m => m.EntityId == eventModel.Id && m.EntityType == EntityType.Event)
+                    .ToListAsync();
+            }
             var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
 
-            return await events.Skip(skipNumber).Take(paginationParams.PageSize).ToListAsync();
+            return events.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
         }
 
         public async Task<Event?> GetEventByIdAsync(int eventId)
         {
-            Event? eventModel = await _context.Events.Include(m => m.Media.Where(m => m.ParentType == MediumParentType.Event)).Include(t => t.Tags).FirstOrDefaultAsync(e => e.Id == eventId);
+            Event? eventModel = await _context.Events.Include(m => m.Media.Where(m => m.EntityType == EntityType.Event)).Include(t => t.Tags).FirstOrDefaultAsync(e => e.Id == eventId);
             if (eventModel == null)
             {
                 return null;
             }
+            eventModel.Media = await _context.Media
+                .Where(m => m.EntityId == eventModel.Id && m.EntityType == EntityType.Event)
+                .ToListAsync();
             return eventModel;
         }
 

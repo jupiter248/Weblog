@@ -26,6 +26,7 @@ namespace Weblog.Infrastructure.Services
         public async Task<ContributorDto> AddContributorAsync(AddContributorDto addContributorDto)
         {
             Contributor newContributor = _mapper.Map<Contributor>(addContributorDto);
+            newContributor.FullName = $"{newContributor.FirstName} {newContributor.FamilyName}";
             Contributor addedContributor = await _contributorRepo.AddContributorAsync(newContributor);
             return _mapper.Map<ContributorDto>(addedContributor);
         }

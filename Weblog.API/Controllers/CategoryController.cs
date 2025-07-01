@@ -33,7 +33,7 @@ namespace Weblog.API.Controllers
             return Ok(categoryDto);
         }
         [HttpPost]
-        public async Task<IActionResult> AddCategory([FromBody] AddCategoryDto addCategoryDto)
+        public async Task<IActionResult> AddCategory([FromQuery] AddCategoryDto addCategoryDto)
         {
             CategoryDto categoryDto = await _categoryService.AddCategoryAsync(addCategoryDto);
             return CreatedAtAction(nameof(GetCategoryById), new { id = categoryDto.Id }, categoryDto);

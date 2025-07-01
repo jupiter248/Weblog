@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblog.Domain.Enums;
 
 namespace Weblog.Domain.Models
 {
@@ -17,6 +18,7 @@ namespace Weblog.Domain.Models
         public Category? Category { get; set; }
         public required string Link { get; set; }
         public required bool IsDisplayed { get; set; } = false;
+        public ContributorType ContributorType { get; set; }
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? DisplayedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

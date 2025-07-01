@@ -73,18 +73,18 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<MediumDto> StoreMediumAsync(UploadMediumDto uploadMediaDto)
         {
-            switch (uploadMediaDto.ParentType)
+            switch (uploadMediaDto.EntityType)
             {
-                case MediumParentType.Article:
+                case EntityType.Article:
                     ArticleDto articleDto = await _articleService.GetArticleByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Article not found");
                     break;
-                case MediumParentType.Event:
+                case EntityType.Event:
                     EventDto eventDto = await _eventService.GetEventByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Event not found");
                     break;
-                case MediumParentType.Person:
+                case EntityType.Contributor:
                     ContributorDto contributorDto = await _contributorService.GetContributorByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Contributor not found");
                     break;
-                case MediumParentType.Podcast:
+                case EntityType.Podcast:
                     PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Podcast not found");
                     break;
                 default:
@@ -124,8 +124,8 @@ namespace Weblog.Infrastructure.Services
                 Path = $"uploads/{uploadMediaDto.MediumType}/{fileName}",
                 IsPrimary = uploadMediaDto.IsPrimary,
                 MediumType = uploadMediaDto.MediumType,
-                ParentType = uploadMediaDto.ParentType,
-                ParentTypeId = uploadMediaDto.ParentTypeId
+                EntityType = uploadMediaDto.EntityType,
+                EntityId = uploadMediaDto.ParentTypeId
             };
 
             await _mediumRepo.AddMediumAsync(medium);

@@ -33,9 +33,9 @@ namespace Weblog.Persistence.Repositories
         public async Task<List<Category>> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams)
         {
             var categories = _context.Categories.AsQueryable();
-            if (filteringCategoryParams.CategoryParentType.HasValue)
+            if (filteringCategoryParams.EntityType.HasValue)
             {
-                categories = categories.Where(t => t.CategoryParentType == filteringCategoryParams.CategoryParentType);
+                categories = categories.Where(t => t.EntityType == filteringCategoryParams.EntityType);
             }
             return await categories.ToListAsync();
         }
@@ -54,7 +54,7 @@ namespace Weblog.Persistence.Repositories
         {
             currentCategory.Name = newCategory.Name;
             currentCategory.Description = newCategory.Description;
-            currentCategory.CategoryParentType = newCategory.CategoryParentType;
+            currentCategory.EntityType = newCategory.EntityType;
             await _context.SaveChangesAsync();
         }
     }

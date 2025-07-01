@@ -13,7 +13,7 @@ namespace Weblog.Application.Dtos.MediaDtos
         public required string Path { get; set; }
         public bool IsPrimary { get; set; } = false;
         public MediumType MediumType { get; set; }
-        public MediumParentType ParentType { get; set; }
+        public EntityType EntityType { get; set; }
         public int ParentTypeId { get; set; }
         // public int? ArticleId { get; set; }
         // public int? EventId { get; set; }

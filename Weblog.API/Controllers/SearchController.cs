@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.SearchResultDto;
-using Weblog.Application.Features;
+using Weblog.Application.Queries.SearchContent;
 using Weblog.Domain.Enums;
 
 namespace Weblog.API.Controllers
@@ -20,7 +20,7 @@ namespace Weblog.API.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<IActionResult> Search([FromQuery] string searchText , [FromQuery] CategoryParentType type)
+        public async Task<IActionResult> Search([FromQuery] string searchText , [FromQuery] EntityType type)
         {
             List<SearchResultDto> searchResultDtos = await _mediator.Send(new SearchContentQuery(searchText , type));
             return Ok(searchResultDtos);
