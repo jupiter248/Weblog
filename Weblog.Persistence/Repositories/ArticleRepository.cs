@@ -61,10 +61,6 @@ namespace Weblog.Persistence.Repositories
         {
             var articleQuery = _context.Articles.Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(filteringParams.Title))
-            {
-                articleQuery = articleQuery.Where(p => p.Title.ToLower().Contains(filteringParams.Title.ToLower().Replace(" ", "")));
-            }
             if (filteringParams.CategoryId.HasValue)
             {
                 articleQuery = articleQuery.Where(a => a.CategoryId == filteringParams.CategoryId);
@@ -90,6 +86,13 @@ namespace Weblog.Persistence.Repositories
                 return null;
             }
             return article;
+        }
+
+        public async Task<List<Article>> SearchByTitleAsync(string keyword)
+        {
+            return await _context.Articles
+            .Where(a => a.Title.ToLower().Contains(keyword))
+            .ToListAsync();
         }
 
         public async Task UpdateArticleAsync(Article currentArticle, Article newArticle)

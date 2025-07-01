@@ -59,10 +59,6 @@ namespace Weblog.Persistence.Repositories
         {
             var podcasts = _context.Podcasts.Include(m => m.Media.Where(m => m.ParentType == MediumParentType.Podcast)).Include(t => t.Tags).AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(filteringParams.Title))
-            {
-                podcasts = podcasts.Where(p => p.Name.ToLower().Contains(filteringParams.Title.ToLower().Replace(" ", "")));
-            }
             if (filteringParams.CategoryId.HasValue)
             {
                 podcasts = podcasts.Where(a => a.CategoryId == filteringParams.CategoryId);
@@ -81,6 +77,13 @@ namespace Weblog.Persistence.Repositories
                 return null;
             }
             return podcast;
+        }
+
+        public async Task<List<Podcast>> SearchByTitleAsync(string keyword)
+        {
+            return await _context.Podcasts
+            .Where(p => p.Name.ToLower().Contains(keyword))
+            .ToListAsync();
         }
 
         public async Task UpdatePodcastAsync(Podcast podcast)

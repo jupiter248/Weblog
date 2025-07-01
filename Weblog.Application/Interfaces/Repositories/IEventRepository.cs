@@ -16,6 +16,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task UpdateLikesAsync(Event eventModel);
         Task UpdateViewersAsync(Event eventModel);
         Task DeleteEventAsync(Event eventModel);
+        Task<List<Event>> SearchByTitleAsync(string keyword);
         Task AddTagToEvent(Event eventModel, Tag tag);
         Task DeleteTagFromEvent(Event eventModel, Tag tag);
         

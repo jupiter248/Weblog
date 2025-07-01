@@ -7,7 +7,6 @@ namespace Weblog.Application.Queries
 {
     public class FilteringParams
     {
-        public string? Title { get; set; }
         public int? CategoryId { get; set; }
     }
 }

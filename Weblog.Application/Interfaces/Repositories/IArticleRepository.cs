@@ -16,6 +16,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task UpdateLikesAsync(Article article);
         Task UpdateArticleAsync(Article currentArticle, Article newArticle);
         Task DeleteArticleByIdAsync(Article article);
+        Task<List<Article>> SearchByTitleAsync(string keyword);
         Task AddTagAsync(Article article, Tag tag);
         Task DeleteTagAsync(Article article, Tag tag);
         Task AddContributorAsync(Article article, Contributor contributor);

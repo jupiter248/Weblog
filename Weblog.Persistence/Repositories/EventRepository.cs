@@ -47,10 +47,6 @@ namespace Weblog.Persistence.Repositories
         {
             var events = _context.Events.Include(m => m.Media.Where(m => m.ParentType == MediumParentType.Event)).Include(t => t.Tags).AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(filteringParams.Title))
-            {
-                events = events.Where(p => p.Title.ToLower().Contains(filteringParams.Title.ToLower().Replace(" ", "")));
-            }
             if (filteringParams.CategoryId.HasValue)
             {
                 events = events.Where(a => a.CategoryId == filteringParams.CategoryId);
@@ -69,6 +65,13 @@ namespace Weblog.Persistence.Repositories
                 return null;
             }
             return eventModel;
+        }
+
+        public async Task<List<Event>> SearchByTitleAsync(string keyword)
+        {
+            return await _context.Events
+            .Where(p => p.Title.ToLower().Contains(keyword))
+            .ToListAsync();
         }
 
         public async Task UpdateEventAsync(Event eventModel)

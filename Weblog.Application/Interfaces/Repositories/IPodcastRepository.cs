@@ -14,6 +14,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<Podcast> AddPodcastAsync(Podcast podcast);
         Task UpdatePodcastAsync(Podcast podcast);
         Task DeletePodcastAsync(Podcast podcast);
+        Task<List<Podcast>> SearchByTitleAsync(string keyword);
         Task AddTagAsync(Podcast podcast, Tag tag);
         Task DeleteTagAsync(Podcast podcast, Tag tag);
         Task AddContributorAsync(Podcast podcast, Contributor contributor);

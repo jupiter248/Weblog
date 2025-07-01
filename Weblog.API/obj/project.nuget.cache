@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "LChQTj9CRt/zw6N7UqbSWMlr0fw8QnGiVxdSQ7xugDfl537QBgqdEgKJmsV0biDVKg/EzXf2PbHg9nSOANHx9Q==",
+  "dgSpecHash": "1OS2swe6L16g+ghhC0Cv7XGCCOiwqSaEmSnVL07aXt73MBpm890pjshZPgb2yq3bdBSF1i8mK2Ado34TRwn2tw==",
   "success": true,
   "projectFilePath": "/home/mohammad/Programming/Weblog/Weblog.API/Weblog.API.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,8 @@
     "/home/mohammad/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "/home/mohammad/.nuget/packages/dotnetenv/3.1.1/dotnetenv.3.1.1.nupkg.sha512",
     "/home/mohammad/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
+    "/home/mohammad/.nuget/packages/mediatr/12.5.0/mediatr.12.5.0.nupkg.sha512",
+    "/home/mohammad/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
     "/home/mohammad/.nuget/packages/microsoft.aspnetcore.hosting/2.3.0/microsoft.aspnetcore.hosting.2.3.0.nupkg.sha512",
     "/home/mohammad/.nuget/packages/microsoft.aspnetcore.hosting.abstractions/2.3.0/microsoft.aspnetcore.hosting.abstractions.2.3.0.nupkg.sha512",
     "/home/mohammad/.nuget/packages/microsoft.aspnetcore.hosting.server.abstractions/2.3.0/microsoft.aspnetcore.hosting.server.abstractions.2.3.0.nupkg.sha512",
