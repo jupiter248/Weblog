@@ -59,7 +59,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Article>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
         {
-            var articleQuery = _context.Articles.Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
+            var articleQuery = _context.Articles.Include(c => c.Category).Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
 
             if (filteringParams.CategoryId.HasValue)
             {

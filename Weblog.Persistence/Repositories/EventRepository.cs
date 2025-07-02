@@ -45,7 +45,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Event>> GetAllEventsAsync(FilteringParams filteringParams, PaginationParams paginationParams)
         {
-            var eventQuery = _context.Events.Include(t => t.Tags).AsQueryable();
+            var eventQuery = _context.Events.Include(c => c.Category).Include(t => t.Tags).AsQueryable();
 
             if (filteringParams.CategoryId.HasValue)
             {

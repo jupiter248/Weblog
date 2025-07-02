@@ -37,7 +37,6 @@ namespace Weblog.Infrastructure.Services
 
             Category? category = await _categoryRepo.GetCategoryByIdAsync(addArticleDto.CategoryId) ?? throw new NotFoundException("Category not found");
             newArticle.Category = category;
-
             newArticle.Slug = newArticle.Title.Slugify();
 
             if (newArticle.IsPublished)

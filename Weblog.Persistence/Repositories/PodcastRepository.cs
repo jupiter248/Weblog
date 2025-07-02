@@ -57,7 +57,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Podcast>> GetAllPodcastsAsync(FilteringParams filteringParams, PaginationParams paginationParams)
         {
-            var podcastQuery = _context.Podcasts.Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
+            var podcastQuery = _context.Podcasts.Include(c => c.Category).Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
 
             if (filteringParams.CategoryId.HasValue)
             {

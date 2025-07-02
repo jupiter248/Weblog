@@ -13,7 +13,9 @@ namespace Weblog.Application.Dtos.PodcastDtos
         public int Id { get; set; }
         public required string Name { get; set; }
         public required string Slug { get; set; }
+    
         public int CategoryId { get; set; }
+        public required string CategoryName { get; set; }
         public required string Description { get; set; }
         public required string Link { get; set; }
         public required bool IsDisplayed { get; set; }

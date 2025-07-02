@@ -14,16 +14,18 @@ namespace Weblog.Application.Dtos.EventDtos
         public required string Title { get; set; }
         public required string Slug { get; set; }
         public required string Context { get; set; }
+        public required string Description { get; set; }
         public int Viewers { get; set; }
         public int CategoryId { get; set; }
+        public required string CategoryName { get; set; }
         public bool IsDisplayed { get; set; }
         public bool IsFinished { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset? DisplayedAt { get; set; }
+        public DateTimeOffset? StartedAt { get; set; }
         public DateTimeOffset? FinishedAt { get; set; }
         public List<MediumDto>? MediumDtos { get; set; }
         public List<TagDto>? TagDtos { get; set; }
-        public List<ContributorDto>? ContributorDtos { get; set; }
     }
 }

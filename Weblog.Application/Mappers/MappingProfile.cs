@@ -23,7 +23,8 @@ namespace Weblog.Application.Mappers
             CreateMap<Article, ArticleDto>()
                 .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
-                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
+                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
             CreateMap<AddArticleDto, Article>();
             CreateMap<UpdateArticleDto, Article>();
             // Category
@@ -45,6 +46,7 @@ namespace Weblog.Application.Mappers
             CreateMap<Event, EventDto>()
                 .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
+                // .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
             CreateMap<AddEventDto, Event>();
             CreateMap<UpdateEventDto, Event>();
             //Podcast
@@ -52,6 +54,7 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
+                // .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
             CreateMap<AddPodcastDto, Podcast>();
             CreateMap<UpdatePodcastDto, Podcast>();
         }

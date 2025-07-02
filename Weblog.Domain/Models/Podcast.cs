@@ -15,7 +15,7 @@ namespace Weblog.Domain.Models
         public required string Slug { get; set; }
         public required string Description { get; set; }    
         public int CategoryId { get; set; }
-        public Category? Category { get; set; }
+        public required Category Category { get; set; }
         public required string Link { get; set; }
         public required bool IsDisplayed { get; set; } = false;
         public ContributorType ContributorType { get; set; }
