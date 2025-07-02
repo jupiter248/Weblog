@@ -15,6 +15,8 @@ namespace Weblog.Application.Dtos.MediaDtos
         public MediumType MediumType { get; set; }
         public EntityType EntityType { get; set; }
         public int ParentTypeId { get; set; }
+        public bool IsOnPoster { get; set; } 
+
         // public int? ArticleId { get; set; }
         // public int? EventId { get; set; }
         // public int? PodcastId { get; set; }

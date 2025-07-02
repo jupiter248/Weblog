@@ -45,7 +45,8 @@ namespace Weblog.Application.Mappers
             //Event
             CreateMap<Event, EventDto>()
                 .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
-                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
+                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
+                .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors));
                 // .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
             CreateMap<AddEventDto, Event>();
             CreateMap<UpdateEventDto, Event>();

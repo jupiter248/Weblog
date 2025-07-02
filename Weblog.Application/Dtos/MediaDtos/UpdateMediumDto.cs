@@ -10,5 +10,7 @@ namespace Weblog.Application.Dtos.MediaDtos
         public required string Name { get; set; }
         public required string Path { get; set; }
         public bool IsPrimary { get; set; }
+        public bool IsOnPoster { get; set; }
+
     }
 }

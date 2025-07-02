@@ -36,6 +36,10 @@ namespace Weblog.Persistence.Data
                 .HasMany(t => t.Tags)
                 .WithMany(e => e.Events);
 
+            modelBuilder.Entity<Event>()
+                .HasMany(c => c.Contributors)
+                .WithMany(p => p.Events);
+                
             modelBuilder.Entity<Podcast>()
                 .HasMany(t => t.Tags)
                 .WithMany(p => p.Podcasts);
@@ -43,6 +47,8 @@ namespace Weblog.Persistence.Data
             modelBuilder.Entity<Podcast>()
                 .HasMany(c => c.Contributors)
                 .WithMany(p => p.Podcasts);
+                
+
 
 
             base.OnModelCreating(modelBuilder);
