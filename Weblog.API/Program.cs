@@ -33,6 +33,7 @@ builder.Services.AddControllers();
 builder.Services.ApplyDependencies(); // Apply dependencies like repository and service scopes 
 
 builder.Services.ConnectToDatabase();
+builder.Services.ConfigureIdentity();
 
 builder.Services.ApplyAutoMapper();
 
@@ -66,6 +67,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
+
 
 app.UseHttpsRedirection();
 
