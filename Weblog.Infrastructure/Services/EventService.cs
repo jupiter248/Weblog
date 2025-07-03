@@ -20,13 +20,22 @@ namespace Weblog.Infrastructure.Services
         private readonly ITagRepository _tagRepo;
         private readonly IMapper _mapper;
         private readonly ICategoryRepository _categoryRepo;
-        public EventService(IEventRepository eventRepo, ITagRepository tagRepo, IMapper mapper, ICategoryRepository categoryRepo)
+        private readonly IContributorRepository _contributorRepo;
+        public EventService(IContributorRepository contributorRepo, IEventRepository eventRepo, ITagRepository tagRepo, IMapper mapper, ICategoryRepository categoryRepo)
         {
             _categoryRepo = categoryRepo;
             _eventRepo = eventRepo;
             _mapper = mapper;
             _tagRepo = tagRepo;
+            _contributorRepo = contributorRepo;
         }
+
+        public async Task AddContributorAsync(int eventId, int contributorId)
+        {
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
+            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(eventId) ?? throw new NotFoundException("Contributor not found");
+            await _eventRepo.AddContributorAsync(eventModel,contributor);        }
+
         public async Task<EventDto> AddEventAsync(AddEventDto addEventDto)
         {
             Event newEvent = _mapper.Map<Event>(addEventDto);
@@ -50,6 +59,13 @@ namespace Weblog.Infrastructure.Services
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
             Tag tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException("Tag not found");
             await _eventRepo.AddTagToEvent(eventModel,tag);
+        }
+
+        public async Task DeleteContributorAsync(int eventId, int contributorId)
+        {
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
+            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(eventId) ?? throw new NotFoundException("Contributor not found");
+            await _eventRepo.DeleteContributorAsync(eventModel,contributor);     
         }
 
         public async Task DeleteEventAsync(int eventId)

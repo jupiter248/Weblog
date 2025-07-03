@@ -74,5 +74,17 @@ namespace Weblog.API.Controllers
             await _eventService.DeleteTagAsync(id, tagId);
             return NoContent();
         }
+        [HttpPost("{id:int}/contributor")]
+        public async Task<IActionResult> AddContributorToEvent(int id, int contributorId)
+        {
+            await _eventService.AddContributorAsync(id, contributorId);
+            return NoContent();
+        }
+        [HttpDelete("{id:int}/contributor")]
+        public async Task<IActionResult> DeleteContributorOfEvent(int id, int contributorId)
+        {
+            await _eventService.DeleteContributorAsync(id, contributorId);
+            return NoContent();
+        }
     }
 }

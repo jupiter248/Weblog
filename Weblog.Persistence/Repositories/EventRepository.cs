@@ -19,6 +19,13 @@ namespace Weblog.Persistence.Repositories
         {
             _context = context;
         }
+
+        public async Task AddContributorAsync(Event eventModel, Contributor contributor)
+        {
+            eventModel.Contributors.Add(contributor);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Event> AddEventAsync(Event eventModel)
         {
             await _context.Events.AddAsync(eventModel);
@@ -29,6 +36,12 @@ namespace Weblog.Persistence.Repositories
         public async Task AddTagToEvent(Event eventModel, Tag tag)
         {
             eventModel.Tags.Add(tag);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteContributorAsync(Event eventModel, Contributor contributor)
+        {
+            eventModel.Contributors.Remove(contributor);
             await _context.SaveChangesAsync();
         }
 

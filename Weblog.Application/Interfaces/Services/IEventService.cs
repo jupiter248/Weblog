@@ -17,7 +17,9 @@ namespace Weblog.Application.Interfaces.Services
         Task UpdateLikesAsync(int eventId);
         Task UpdateEventAsync(UpdateEventDto updateEventDto, int eventId);
         Task DeleteEventAsync(int eventId);
-        Task AddTagAsync(int eventId , int tagId);
-        Task DeleteTagAsync(int eventId , int tagId);
+        Task AddTagAsync(int eventId, int tagId);
+        Task DeleteTagAsync(int eventId, int tagId);
+        Task AddContributorAsync(int eventId , int contributorId);
+        Task DeleteContributorAsync(int eventId , int contributorId);
     }
 }

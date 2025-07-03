@@ -20,6 +20,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<List<Event>> SearchByTitleAsync(string keyword);
         Task AddTagToEvent(Event eventModel, Tag tag);
         Task DeleteTagFromEvent(Event eventModel, Tag tag);
-        
+        Task AddContributorAsync(Event eventModel, Contributor contributor);
+        Task DeleteContributorAsync(Event eventModel, Contributor contributor);
     }
 }
