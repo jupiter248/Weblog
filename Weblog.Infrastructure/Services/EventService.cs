@@ -86,8 +86,10 @@ namespace Weblog.Infrastructure.Services
             eventModel.CategoryId = updateEventDto.CategoryId;
             eventModel.Category = category;
             eventModel.Context = updateEventDto.Context;
+            eventModel.Place = updateEventDto.Place;
             eventModel.IsDisplayed = updateEventDto.IsDisplayed;
             eventModel.IsFinished = updateEventDto.IsFinished;
+
             if (eventModel.IsDisplayed)
             {
                 eventModel.DisplayedAt = DateTimeOffset.Now;

@@ -24,26 +24,27 @@ namespace Weblog.Persistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // many to many between article and tag
             modelBuilder.Entity<Article>()
                 .HasMany(t => t.Tags)
                 .WithMany(a => a.Articles);
-
+            // many to many between Article and contributor
             modelBuilder.Entity<Article>()
                 .HasMany(c => c.Contributors)
                 .WithMany(a => a.Articles);
-
+            // many to many between event and tag
             modelBuilder.Entity<Event>()
                 .HasMany(t => t.Tags)
                 .WithMany(e => e.Events);
-
+            // many to many between event and contributor
             modelBuilder.Entity<Event>()
                 .HasMany(c => c.Contributors)
                 .WithMany(p => p.Events);
-                
+            // many to many between podcast and tag
             modelBuilder.Entity<Podcast>()
                 .HasMany(t => t.Tags)
                 .WithMany(p => p.Podcasts);
-
+            // many to many between podcast and contributor
             modelBuilder.Entity<Podcast>()
                 .HasMany(c => c.Contributors)
                 .WithMany(p => p.Podcasts);

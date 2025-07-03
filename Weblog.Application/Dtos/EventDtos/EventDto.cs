@@ -15,6 +15,7 @@ namespace Weblog.Application.Dtos.EventDtos
         public required string Slug { get; set; }
         public required string Context { get; set; }
         public required string Description { get; set; }
+        public required string Place {get;set;}
         public int Viewers { get; set; }
         public int CategoryId { get; set; }
         public required string CategoryName { get; set; }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Enums;
 using Weblog.Domain.Models;
 using Weblog.Persistence.Data;
@@ -43,15 +44,18 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Event>> GetAllEventsAsync(FilteringParams filteringParams, PaginationParams paginationParams)
+        public async Task<List<Event>> GetAllEventsAsync(EventFilteringParams eventFilteringParams, PaginationParams paginationParams)
         {
             var eventQuery = _context.Events.Include(c => c.Contributors).Include(c => c.Category).Include(t => t.Tags).AsQueryable();
 
-            if (filteringParams.CategoryId.HasValue)
+            if (eventFilteringParams.CategoryId.HasValue)
             {
-                eventQuery = eventQuery.Where(a => a.CategoryId == filteringParams.CategoryId);
+                eventQuery = eventQuery.Where(a => a.CategoryId == eventFilteringParams.CategoryId);
             }
-
+            if (string.IsNullOrWhiteSpace(eventFilteringParams.Place))
+            {
+                eventQuery = eventQuery.Where(a => a.Place.Equals(eventFilteringParams.Place, StringComparison.CurrentCultureIgnoreCase));
+            }
             var events = await eventQuery.ToListAsync();
             foreach (var eventModel in events)
             {

@@ -14,6 +14,7 @@ namespace Weblog.Domain.Models
         public required string Slug { get; set; }
         public required string Context { get; set; }
         public required string Description { get; set; }
+        public required string Place {get;set;}
         public int Viewers { get; set; }
         public int Likes { get; set; }
         public int? Capacity { get; set; }
