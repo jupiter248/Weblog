@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 
 namespace Weblog.Application.Interfaces.Services
 {
     public interface IEventService
     {
-        Task<List<EventDto>> GetAllEventsAsync(PaginationParams paginationParams, FilteringParams filteringParams);
+        Task<List<EventDto>> GetAllEventsAsync(PaginationParams paginationParams, EventFilteringParams eventFilteringParams);
         Task<EventDto> GetEventByIdAsync(int eventId);
         Task<EventDto> AddEventAsync(AddEventDto addEventDto);
         Task UpdateViewersAsync(int eventId);

@@ -8,6 +8,7 @@ using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Models;
 using Weblog.Infrastructure.Extension;
 
@@ -64,9 +65,9 @@ namespace Weblog.Infrastructure.Services
             await _eventRepo.DeleteTagFromEvent(eventModel ,tag);
         }
 
-        public async Task<List<EventDto>> GetAllEventsAsync(PaginationParams paginationParams, FilteringParams filteringParams)
+        public async Task<List<EventDto>> GetAllEventsAsync(PaginationParams paginationParams, EventFilteringParams eventFilteringParams)
         {
-            List<Event> events = await _eventRepo.GetAllEventsAsync(filteringParams,paginationParams);
+            List<Event> events = await _eventRepo.GetAllEventsAsync(eventFilteringParams,paginationParams);
             List<EventDto> eventDtos = _mapper.Map<List<EventDto>>(events);
             return eventDtos;
         }

@@ -14,7 +14,7 @@ namespace Weblog.Application.Queries.SearchContent
         public string Keyword { get; set; }
         public EntityType? EntityType { get; set; } // "Article", "Podcast", "Event" ,"Person"
 
-        public SearchContentQuery(string keyword , EntityType entityType)
+        public SearchContentQuery(string keyword , EntityType? entityType)
         {
             Keyword = keyword;
             EntityType = entityType;

@@ -8,6 +8,7 @@ using Weblog.Application.Dtos.CategoryDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Models;
 
 namespace Weblog.Infrastructure.Services
@@ -35,9 +36,9 @@ namespace Weblog.Infrastructure.Services
             await _categoryRepo.DeleteCategoryAsync(category);
         }
 
-        public async Task<List<CategoryDto>> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams)
+        public async Task<List<CategoryDto>> GetAllCategoriesAsync(CategoryFilteringParams categoryFilteringParams)
         {
-            List<Category> categories = await _categoryRepo.GetAllCategoriesAsync(filteringCategoryParams);
+            List<Category> categories = await _categoryRepo.GetAllCategoriesAsync(categoryFilteringParams);
             List<CategoryDto> categoryDtos = _mapper.Map<List<CategoryDto>>(categories);
             return categoryDtos;
         }

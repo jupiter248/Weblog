@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 
 namespace Weblog.API.Controllers
 {

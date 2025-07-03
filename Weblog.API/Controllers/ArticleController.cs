@@ -7,6 +7,7 @@ using Weblog.Application.Dtos;
 using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 
 namespace Weblog.API.Controllers
 {

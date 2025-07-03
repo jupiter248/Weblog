@@ -52,10 +52,11 @@ namespace Weblog.Persistence.Repositories
             {
                 eventQuery = eventQuery.Where(a => a.CategoryId == eventFilteringParams.CategoryId);
             }
-            if (string.IsNullOrWhiteSpace(eventFilteringParams.Place))
+            if (!string.IsNullOrWhiteSpace(eventFilteringParams.Place))
             {
-                eventQuery = eventQuery.Where(a => a.Place.Equals(eventFilteringParams.Place, StringComparison.CurrentCultureIgnoreCase));
+                eventQuery = eventQuery.Where(a => a.Place.ToLower() == eventFilteringParams.Place.ToLower());
             }
+
             var events = await eventQuery.ToListAsync();
             foreach (var eventModel in events)
             {

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.CategoryDtos;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Models;
 
 namespace Weblog.API.Controllers
@@ -21,9 +22,9 @@ namespace Weblog.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCategories([FromQuery] FilteringCategoryParams filteringCategoryParams)
+        public async Task<IActionResult> GetAllCategories([FromQuery] CategoryFilteringParams categoryFilteringParams)
         {
-            List<CategoryDto> categoryDtos = await _categoryService.GetAllCategoriesAsync(filteringCategoryParams);
+            List<CategoryDto> categoryDtos = await _categoryService.GetAllCategoriesAsync(categoryFilteringParams);
             return Ok(categoryDtos);
         }
         [HttpGet("{id:int}")]

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Weblog.Application.Dtos;
 using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Models;
 
 namespace Weblog.Application.Interfaces.Services

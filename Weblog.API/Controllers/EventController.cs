@@ -7,6 +7,7 @@ using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 
 namespace Weblog.API.Controllers
 {
@@ -20,9 +21,9 @@ namespace Weblog.API.Controllers
             _eventService = eventService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllEvents([FromQuery] FilteringParams filteringParams, [FromQuery] PaginationParams paginationParams)
+        public async Task<IActionResult> GetAllEvents([FromQuery] EventFilteringParams eventFilteringParams, [FromQuery] PaginationParams paginationParams)
         {
-            List<EventDto> eventDtos = await _eventService.GetAllEventsAsync(paginationParams, filteringParams);
+            List<EventDto> eventDtos = await _eventService.GetAllEventsAsync(paginationParams, eventFilteringParams);
             return Ok(eventDtos);
         }
         [HttpGet("{id:int}")]

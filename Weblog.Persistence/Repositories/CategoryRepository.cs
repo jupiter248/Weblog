@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Models;
 using Weblog.Persistence.Data;
 
@@ -30,12 +31,12 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Category>> GetAllCategoriesAsync(FilteringCategoryParams filteringCategoryParams)
+        public async Task<List<Category>> GetAllCategoriesAsync(CategoryFilteringParams categoryFilteringParams)
         {
             var categories = _context.Categories.AsQueryable();
-            if (filteringCategoryParams.EntityType.HasValue)
+            if (categoryFilteringParams.EntityType.HasValue)
             {
-                categories = categories.Where(t => t.EntityType == filteringCategoryParams.EntityType);
+                categories = categories.Where(t => t.EntityType == categoryFilteringParams.EntityType);
             }
             return await categories.ToListAsync();
         }

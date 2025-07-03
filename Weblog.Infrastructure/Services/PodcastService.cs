@@ -8,6 +8,7 @@ using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Models;
 using Weblog.Infrastructure.Extension;
 
