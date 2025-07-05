@@ -22,23 +22,13 @@ namespace Weblog.Infrastructure.Services
         }
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
         {
-            AppUser? user = await _userManager.FindByNameAsync(loginDto.UsernameOrEmail);
-            if (user == null)
-                user = await _userManager.FindByEmailAsync(loginDto.UsernameOrEmail) ?? throw new ValidationException("User not found");
-                
-
-            var result = await _signInManager.PasswordSignInAsync(user, loginDto.Password, loginDto.RememberMe, true);
-
-            if (result.Succeeded == false)
-                throw new ValidationException("Incorrect Password");
+            AppUser? user = await _userManager.FindByLoginAsync("Phone",loginDto.PhoneNumber) ?? throw new ValidationException("User not found");                
 
             var role = await _userManager.GetRolesAsync(user);
 
             return new AuthResponseDto
             {
-                Username = user.UserName ?? string.Empty,
                 PhoneNumber = user.PhoneNumber ?? string.Empty,
-                Email = user.Email,
                 Token = JwtTokenService.CreateToken(user, role),
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -50,19 +40,17 @@ namespace Weblog.Infrastructure.Services
         {
             AppUser appUser = new AppUser
             {
-                UserName = registerDto.Username,
-                Email = registerDto.Email,
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
                 FullName = $"{registerDto.FirstName} {registerDto.LastName}"
             };
 
-            AppUser? userExistence = await _userManager.FindByNameAsync(appUser.UserName);
-            if (userExistence != null)
+            AppUser? user = await _userManager.FindByLoginAsync("Phone", registerDto.PhoneNumber) ?? throw new ValidationException("User not found");                
+            if (user != null)
             {
-                throw new ConflictException("duplicate username");
+                throw new ConflictException("Phone number already used");
             }
-            var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
+            var createdUser = await _userManager.CreateAsync(appUser);
             if (createdUser.Succeeded)
             {
                 var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
