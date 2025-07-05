@@ -11,9 +11,11 @@ using Weblog.Persistence.Extensions;
 
 Env.Load(Path.Combine("..", ".env")); // This loads .env into Environment variables
 
-
-
 var builder = WebApplication.CreateBuilder(args);
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.ConfigureSwaggerGen();
 
 builder.Services
     .AddControllers()
@@ -21,12 +23,8 @@ builder.Services
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly));
-
 
 builder.Services.AddControllers();
 
@@ -49,6 +47,7 @@ builder.Services.AddCors(opt =>
         .AllowAnyOrigin();
     });
 });
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
@@ -61,12 +60,16 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate(); // Ensure the database is created and migrations are applied
 }
 
+app.UseRouting();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseHttpsRedirection();
+
 
 app.UseAuthentication();
 app.UseAuthorization();

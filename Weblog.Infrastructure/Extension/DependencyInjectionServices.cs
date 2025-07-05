@@ -39,6 +39,8 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IMediumService, MediumService>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IPodcastService, PodcastService>();
+            services.AddScoped<IAuthService, AuthService>();
+
 
 
 

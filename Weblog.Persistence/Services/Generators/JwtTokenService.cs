@@ -11,15 +11,11 @@ using Weblog.Infrastructure.Identity;
 
 namespace Weblog.Persistence.Services.Generators
 {
-    public class JwtTokenService
+    public static class JwtTokenService
     {
-        private readonly SymmetricSecurityKey _key;
-        public JwtTokenService()
+        public static string CreateToken(AppUser user, IList<string> roles)
         {
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Key") ?? throw new NotFoundException("Jwt key not found")));
-        }
-        public string CreateToken(AppUser user, IList<string> roles)
-        {
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Key") ?? throw new NotFoundException("Jwt key not found")));
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
@@ -29,7 +25,7 @@ namespace Weblog.Persistence.Services.Generators
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
-            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256Signature);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

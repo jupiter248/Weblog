@@ -13,7 +13,7 @@ namespace Weblog.Infrastructure.Identity
         public required string LastName { get; set; }
         public required string FullName { get; set; }
         public int MediumId { get; set; }
-        public required Medium Medium { get; set; }
+        public Medium? Medium { get; set; }
 
     }
 }

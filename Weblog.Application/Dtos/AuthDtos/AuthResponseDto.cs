@@ -14,6 +14,7 @@ namespace Weblog.Application.Dtos.AuthDtos
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string FullName { get; set; }
+        public required string Token { get; set; }
         public List<MediumDto>? MediumDtos { get; set; }
     }
 }
