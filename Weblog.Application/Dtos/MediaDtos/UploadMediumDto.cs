@@ -14,6 +14,7 @@ namespace Weblog.Application.Dtos.MediaDtos
         public EntityType EntityType { get; set; }
         public MediumType MediumType { get; set; }
         public int ParentTypeId { get; set; }
+        public string? AppUserId { get; set; }
         public bool IsOnPoster { get; set; }
 
         // public int? ArticleId { get; set; }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Dtos.ContributorDtos;
@@ -15,6 +16,7 @@ using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Enums;
 using Weblog.Domain.Models;
+using Weblog.Infrastructure.Identity;
 
 namespace Weblog.Infrastructure.Services
 {
@@ -27,13 +29,11 @@ namespace Weblog.Infrastructure.Services
         private readonly IPodcastService _podcastService; 
         private readonly IEventService _eventService; 
         private readonly IContributorService _contributorService;
-
-
-
+        private readonly UserManager<AppUser> _userManager;
         public MediumService(
             IMapper mapper, IMediumRepository mediumRepo, IWebHostEnvironment webHost,
             IArticleService articleService, IPodcastService podcastService, IEventService eventService,
-            IContributorService contributorService
+            IContributorService contributorService, UserManager<AppUser> userManager
             )
         {
             _mapper = mapper;
@@ -43,6 +43,7 @@ namespace Weblog.Infrastructure.Services
             _contributorService = contributorService;
             _eventService = eventService;
             _podcastService = podcastService;
+            _userManager = userManager;
         }
 
         public async Task DeleteMediumAsync(int mediaId)
@@ -87,6 +88,10 @@ namespace Weblog.Infrastructure.Services
                 case EntityType.Podcast:
                     PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Podcast not found");
                     break;
+                case EntityType.User:
+                    var appUser = await _userManager.FindByIdAsync(uploadMediaDto.AppUserId ?? throw new NotFoundException("Username not found"));
+                    break;
+
                 default:
                     throw new ValidationException("The Id is invalid");
             }
@@ -125,7 +130,8 @@ namespace Weblog.Infrastructure.Services
                 IsPrimary = uploadMediaDto.IsPrimary,
                 MediumType = uploadMediaDto.MediumType,
                 EntityType = uploadMediaDto.EntityType,
-                EntityId = uploadMediaDto.ParentTypeId
+                EntityId = uploadMediaDto.ParentTypeId,
+                Username = uploadMediaDto.AppUserId
             };
 
             await _mediumRepo.AddMediumAsync(medium);
