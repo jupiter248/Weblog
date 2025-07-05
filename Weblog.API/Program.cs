@@ -34,6 +34,8 @@ builder.Services.ApplyDependencies(); // Apply dependencies like repository and 
 
 builder.Services.ConnectToDatabase();
 builder.Services.ConfigureIdentity();
+builder.Services.ConfigureJwt();
+
 
 builder.Services.ApplyAutoMapper();
 
