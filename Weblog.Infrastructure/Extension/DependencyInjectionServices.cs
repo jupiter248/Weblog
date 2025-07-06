@@ -24,8 +24,7 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IMediumRepository, MediumRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IPodcastRepository, PodcastRepository>();
-
-
+            services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
 
 
 
@@ -40,11 +39,7 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IPodcastService, PodcastService>();
             services.AddScoped<IAuthService, AuthService>();
-
-
-
-
-
+            services.AddScoped<ISmsService, SmsService>();
 
 
 

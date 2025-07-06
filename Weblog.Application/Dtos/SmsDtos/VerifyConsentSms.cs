@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Weblog.Application.Dtos.SmsDtos
 {
-    public class VerifySendModel
+    public class VerifyConsentSms
     {
         public required string Mobile { get; set; }
-        public int TemplateId { get; set; }
-        public required VerifySendParameterModel[] Parameters { get; set; }
+        public required string Code { get; set; }
+        public required  string Purpose { get; set; }
     }
 }

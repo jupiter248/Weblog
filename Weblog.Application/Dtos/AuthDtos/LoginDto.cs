@@ -8,6 +8,7 @@ namespace Weblog.Application.Dtos.AuthDtos
     public class LoginDto
     {
         public required string PhoneNumber { get; set; }
+        public required string Code { get; set; }
         public bool RememberMe { get; set; }
     }
 }

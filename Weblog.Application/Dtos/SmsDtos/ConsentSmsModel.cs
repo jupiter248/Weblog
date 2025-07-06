@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace Weblog.Application.Dtos.SmsDtos
 {
-    public class AddSendModelDto
+    public class ConsentSmsModel
     {
+        public int Id { get; set; }
         public required string Mobile { get; set; }
-        public required string Name { get; set; }
-        public required string Code { get; set; }
-
-
+        public int TemplateId { get; set; }
+        public required ConsentSmsParameterModel[] Parameters { get; set; }
     }
 }

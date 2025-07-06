@@ -8,6 +8,7 @@ namespace Weblog.Application.Interfaces.Services
 {
     public interface ISmsService
     {
-        Task<HttpResponseMessage> SendConsentSms(AddSendModelDto addSendModelDto);
+        Task SendConsentSmsAsync(AddConsentSmsDto addConsentSmsDto);
+        Task<bool> VerifyConsentSmsAsync(VerifyConsentSms verifyConsentSms);
     }
 }

@@ -22,6 +22,8 @@ namespace Weblog.Persistence.Data
         public DbSet<Podcast> Podcasts { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Contributor> Contributors { get; set; }
+        public DbSet<VerificationCode> VerificationCodes { get; set; }
+        
         
 
 
@@ -51,7 +53,7 @@ namespace Weblog.Persistence.Data
             modelBuilder.Entity<Podcast>()
                 .HasMany(c => c.Contributors)
                 .WithMany(p => p.Podcasts);
-                
+
 
 
 
