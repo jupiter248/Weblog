@@ -47,7 +47,6 @@ namespace Weblog.Infrastructure.Services
                 TemplateId = int.Parse(Environment.GetEnvironmentVariable("SMS_TemplateId") ?? throw new ValidationException("TemplateId is invalid")),
                 Parameters =
                 [
-                    new ConsentSmsParameterModel { Name = "Name" , Value = addConsentSmsDto.Name},
                     new ConsentSmsParameterModel { Name = "Code" , Value = code}
                 ]
             };

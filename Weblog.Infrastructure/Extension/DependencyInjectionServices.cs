@@ -25,6 +25,8 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IPodcastRepository, PodcastRepository>();
             services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+
 
 
 

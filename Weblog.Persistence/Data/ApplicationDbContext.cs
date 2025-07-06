@@ -23,6 +23,8 @@ namespace Weblog.Persistence.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Contributor> Contributors { get; set; }
         public DbSet<VerificationCode> VerificationCodes { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+
         
         
 
