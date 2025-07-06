@@ -7,7 +7,7 @@ using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.AuthDtos;
 using Weblog.Application.Dtos.SmsDtos;
 using Weblog.Application.Interfaces.Services;
-using Weblog.Infrastructure.Identity;
+using Weblog.Domain.Models;
 using Weblog.Persistence.Services.Generators;
 
 namespace Weblog.Infrastructure.Services

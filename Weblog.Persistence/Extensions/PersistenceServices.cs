@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Weblog.Application.CustomExceptions;
-using Weblog.Infrastructure.Identity;
+using Weblog.Domain.Models;
 using Weblog.Persistence.Data;
 
 namespace Weblog.Persistence.Extensions

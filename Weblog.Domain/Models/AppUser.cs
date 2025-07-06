@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Weblog.Domain.Models;
 
-namespace Weblog.Infrastructure.Identity
+namespace Weblog.Domain.Models
 {
-    public class AppUser : IdentityUser
+    public class AppUser : IdentityUser 
     {
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string FullName { get; set; }
         public int MediumId { get; set; }
         public Medium? Medium { get; set; }
-        public List<Comment>? Comments { get; set; }
+        public List<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

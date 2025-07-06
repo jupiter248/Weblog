@@ -12,7 +12,6 @@ using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Models;
 using Weblog.Infrastructure.Helpers;
-using Weblog.Infrastructure.Identity;
 
 namespace Weblog.Infrastructure.Services
 {

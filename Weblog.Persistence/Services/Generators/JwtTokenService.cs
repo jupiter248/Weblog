@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using Weblog.Application.CustomExceptions;
-using Weblog.Infrastructure.Identity;
+using Weblog.Domain.Models;
 
 namespace Weblog.Persistence.Services.Generators
 {

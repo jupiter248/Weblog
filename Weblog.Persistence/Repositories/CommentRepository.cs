@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Models;
 using Weblog.Persistence.Data;
 
@@ -30,16 +31,21 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Comment>> GetAllCommentsAsync(PaginationParams paginationParams)
+        public async Task<List<Comment>> GetAllCommentsAsync(CommentFilteringParams commentFilteringParams , PaginationParams paginationParams)
         {
-            List<Comment> comments = await _context.Comments.ToListAsync();
+            List<Comment> comments = await _context.Comments.Include(a => a.AppUser).ToListAsync();
+
+            if (commentFilteringParams.EntityId.HasValue)
+            {
+                comments.Where(c => c.EntityId == commentFilteringParams.EntityId && c.EntityType == commentFilteringParams.CommentParentType);
+            }
             var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
             return comments.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
         }
 
         public async Task<Comment?> GetCommentByIdAsync(int commentId)
         {
-            Comment? comment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == commentId);
+            Comment? comment = await _context.Comments.Include(a => a.AppUser).FirstOrDefaultAsync(c => c.Id == commentId);
             if (comment == null)
             {
                 return null;

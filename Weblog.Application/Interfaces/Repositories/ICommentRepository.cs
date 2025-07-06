@@ -10,7 +10,7 @@ namespace Weblog.Application.Interfaces.Repositories
 {
     public interface ICommentRepository
     {
-        Task<List<Comment>> GetAllCommentsAsync(PaginationParams paginationParams);
+        Task<List<Comment>> GetAllCommentsAsync(CommentFilteringParams commentFilteringParams,PaginationParams paginationParams );
         Task<Comment> AddCommentAsync(Comment comment);
         Task<Comment?> GetCommentByIdAsync(int commentId);
         Task UpdateCommentAsync(Comment currentComment, Comment newComment);

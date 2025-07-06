@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Weblog.Domain.Models;
-using Weblog.Infrastructure.Identity;
 
 namespace Weblog.Persistence.Data
 {
@@ -55,8 +54,10 @@ namespace Weblog.Persistence.Data
             modelBuilder.Entity<Podcast>()
                 .HasMany(c => c.Contributors)
                 .WithMany(p => p.Podcasts);
-
-
+            modelBuilder.Entity<Comment>()
+                .HasOne<AppUser>()                
+                .WithMany(u => u.Comments)          
+                .HasForeignKey(c => c.UserId); 
 
 
             base.OnModelCreating(modelBuilder);

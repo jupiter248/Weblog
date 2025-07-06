@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblog.Application.Dtos.CommentDtos;
 using Weblog.Application.Dtos.ContributorDtos;
 using Weblog.Application.Dtos.MediaDtos;
 using Weblog.Application.Dtos.TagDtos;
@@ -25,7 +26,8 @@ namespace Weblog.Application.Dtos.PodcastDtos
         public DateTimeOffset? UpdatedAt { get; set; }
         public List<TagDto>? TagDtos { get; set; }
         public List<ContributorDto>? ContributorDtos { get; set; }
-        
+        public List<CommentDto>? CommentDtos { get; set; }
+
 
     }
 }
