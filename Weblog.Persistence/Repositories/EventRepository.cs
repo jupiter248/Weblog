@@ -59,7 +59,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Event>> GetAllEventsAsync(EventFilteringParams eventFilteringParams, PaginationParams paginationParams)
         {
-            var eventQuery = _context.Events.Include(c => c.Comments).Include(c => c.Contributors).Include(c => c.Category).Include(t => t.Tags).AsQueryable();
+            var eventQuery = _context.Events.Include(c => c.Contributors).Include(c => c.Category).Include(t => t.Tags).AsQueryable();
 
             if (eventFilteringParams.CategoryId.HasValue)
             {

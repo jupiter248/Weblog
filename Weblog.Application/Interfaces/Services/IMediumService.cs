@@ -10,9 +10,9 @@ namespace Weblog.Application.Interfaces.Services
     {
         Task<List<MediumDto>> GetAllMediaAsync();
         Task<MediumDto> GetMediumByIdAsync(int mediaId);
-        Task<MediumDto> StoreMediumAsync(UploadMediumDto uploadMediaDto);
+        Task<MediumDto> StoreMediumAsync(UploadMediumDto uploadMediaDto , string userId);
         Task UpdateMediumAsync(UpdateMediumDto editMediaDto, int mediaId);
-        Task DeleteMediumAsync(int mediaId);
+        Task DeleteMediumAsync(int mediaId , string userId);
         
     }
 }

@@ -24,8 +24,8 @@ namespace Weblog.API.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            await _authService.RegisterAsync(registerDto);
-            return Ok("User has been created successfully");
+            AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto);
+            return Ok(authResponseDto);
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)

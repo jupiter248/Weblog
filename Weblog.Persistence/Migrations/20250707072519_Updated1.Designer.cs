@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Weblog.Persistence.Data;
 
@@ -10,9 +11,11 @@ using Weblog.Persistence.Data;
 namespace Weblog.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250707072519_Updated1")]
+    partial class Updated1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -274,6 +277,9 @@ namespace Weblog.Persistence.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("MediumId")
+                        .HasColumnType("int");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
@@ -302,6 +308,8 @@ namespace Weblog.Persistence.Migrations
                         .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MediumId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -563,8 +571,8 @@ namespace Weblog.Persistence.Migrations
                     b.Property<int?>("PodcastId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
+                    b.Property<string>("Username")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -575,8 +583,6 @@ namespace Weblog.Persistence.Migrations
                     b.HasIndex("EventId");
 
                     b.HasIndex("PodcastId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Media");
                 });
@@ -810,6 +816,17 @@ namespace Weblog.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Weblog.Domain.Models.AppUser", b =>
+                {
+                    b.HasOne("Weblog.Domain.Models.Medium", "Medium")
+                        .WithMany()
+                        .HasForeignKey("MediumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Medium");
+                });
+
             modelBuilder.Entity("Weblog.Domain.Models.Article", b =>
                 {
                     b.HasOne("Weblog.Domain.Models.Category", "Category")
@@ -878,10 +895,6 @@ namespace Weblog.Persistence.Migrations
                     b.HasOne("Weblog.Domain.Models.Podcast", null)
                         .WithMany("Media")
                         .HasForeignKey("PodcastId");
-
-                    b.HasOne("Weblog.Domain.Models.AppUser", null)
-                        .WithMany("Media")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Weblog.Domain.Models.Podcast", b =>
@@ -898,8 +911,6 @@ namespace Weblog.Persistence.Migrations
             modelBuilder.Entity("Weblog.Domain.Models.AppUser", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Media");
                 });
 
             modelBuilder.Entity("Weblog.Domain.Models.Article", b =>

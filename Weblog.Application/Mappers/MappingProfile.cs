@@ -25,8 +25,7 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
-                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
-                .ForMember(dest => dest.CommentDtos, opt => opt.MapFrom(src => src.Comments));
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
 
             CreateMap<AddArticleDto, Article>();
             CreateMap<UpdateArticleDto, Article>();
@@ -43,14 +42,14 @@ namespace Weblog.Application.Mappers
             CreateMap<AddContributorDto, Contributor>();
             CreateMap<UpdateContributorDto, Contributor>();
             //Medium
-            CreateMap<Medium, MediumDto>();
+            CreateMap<Medium, MediumDto>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
             CreateMap<UpdateMediumDto, Medium>();
             //Event
             CreateMap<Event, EventDto>()
                 .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
-                .ForMember(dest => dest.CommentDtos, opt => opt.MapFrom(src => src.Comments))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
             CreateMap<AddEventDto, Event>();
             CreateMap<UpdateEventDto, Event>();
@@ -59,7 +58,6 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
-                .ForMember(dest => dest.CommentDtos, opt => opt.MapFrom(src => src.Comments))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
             CreateMap<AddPodcastDto, Podcast>();
             CreateMap<UpdatePodcastDto, Podcast>();

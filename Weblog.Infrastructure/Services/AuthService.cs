@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.AuthDtos;
 using Weblog.Application.Dtos.SmsDtos;
@@ -33,26 +34,31 @@ namespace Weblog.Infrastructure.Services
                 Purpose = "login"
             });
 
-            if (!verified)
-            {
-                throw new ValidationException("The code is incorrect");
-            }
+            // if (!verified)
+            // {
+            //     throw new ValidationException("The code is incorrect");
+            // }
 
-            AppUser? user = await _userManager.FindByLoginAsync("Phone",loginDto.PhoneNumber) ?? throw new ValidationException("User not found");                
+            AppUser? user = await _userManager.FindByLoginAsync("Phone", loginDto.PhoneNumber);
+            if (user == null)
+            {
+                user = await _userManager.FindByNameAsync(loginDto.Username) ?? throw new NotFoundException("User not found");
+            }                
 
             var role = await _userManager.GetRolesAsync(user);
 
             return new AuthResponseDto
             {
+                Username = user.UserName ?? string.Empty,
                 PhoneNumber = user.PhoneNumber ?? string.Empty,
                 Token = JwtTokenService.CreateToken(user, role),
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                FullName = user.FullName
+                FullName = user.FullName,
             };
         }
 
-        public async Task RegisterAsync(RegisterDto registerDto)
+        public async Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto)
         {
             bool verified = await _smsService.VerifyConsentSmsAsync(new VerifyConsentSms
             {
@@ -61,23 +67,30 @@ namespace Weblog.Infrastructure.Services
                 Purpose = "register"
             });
 
-            if (!verified)
+            // if (!verified)
+            // {
+            //     throw new ValidationException("The code is incorrect");
+            // }
+            AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == registerDto.PhoneNumber);       
+            if (user != null)
             {
-                throw new ValidationException("The code is incorrect");
+                throw new ConflictException("Phone number already used");
+            }
+            user = await _userManager.FindByNameAsync(registerDto.Username);
+            if (user != null)
+            {
+                throw new ConflictException("Username already used");
             }
             
             AppUser appUser = new AppUser
             {
+                PhoneNumber = registerDto.PhoneNumber,
+                UserName = registerDto.Username,
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
                 FullName = $"{registerDto.FirstName} {registerDto.LastName}"
             };
 
-            AppUser? user = await _userManager.FindByLoginAsync("Phone", registerDto.PhoneNumber) ?? throw new ValidationException("User not found");                
-            if (user != null)
-            {
-                throw new ConflictException("Phone number already used");
-            }
             var createdUser = await _userManager.CreateAsync(appUser);
             if (createdUser.Succeeded)
             {
@@ -86,10 +99,20 @@ namespace Weblog.Infrastructure.Services
                 {
                     throw new ValidationException("The role could not have added");
                 }
+                var role = await _userManager.GetRolesAsync(appUser);
+                return new AuthResponseDto
+                {
+                    Username = appUser.UserName ?? string.Empty,
+                    PhoneNumber = appUser.PhoneNumber ?? string.Empty,
+                    Token = JwtTokenService.CreateToken(appUser , role),
+                    FirstName = appUser.FirstName,
+                    LastName = appUser.LastName,
+                    FullName = appUser.FullName
+                };
             }
             else
             {
-                throw new ValidationException("The user could not have created");
+                throw new Exception();
             }
 
         }

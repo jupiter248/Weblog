@@ -15,16 +15,10 @@ namespace Weblog.Domain.Models
         public required string Path { get; set; }
         public MediumType MediumType { get; set; }
         public EntityType EntityType { get; set; }
-        // public int? ArticleId { get; set; }
-        // public Article? Article { get; set; } 
-        // public int? EventId { get; set; }
-        // public Event? Event { get; set; }
-        // public int? PodcastId { get; set; }
-        // public Podcast? Podcast { get; set; }  
-        // public int? ContributorId { get; set; }
-        // public Contributor? Contributor { get; set; } 
         public required int EntityId { get; set; }
-        public  string? Username { get; set; }
+        public string? UserId{ get; set; }
+        public AppUser? AppUser{ get; set; }
+
         public bool IsPrimary { get; set; } = false;
         public bool IsOnPoster { get; set; } = false;
 

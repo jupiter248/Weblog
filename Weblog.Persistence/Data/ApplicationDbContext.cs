@@ -57,8 +57,12 @@ namespace Weblog.Persistence.Data
             modelBuilder.Entity<Comment>()
                 .HasOne<AppUser>()                
                 .WithMany(u => u.Comments)          
-                .HasForeignKey(c => c.UserId); 
+                .HasForeignKey(c => c.UserId);
 
+            modelBuilder.Entity<Medium>()
+                .HasOne<AppUser>()
+                .WithMany(m => m.Media)
+                .HasForeignKey(u => u.UserId);
 
             base.OnModelCreating(modelBuilder);
         }

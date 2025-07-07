@@ -39,9 +39,9 @@ namespace Weblog.Infrastructure.Services
             _commentRepository = commentRepository;
         }
 
-        public async Task<CommentDto> AddCommentAsync(AddCommentDto addCommentDto)
+        public async Task<CommentDto> AddCommentAsync(AddCommentDto addCommentDto , string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(addCommentDto.UserId) ?? throw new NotFoundException("User not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
             switch (addCommentDto.EntityType)
             {
                 case CommentParentType.Article:
@@ -64,9 +64,14 @@ namespace Weblog.Infrastructure.Services
             return commentDto;
         }
 
-        public async Task DeleteCommentAsync(int commentId)
+        public async Task DeleteCommentAsync(int commentId, string userId)
         {
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
             Comment comment = await _commentRepository.GetCommentByIdAsync(commentId) ?? throw new NotFoundException("Comment not found");
+            if (comment.UserId != appUser.Id)
+            {
+                throw new ValidationException("The user does not access to this comment");
+            }
             await _commentRepository.DeleteCommentAsync(comment);
         }
 
@@ -83,9 +88,14 @@ namespace Weblog.Infrastructure.Services
             return _mapper.Map<CommentDto>(comment);
         }
 
-        public async Task UpdateCommentAsync(UpdateCommentDto updateCommentDto, int commentId)
+        public async Task UpdateCommentAsync(UpdateCommentDto updateCommentDto, int commentId , string userId)
         {
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
             Comment comment = await _commentRepository.GetCommentByIdAsync(commentId) ?? throw new NotFoundException("Comment not found");
+            if (comment.UserId != appUser.Id)
+            {
+                throw new ValidationException("The user does not access to this comment");
+            }
             Comment newComment = _mapper.Map<Comment>(updateCommentDto);
             await _commentRepository.UpdateCommentAsync(comment ,newComment);
         }

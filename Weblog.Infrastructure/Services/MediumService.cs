@@ -45,10 +45,14 @@ namespace Weblog.Infrastructure.Services
             _userManager = userManager;
         }
 
-        public async Task DeleteMediumAsync(int mediaId)
+        public async Task DeleteMediumAsync(int mediaId , string userId)
         {
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
             Medium medium = await _mediumRepo.GetMediumByIdAsync(mediaId) ?? throw new NotFoundException("Media not found");
-
+            if (medium.UserId != appUser.Id)
+            {
+                throw new ValidationException("The user does not access this medium");
+            }
             string filePath = Path.Combine(_webHost.WebRootPath, medium.Path);
             if (File.Exists(filePath))
             {
@@ -71,7 +75,7 @@ namespace Weblog.Infrastructure.Services
             return _mapper.Map<MediumDto>(medium);
         }
 
-        public async Task<MediumDto> StoreMediumAsync(UploadMediumDto uploadMediaDto)
+        public async Task<MediumDto> StoreMediumAsync(UploadMediumDto uploadMediaDto , string userId)
         {
             switch (uploadMediaDto.EntityType)
             {
@@ -88,7 +92,7 @@ namespace Weblog.Infrastructure.Services
                     PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Podcast not found");
                     break;
                 case EntityType.User:
-                    var appUser = await _userManager.FindByIdAsync(uploadMediaDto.AppUserId ?? throw new NotFoundException("Username not found"));
+                    var appUser = await _userManager.FindByIdAsync(userId ?? throw new NotFoundException("User not found"));
                     break;
 
                 default:
@@ -130,7 +134,7 @@ namespace Weblog.Infrastructure.Services
                 MediumType = uploadMediaDto.MediumType,
                 EntityType = uploadMediaDto.EntityType,
                 EntityId = uploadMediaDto.ParentTypeId,
-                Username = uploadMediaDto.AppUserId
+                UserId = userId,
             };
 
             await _mediumRepo.AddMediumAsync(medium);

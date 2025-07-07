@@ -33,12 +33,13 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Comment>> GetAllCommentsAsync(CommentFilteringParams commentFilteringParams , PaginationParams paginationParams)
         {
-            List<Comment> comments = await _context.Comments.Include(a => a.AppUser).ToListAsync();
+            var commentQueries = _context.Comments.Include(a => a.AppUser).AsQueryable();
 
             if (commentFilteringParams.EntityId.HasValue)
             {
-                comments.Where(c => c.EntityId == commentFilteringParams.EntityId && c.EntityType == commentFilteringParams.CommentParentType);
+                commentQueries = commentQueries.Where(c => c.EntityId == commentFilteringParams.EntityId && c.EntityType == commentFilteringParams.EntityType);
             }
+            List<Comment> comments = await commentQueries.ToListAsync();
             var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
             return comments.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
         }

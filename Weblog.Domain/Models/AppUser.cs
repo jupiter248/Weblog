@@ -12,8 +12,7 @@ namespace Weblog.Domain.Models
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string FullName { get; set; }
-        public int MediumId { get; set; }
-        public Medium? Medium { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
+        public List<Medium> Media { get; set; } = new List<Medium>();
     }
 }

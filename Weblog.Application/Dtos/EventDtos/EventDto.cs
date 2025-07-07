@@ -30,7 +30,6 @@ namespace Weblog.Application.Dtos.EventDtos
         public List<MediumDto>? MediumDtos { get; set; }
         public List<TagDto>? TagDtos { get; set; }
         public List<ContributorDto>? ContributorDtos { get; set; }
-        public List<CommentDto>? CommentDtos { get; set; }
         
 
     }

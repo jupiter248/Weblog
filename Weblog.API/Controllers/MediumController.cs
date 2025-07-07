@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.MediaDtos;
+using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
 
 namespace Weblog.API.Controllers
@@ -32,7 +33,9 @@ namespace Weblog.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddMedium(UploadMediumDto uploadMediumDto)
         {
-            MediumDto mediumDto = await _mediumService.StoreMediumAsync(uploadMediumDto);
+            string? userId = User.GetUserId();
+            if (userId == null) return NotFound("User not found");
+            MediumDto mediumDto = await _mediumService.StoreMediumAsync(uploadMediumDto , userId);
             return CreatedAtAction(nameof(GetMediumById), new { id = mediumDto.Id }, mediumDto);
         }
         [HttpPut("{id:int}")]
@@ -44,7 +47,9 @@ namespace Weblog.API.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteMedium(int id)
         {
-            await _mediumService.DeleteMediumAsync(id);
+            string? userId = User.GetUserId();
+            if (userId == null) return NotFound("User not found");
+            await _mediumService.DeleteMediumAsync(id , userId);
             return NoContent();
         }
     }
