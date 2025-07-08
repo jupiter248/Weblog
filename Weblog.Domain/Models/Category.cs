@@ -17,7 +17,5 @@ namespace Weblog.Domain.Models
         public List<Article> Articles { get; set; } = new List<Article>();
         public List<Event> Events { get; set; } = new List<Event>();
         public List<Podcast> Podcasts { get; set; } = new List<Podcast>();
-
-
     }
 }

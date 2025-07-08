@@ -10,9 +10,9 @@ namespace Weblog.Domain.Models
     {
         public int Id { get; set; }
         public required string Text { get; set; }
-        public CommentParentType EntityType { get; set; }
+        public CommentType EntityType { get; set; }
         public int EntityId { get; set; }
         public required string UserId { get; set; }   
-        public required AppUser AppUser { get; set; }     
+        public AppUser? AppUser { get; set; }     
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblog.Domain.Enums;
+using Weblog.Domain.JoinModels;
 
 namespace Weblog.Domain.Models
 {
@@ -26,6 +27,6 @@ namespace Weblog.Domain.Models
         public List<Tag> Tags { get; set; } = new List<Tag>();
         public List<Contributor> Contributors { get; set; } = new List<Contributor>(); // The hosts of podcast
         public List<Comment> Comments { get; set; } = new List<Comment>();
-   
+        public List<FavoritePodcast> FavoritePodcasts { get; set; } = new List<FavoritePodcast>();
     }
 }

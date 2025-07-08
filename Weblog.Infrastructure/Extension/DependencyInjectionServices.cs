@@ -26,6 +26,11 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IPodcastRepository, PodcastRepository>();
             services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IFavoriteArticleRepository, FavoriteArticleRepository>();
+            services.AddScoped<IFavoriteEventRepository, FavoriteEventRepository>();
+            services.AddScoped<IFavoritePodcastRepository, FavoritePodcastRepository>();
+
+
 
 
 
@@ -43,6 +48,11 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ISmsService, SmsService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IFavoriteArticleService, FavoriteArticleService>();
+            services.AddScoped<IFavoriteEventService, FavoriteEventService>();
+            services.AddScoped<IFavoritePodcastService, FavoritePodcastService>();
+
+
 
 
 

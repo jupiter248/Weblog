@@ -9,6 +9,6 @@ namespace Weblog.Application.Queries.FilteringParams
     public class CommentFilteringParams
     {
         public int? EntityId { get; set; }
-        public CommentParentType? EntityType { get; set; }
+        public CommentType? EntityType { get; set; }
     }
 }

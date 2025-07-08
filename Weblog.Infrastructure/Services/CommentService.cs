@@ -21,9 +21,8 @@ namespace Weblog.Infrastructure.Services
 {
     public class CommentService : ICommentService
     {
-        private readonly IMapper _mapper;
+        private readonly IMapper _mapper;   
         private readonly ICommentRepository _commentRepository;
-
         private readonly IArticleService _articleService; 
         private readonly IPodcastService _podcastService; 
         private readonly IEventService _eventService;
@@ -44,13 +43,13 @@ namespace Weblog.Infrastructure.Services
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
             switch (addCommentDto.EntityType)
             {
-                case CommentParentType.Article:
+                case CommentType.Article:
                     ArticleDto articleDto = await _articleService.GetArticleByIdAsync(addCommentDto.EntityId) ?? throw new NotFoundException("Article not found");
                     break;
-                case CommentParentType.Event:
+                case CommentType.Event:
                     EventDto eventDto = await _eventService.GetEventByIdAsync(addCommentDto.EntityId) ?? throw new NotFoundException("Event not found");
                     break;
-                case CommentParentType.Podcast:
+                case CommentType.Podcast:
                     PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(addCommentDto.EntityId) ?? throw new NotFoundException("Podcast not found");
                     break;
                 default:

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos;
 using Weblog.Application.Dtos.ArticleDtos;
+using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
@@ -16,9 +17,11 @@ namespace Weblog.API.Controllers
     public class ArticleController : ControllerBase
     {
         private readonly IArticleService _articleService;
-        public ArticleController(IArticleService articleService)
+        private readonly IFavoriteArticleService _favoriteArticleService;
+        public ArticleController(IArticleService articleService, IFavoriteArticleService favoriteArticleService)
         {
             _articleService = articleService;
+            _favoriteArticleService = favoriteArticleService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllArticles([FromQuery] FilteringParams filteringParams, [FromQuery] PaginationParams paginationParams)
@@ -54,7 +57,7 @@ namespace Weblog.API.Controllers
         public async Task<IActionResult> UpdateViewers(int id)
         {
             await _articleService.UpdateViewersAsync(id);
-            return NoContent(); 
+            return NoContent();
         }
         [HttpPut("{id:int}/like")]
         public async Task<IActionResult> UpdateLikes(int id)
@@ -83,7 +86,23 @@ namespace Weblog.API.Controllers
         [HttpDelete("{id:int}/contributor")]
         public async Task<IActionResult> DeleteContributorOfArticle(int id, int contributorId)
         {
-            await _articleService.DeleteContributorAsync(id , contributorId);
+            await _articleService.DeleteContributorAsync(id, contributorId);
+            return NoContent();
+        }
+        [HttpPost("{id:int}/favorite")]
+        public async Task<IActionResult> AddArticleToFavorite(int id)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
+            await _favoriteArticleService.AddArticleToFavoriteAsync(id, userId);
+            return NoContent();
+        }
+        [HttpDelete("{id:int}/favorite")]
+        public async Task<IActionResult> DeleteArticleOfFavorite(int id)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
+            await _favoriteArticleService.DeleteArticleFromFavoriteAsync(id, userId);
             return NoContent();
         }
     }

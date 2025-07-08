@@ -9,7 +9,7 @@ namespace Weblog.Application.Dtos.CommentDtos
     public class AddCommentDto
     {
         public required string Text { get; set; }
-        public CommentParentType EntityType { get; set; }
+        public CommentType EntityType { get; set; }
         public int EntityId { get; set; }
     }
 }

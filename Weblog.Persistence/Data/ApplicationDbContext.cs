@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Weblog.Domain.JoinModels;
 using Weblog.Domain.Models;
 
 namespace Weblog.Persistence.Data
@@ -19,10 +20,14 @@ namespace Weblog.Persistence.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<Medium> Media { get; set; }
         public DbSet<Podcast> Podcasts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Contributor> Contributors { get; set; }
         public DbSet<VerificationCode> VerificationCodes { get; set; }
-        public DbSet<Comment> Comments { get; set; }
+        public DbSet<FavoriteArticle> FavoriteArticles { get; set; }
+        public DbSet<FavoriteEvent> FavoriteEvents { get; set; }
+        public DbSet<FavoritePodcast> FavoritePodcasts { get; set; }
+
 
         
         
@@ -30,39 +35,32 @@ namespace Weblog.Persistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+           //Handling join tables of tags and contributors here//
             // many to many between article and tag
             modelBuilder.Entity<Article>()
                 .HasMany(t => t.Tags)
-                .WithMany(a => a.Articles);
-            // many to many between Article and contributor
-            modelBuilder.Entity<Article>()
-                .HasMany(c => c.Contributors)
                 .WithMany(a => a.Articles);
             // many to many between event and tag
             modelBuilder.Entity<Event>()
                 .HasMany(t => t.Tags)
                 .WithMany(e => e.Events);
-            // many to many between event and contributor
-            modelBuilder.Entity<Event>()
-                .HasMany(c => c.Contributors)
-                .WithMany(p => p.Events);
             // many to many between podcast and tag
             modelBuilder.Entity<Podcast>()
                 .HasMany(t => t.Tags)
                 .WithMany(p => p.Podcasts);
+
+            // many to many between Article and contributor
+            modelBuilder.Entity<Article>()
+                .HasMany(c => c.Contributors)
+                .WithMany(a => a.Articles);
+            // many to many between event and contributor
+            modelBuilder.Entity<Event>()
+                .HasMany(c => c.Contributors)
+                .WithMany(p => p.Events);
             // many to many between podcast and contributor
             modelBuilder.Entity<Podcast>()
                 .HasMany(c => c.Contributors)
                 .WithMany(p => p.Podcasts);
-            modelBuilder.Entity<Comment>()
-                .HasOne<AppUser>()                
-                .WithMany(u => u.Comments)          
-                .HasForeignKey(c => c.UserId);
-
-            modelBuilder.Entity<Medium>()
-                .HasOne<AppUser>()
-                .WithMany(m => m.Media)
-                .HasForeignKey(u => u.UserId);
 
             base.OnModelCreating(modelBuilder);
         }

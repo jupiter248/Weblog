@@ -17,8 +17,5 @@ namespace Weblog.Domain.Models
         public List<Podcast> Podcasts { get; set; } = new List<Podcast>();
         public List<Medium> Media { get; set; } = new List<Medium>();
         public List<Event> Events { get; set; } = new List<Event>();
-
-        
-
     }
 }

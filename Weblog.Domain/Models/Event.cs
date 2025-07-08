@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblog.Domain.JoinModels;
 
 namespace Weblog.Domain.Models
 {
@@ -33,6 +34,7 @@ namespace Weblog.Domain.Models
         public List<Tag> Tags { get; set; } = new List<Tag>();
         public List<Contributor> Contributors { get; set; } = new List<Contributor>();
         public List<Comment> Comments { get; set; } = new List<Comment>();
+        public List<FavoriteEvent> FavoriteEvents { get; set; } = new List<FavoriteEvent>();
 
         
     }

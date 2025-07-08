@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Weblog.Domain.Enums
 {
-    public enum CommentParentType
+    public enum CommentType
     {
         Article = 0,
         Event = 1,
