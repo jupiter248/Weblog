@@ -18,11 +18,14 @@ namespace Weblog.API.Controllers
     {
         private readonly IEventService _eventService;
         private readonly IFavoriteEventService _favoriteEventService;
+        private readonly ITakingPartService _takingPartService;
 
-        public EventController(IEventService eventService, IFavoriteEventService favoriteEventService)
+
+        public EventController(ITakingPartService takingPartService, IEventService eventService, IFavoriteEventService favoriteEventService)
         {
             _eventService = eventService;
             _favoriteEventService = favoriteEventService;
+            _takingPartService = takingPartService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllEvents([FromQuery] EventFilteringParams eventFilteringParams, [FromQuery] PaginationParams paginationParams)
@@ -104,6 +107,34 @@ namespace Weblog.API.Controllers
             string? userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
             await _favoriteEventService.DeleteEventFromFavoriteAsync(id, userId);
+            return NoContent();
+        }
+        [HttpPost("{id:int}/take-part")]
+        public async Task<IActionResult> TakePart(int id)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
+            await _takingPartService.TakePartAsync(id, userId);
+            return NoContent();
+        }
+        [HttpGet("{id:int}/participants")]
+        public async Task<IActionResult> GetAllParticipantsByEventId(int id)
+        {
+            List<ParticipantDto> participantDtos =  await _takingPartService.GetAllParticipantsAsync(id);
+            return Ok(participantDtos);
+        }
+        [HttpPut("{id:int}/taking-part")]
+        public async Task<IActionResult> UpdateTakingPart(int id, bool isConfirmed)
+        {
+            await _takingPartService.UpdateTakingPartAsync(id, isConfirmed);
+            return NoContent();
+        }
+        [HttpDelete("{id:int}/cancel-taking-part")]
+        public async Task<IActionResult> CancelTakingPart(int id)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
+            await _takingPartService.CancelTakingPartAsync(id, userId);
             return NoContent();
         }
     }

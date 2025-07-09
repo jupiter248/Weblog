@@ -12,10 +12,10 @@ namespace Weblog.Domain.JoinModels.Favorites
         public int EventId { get; set; }
         public Event? Event { get; set; }
         public required string UserId { get; set; }
-        public AppUser? AppUser { get; set; }
+        public required AppUser AppUser { get; set; }
         public bool IsConfirmed { get; set; }
         public DateTimeOffset ConfirmedAt { get; set; }
         public DateTimeOffset AskedAt { get; set; }
-
+        
     }
 }

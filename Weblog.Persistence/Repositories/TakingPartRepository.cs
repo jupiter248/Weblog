@@ -21,9 +21,9 @@ namespace Weblog.Persistence.Repositories
             _context.TakingParts.Remove(takingPart);
             await _context.SaveChangesAsync();        }
 
-        public async Task<List<TakingPart>> GetAllTakingPartsAsync(string userId)
+        public async Task<List<TakingPart>> GetAllTakingPartsByEventIdAsync( int eventId)
         {
-            return await _context.TakingParts.Include(t => t.AppUser).Include(t => t.Event).ToListAsync();
+            return await _context.TakingParts.Include(t => t.AppUser).Include(t => t.Event).Where(t => t.EventId == eventId).ToListAsync();
         }
 
         public async Task<TakingPart?> GetTakingPartByIdAsync(int id)
@@ -44,11 +44,18 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<bool> IsUserParticipant(TakingPart takingPart)
         {
-            TakingPart? takingPartExists = await _context.TakingParts.FirstOrDefaultAsync(t => t.UserId == takingPart.UserId && t.EventId == takingPart.EventId);            if (takingPartExists == null)
+            TakingPart? takingPartExists = await _context.TakingParts.FirstOrDefaultAsync(t => t.UserId == takingPart.UserId && t.EventId == takingPart.EventId);
+            if (takingPartExists == null)
             {
                 return false;
             }
             return true;
+        }
+
+        public async Task UpdateTakingPartAsync(TakingPart takingPart)
+        {
+            _context.TakingParts.Update(takingPart);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -7,9 +7,12 @@ namespace Weblog.Application.Dtos.EventDtos
 {
     public class ParticipantDto
     {
+        public int Id { get; set; }
         public required string Phone { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
-        public bool IsConfirmed { get; set; } = false;
+        public required string Username { get; set; }
+
+        public required bool IsConfirmed { get; set; } = false;
     }
 }
