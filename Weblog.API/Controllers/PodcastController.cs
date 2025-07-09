@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.PodcastDtos;
+using Weblog.Application.Extensions;
+using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
@@ -15,9 +17,12 @@ namespace Weblog.API.Controllers
     public class PodcastController : ControllerBase
     {
         private readonly IPodcastService _podcastService;
-        public PodcastController(IPodcastService podcastService)
+        private readonly IFavoritePodcastService _favoritePodcastService;
+
+        public PodcastController(IPodcastService podcastService, IFavoritePodcastService favoritePodcastService)
         {
             _podcastService = podcastService;
+            _favoritePodcastService = favoritePodcastService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllPodcasts([FromQuery] FilteringParams filteringParams, [FromQuery] PaginationParams paginationParams)
@@ -70,7 +75,23 @@ namespace Weblog.API.Controllers
         [HttpDelete("{id:int}/contributor")]
         public async Task<IActionResult> DeleteContributorOfPodcast(int id, int contributorId)
         {
-            await _podcastService.DeleteContributorAsync(id , contributorId);
+            await _podcastService.DeleteContributorAsync(id, contributorId);
+            return NoContent();
+        }
+        [HttpPost("{id:int}/favorite")]
+        public async Task<IActionResult> AddArticleToFavorite(int id)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
+            await _favoritePodcastService.AddPodcastToFavoriteAsync(id, userId);
+            return NoContent();
+        }
+        [HttpDelete("{id:int}/favorite")]
+        public async Task<IActionResult> DeleteArticleOfFavorite(int id)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
+            await _favoritePodcastService.DeletePodcastFromFavoriteAsync(id, userId);
             return NoContent();
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.EventDtos;
+using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
@@ -16,9 +17,12 @@ namespace Weblog.API.Controllers
     public class EventController : ControllerBase
     {
         private readonly IEventService _eventService;
-        public EventController(IEventService eventService)
+        private readonly IFavoriteEventService _favoriteEventService;
+
+        public EventController(IEventService eventService, IFavoriteEventService favoriteEventService)
         {
             _eventService = eventService;
+            _favoriteEventService = favoriteEventService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllEvents([FromQuery] EventFilteringParams eventFilteringParams, [FromQuery] PaginationParams paginationParams)
@@ -84,6 +88,22 @@ namespace Weblog.API.Controllers
         public async Task<IActionResult> DeleteContributorOfEvent(int id, int contributorId)
         {
             await _eventService.DeleteContributorAsync(id, contributorId);
+            return NoContent();
+        }
+        [HttpPost("{id:int}/favorite")]
+        public async Task<IActionResult> AddArticleToFavorite(int id)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
+            await _favoriteEventService.AddEventToFavoriteAsync(id, userId);
+            return NoContent();
+        }
+        [HttpDelete("{id:int}/favorite")]
+        public async Task<IActionResult> DeleteArticleOfFavorite(int id)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
+            await _favoriteEventService.DeleteEventFromFavoriteAsync(id, userId);
             return NoContent();
         }
     }
