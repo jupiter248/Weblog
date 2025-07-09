@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Weblog.Application.Dtos
+namespace Weblog.Application.Dtos.Common
 {
     public class Permissions
     {

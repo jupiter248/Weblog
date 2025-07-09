@@ -29,6 +29,8 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IFavoriteArticleRepository, FavoriteArticleRepository>();
             services.AddScoped<IFavoriteEventRepository, FavoriteEventRepository>();
             services.AddScoped<IFavoritePodcastRepository, FavoritePodcastRepository>();
+            services.AddScoped<ITakingPartRepository, TakingPartRepository>();
+
 
 
 

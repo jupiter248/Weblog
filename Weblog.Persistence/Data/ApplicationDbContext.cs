@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Weblog.Domain.JoinModels;
+using Weblog.Domain.JoinModels.Favorites;
 using Weblog.Domain.Models;
 
 namespace Weblog.Persistence.Data
@@ -27,6 +28,8 @@ namespace Weblog.Persistence.Data
         public DbSet<FavoriteArticle> FavoriteArticles { get; set; }
         public DbSet<FavoriteEvent> FavoriteEvents { get; set; }
         public DbSet<FavoritePodcast> FavoritePodcasts { get; set; }
+        public DbSet<TakingPart> TakingParts { get; set; }
+
 
 
         

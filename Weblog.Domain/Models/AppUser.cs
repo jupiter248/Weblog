@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Weblog.Domain.JoinModels;
+using Weblog.Domain.JoinModels.Favorites;
 using Weblog.Domain.Models;
 
 namespace Weblog.Domain.Models
@@ -18,5 +19,7 @@ namespace Weblog.Domain.Models
         public List<FavoriteArticle> FavoriteArticles { get; set; } = new List<FavoriteArticle>();
         public List<FavoriteEvent> FavoriteEvents { get; set; } = new List<FavoriteEvent>();
         public List<FavoritePodcast> FavoritePodcasts { get; set; } = new List<FavoritePodcast>();
+        public List<TakingPart> TakingParts { get; set; } = new List<TakingPart>();
+
     }
 }
