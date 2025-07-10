@@ -54,6 +54,8 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IFavoriteEventService, FavoriteEventService>();
             services.AddScoped<IFavoritePodcastService, FavoritePodcastService>();
             services.AddScoped<ITakingPartService, TakingPartService>();
+            services.AddScoped<IUserService, UserService>();
+
 
 
 

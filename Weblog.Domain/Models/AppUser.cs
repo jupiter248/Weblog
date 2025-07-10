@@ -14,6 +14,8 @@ namespace Weblog.Domain.Models
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string FullName { get; set; }
+        public  DateTimeOffset CreatedAt { get; set; }
+        public  DateTimeOffset UpdatedAt { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<Medium> Media { get; set; } = new List<Medium>();
         public List<FavoriteArticle> FavoriteArticles { get; set; } = new List<FavoriteArticle>();

@@ -12,6 +12,7 @@ using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Dtos.MediaDtos;
 using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Dtos.TagDtos;
+using Weblog.Application.Dtos.UserDtos;
 using Weblog.Domain.JoinModels;
 using Weblog.Domain.Models;
 
@@ -66,6 +67,11 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.AppUser.FullName));
             CreateMap<AddCommentDto, Comment>();
             CreateMap<UpdateCommentDto, Comment>();
+            //User
+            CreateMap<UpdateUserDto, AppUser>();
+            CreateMap<AppUser, UserDto>()
+                .ForMember(dest => dest.Media, opt => opt.MapFrom(src => src.Media));
+
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Weblog.Infrastructure.Services
         }
         public async Task CancelTakingPartAsync(int eventId, string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(userId);
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
             TakingPart takingPart = new TakingPart
             {
@@ -65,7 +65,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task TakePartAsync(int eventId, string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(userId);
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
             TakingPart takingPart = new TakingPart
             {

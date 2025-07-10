@@ -88,7 +88,8 @@ namespace Weblog.Infrastructure.Services
                 UserName = registerDto.Username,
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
-                FullName = $"{registerDto.FirstName} {registerDto.LastName}"
+                FullName = $"{registerDto.FirstName} {registerDto.LastName}",
+                CreatedAt = DateTimeOffset.UtcNow
             };
 
             var createdUser = await _userManager.CreateAsync(appUser);
