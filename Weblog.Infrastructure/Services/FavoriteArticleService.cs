@@ -8,7 +8,9 @@ using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Domain.Enums;
 using Weblog.Domain.JoinModels;
+using Weblog.Domain.JoinModels.Favorites;
 using Weblog.Domain.Models;
 
 namespace Weblog.Infrastructure.Services
@@ -28,7 +30,7 @@ namespace Weblog.Infrastructure.Services
             _articleRepo = articleRepository;
         }
 
-        public async Task AddArticleToFavoriteAsync(int articleId, string userId)
+        public async Task AddArticleToFavoriteAsync(int articleId, string userId , int favoriteListId)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
             Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");

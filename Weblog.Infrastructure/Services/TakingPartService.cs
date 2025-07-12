@@ -8,7 +8,7 @@ using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
-using Weblog.Domain.JoinModels.Favorites;
+using Weblog.Domain.JoinModels;
 using Weblog.Domain.Models;
 
 namespace Weblog.Infrastructure.Services

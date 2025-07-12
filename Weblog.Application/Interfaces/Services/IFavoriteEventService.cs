@@ -9,7 +9,7 @@ namespace Weblog.Application.Interfaces.Services
     public interface IFavoriteEventService
     {
         Task<List<EventDto>> GetAllFavoriteEventsAsync(string userId);
-        Task AddEventToFavoriteAsync(int eventId , string userId);
+        Task AddEventToFavoriteAsync(int eventId , string userId , int favoriteListId);
         Task DeleteEventFromFavoriteAsync(int eventId , string userId);
     }
 }

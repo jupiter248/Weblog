@@ -28,7 +28,7 @@ namespace Weblog.Infrastructure.Services
             _eventRepo = eventRepo;
         }
 
-        public async Task AddEventToFavoriteAsync(int eventId, string userId)
+        public async Task AddEventToFavoriteAsync(int eventId, string userId , int favoriteListId)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");

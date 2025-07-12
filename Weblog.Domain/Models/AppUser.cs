@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Weblog.Domain.JoinModels;
-using Weblog.Domain.JoinModels.Favorites;
 using Weblog.Domain.Models;
 
 namespace Weblog.Domain.Models

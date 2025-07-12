@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblog.Domain.JoinModels;
-using Weblog.Domain.JoinModels.Favorites;
 
 namespace Weblog.Domain.Models
 {

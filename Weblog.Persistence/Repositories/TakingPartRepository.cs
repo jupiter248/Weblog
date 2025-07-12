@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblog.Application.Interfaces.Repositories;
-using Weblog.Domain.JoinModels.Favorites;
+using Weblog.Domain.JoinModels;
 using Weblog.Persistence.Data;
 
 namespace Weblog.Persistence.Repositories

@@ -30,7 +30,7 @@ namespace Weblog.Infrastructure.Services
             _podcastRepo = podcastRepo;
         }
 
-        public async Task AddPodcastToFavoriteAsync(int podcastId, string userId)
+        public async Task AddPodcastToFavoriteAsync(int podcastId, string userId , int favoriteListId) 
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
             Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException("Podcast not found");

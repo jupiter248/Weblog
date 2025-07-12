@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblog.Domain.Enums;
+using Weblog.Domain.JoinModels.Favorites;
 using Weblog.Domain.Models;
 
 namespace Weblog.Domain.JoinModels
@@ -13,5 +15,7 @@ namespace Weblog.Domain.JoinModels
         public Podcast? Podcast { get; set; }
         public required string UserId { get; set; }
         public AppUser? AppUser { get; set; }
+        public int FavoriteListId { get; set; }
+        public FavoriteList? FavoriteList { get; set; }
     }
 }

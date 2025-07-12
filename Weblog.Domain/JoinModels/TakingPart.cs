@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblog.Domain.Models;
 
-namespace Weblog.Domain.JoinModels.Favorites
+namespace Weblog.Domain.JoinModels
 {
     public class TakingPart
     {

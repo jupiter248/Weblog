@@ -29,6 +29,8 @@ namespace Weblog.Persistence.Data
         public DbSet<FavoriteEvent> FavoriteEvents { get; set; }
         public DbSet<FavoritePodcast> FavoritePodcasts { get; set; }
         public DbSet<TakingPart> TakingParts { get; set; }
+        public DbSet<FavoriteList> FavoriteLists { get; set; }
+        
 
 
 
@@ -38,7 +40,7 @@ namespace Weblog.Persistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           //Handling join tables of tags and contributors here//
+            //Handling join tables of tags and contributors here//
             // many to many between article and tag
             modelBuilder.Entity<Article>()
                 .HasMany(t => t.Tags)

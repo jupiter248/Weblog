@@ -9,7 +9,7 @@ namespace Weblog.Application.Interfaces.Services
     public interface IFavoritePodcastService
     {
         Task<List<PodcastDto>> GetAllFavoritePodcastsAsync(string userId);
-        Task AddPodcastToFavoriteAsync(int podcastId , string userId);
+        Task AddPodcastToFavoriteAsync(int podcastId , string userId , int favoriteListId);
         Task DeletePodcastFromFavoriteAsync(int podcastId , string userId);
     }
 }
