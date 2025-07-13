@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblog.Application.Dtos.ArticleDtos;
+using Weblog.Application.Dtos.EventDtos;
+using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Domain.Enums;
-using Weblog.Domain.Models;
 
-namespace Weblog.Domain.JoinModels.Favorites
+namespace Weblog.Application.Dtos.FavoriteListDtos
 {
-    public class FavoriteList
+    public class FavoriteListDto
     {
         [Key]
         public int Id { get; set; }
@@ -17,10 +19,8 @@ namespace Weblog.Domain.JoinModels.Favorites
         public required FavoriteListType EntityType { get; set; }
         public required DateTimeOffset CreatedAt { get; set; }
         public required DateTimeOffset UpdatedAt { get; set; }
-        public required string UserId { get; set; }
-        public AppUser? appUser { get; set; }
-        public List<Article> Articles { get; set; } = new List<Article>();
-        public List<Event> Events { get; set; } = new List<Event>();
-        public List<Podcast> Podcasts { get; set; } = new List<Podcast>();
+        public List<ArticleDto>? Articles { get; set; }
+        public List<EventDto>? Events { get; set; }
+        public List<PodcastDto>? Podcasts { get; set; }
     }
 }

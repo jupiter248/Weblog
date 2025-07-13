@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Weblog.Application.Dtos.FavoritesDtos.EventFavoriteDtos;
+using Weblog.Application.Dtos.FavoritesDtos.PodcastFavoriteDto;
 using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Repositories;
@@ -78,12 +80,12 @@ namespace Weblog.API.Controllers
             await _podcastService.DeleteContributorAsync(id, contributorId);
             return NoContent();
         }
-        [HttpPost("{id:int}/favorite")]
-        public async Task<IActionResult> AddArticleToFavorite(int id)
+        [HttpPost("favorite")]
+        public async Task<IActionResult> AddArticleToFavorite(AddFavoritePodcastDto addFavoritePodcastDto)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
-            await _favoritePodcastService.AddPodcastToFavoriteAsync(id, userId);
+            await _favoritePodcastService.AddPodcastToFavoriteAsync( userId , addFavoritePodcastDto);
             return NoContent();
         }
         [HttpDelete("{id:int}/favorite")]

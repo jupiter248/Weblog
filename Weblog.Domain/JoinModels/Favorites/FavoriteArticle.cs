@@ -13,5 +13,6 @@ namespace Weblog.Domain.JoinModels
         public Article? Article { get; set; }
         public required string UserId { get; set; }
         public AppUser? AppUser { get; set; }
+        public int? FavoriteListId { get; set; }
     }
 }

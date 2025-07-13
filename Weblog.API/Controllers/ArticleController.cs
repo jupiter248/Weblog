@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos;
 using Weblog.Application.Dtos.ArticleDtos;
+using Weblog.Application.Dtos.FavoritesDtos.ArticleFavoriteDto;
 using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
@@ -89,12 +90,12 @@ namespace Weblog.API.Controllers
             await _articleService.DeleteContributorAsync(id, contributorId);
             return NoContent();
         }
-        [HttpPost("{id:int}/favorite")]
-        public async Task<IActionResult> AddArticleToFavorite(int id)
+        [HttpPost("/favorite")]
+        public async Task<IActionResult> AddArticleToFavorite(AddFavoriteArticleDto addFavoriteArticleDto)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
-            await _favoriteArticleService.AddArticleToFavoriteAsync(id, userId);
+            await _favoriteArticleService.AddArticleToFavoriteAsync( userId , addFavoriteArticleDto);
             return NoContent();
         }
         [HttpDelete("{id:int}/favorite")]

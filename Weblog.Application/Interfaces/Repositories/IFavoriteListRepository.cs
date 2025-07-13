@@ -8,9 +8,9 @@ namespace Weblog.Application.Interfaces.Repositories
 {
     public interface IFavoriteListRepository
     {
-        Task<List<FavoriteList>> GetAllFavoritesListAsync();
+        Task<List<FavoriteList>> GetAllFavoritesListAsync(string userId);
         Task<FavoriteList> AddFavoriteListAsync(FavoriteList favoriteList);
-        Task<FavoriteList?> GetFavoriteListByIdAsync(int favoriteListId);
+        Task<FavoriteList?> GetFavoriteListByIdAsync(int? favoriteListId);
         Task UpdateFavoriteListAsync(FavoriteList favoriteList);
         Task DeleteFavoriteListAsync(FavoriteList favoriteList);    
     }

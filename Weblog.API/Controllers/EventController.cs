@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.EventDtos;
+using Weblog.Application.Dtos.FavoritesDtos.EventFavoriteDtos;
 using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
@@ -93,12 +94,12 @@ namespace Weblog.API.Controllers
             await _eventService.DeleteContributorAsync(id, contributorId);
             return NoContent();
         }
-        [HttpPost("{id:int}/favorite")]
-        public async Task<IActionResult> AddArticleToFavorite(int id)
+        [HttpPost("favorite")]
+        public async Task<IActionResult> AddArticleToFavorite(AddFavoriteEventDto addFavoriteEventDto)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
-            await _favoriteEventService.AddEventToFavoriteAsync(id, userId);
+            await _favoriteEventService.AddEventToFavoriteAsync(userId , addFavoriteEventDto);
             return NoContent();
         }
         [HttpDelete("{id:int}/favorite")]

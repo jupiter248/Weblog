@@ -30,11 +30,11 @@ namespace Weblog.API.Controllers
             return Ok(userDto);
         }
         [HttpPut("{userId}")]
-        public async Task<IActionResult> UpdateUser(string userId , UpdateUserDto updateUserDto)
+        public async Task<IActionResult> UpdateUser(string userId, UpdateUserDto updateUserDto)
         {
-            await _userService.UpdateUserAsync(updateUserDto , userId);
+            await _userService.UpdateUserAsync(updateUserDto, userId);
             return Ok("User updated successfully");
-        } 
+        }
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteUser(string userId)
         {

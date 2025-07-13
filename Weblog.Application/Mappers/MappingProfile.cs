@@ -9,11 +9,13 @@ using Weblog.Application.Dtos.CategoryDtos;
 using Weblog.Application.Dtos.CommentDtos;
 using Weblog.Application.Dtos.ContributorDtos;
 using Weblog.Application.Dtos.EventDtos;
+using Weblog.Application.Dtos.FavoriteListDtos;
 using Weblog.Application.Dtos.MediaDtos;
 using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Dtos.TagDtos;
 using Weblog.Application.Dtos.UserDtos;
 using Weblog.Domain.JoinModels;
+using Weblog.Domain.JoinModels.Favorites;
 using Weblog.Domain.Models;
 
 namespace Weblog.Application.Mappers
@@ -71,6 +73,14 @@ namespace Weblog.Application.Mappers
             CreateMap<UpdateUserDto, AppUser>();
             CreateMap<AppUser, UserDto>()
                 .ForMember(dest => dest.Media, opt => opt.MapFrom(src => src.Media));
+            //Favorite List
+            CreateMap<FavoriteList, FavoriteListDto>()
+                .ForMember(dest => dest.Articles, opt => opt.MapFrom(src => src.Articles))
+                .ForMember(dest => dest.Events, opt => opt.MapFrom(src => src.Events))
+                .ForMember(dest => dest.Podcasts, opt => opt.MapFrom(src => src.Podcasts));
+            CreateMap<AddFavoriteListDto, FavoriteList>();
+            CreateMap<UpdateFavoriteListDto, FavoriteList>();
+
 
         }
     }
