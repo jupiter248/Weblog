@@ -77,7 +77,7 @@ namespace Weblog.Infrastructure.Services
             List<FavoriteArticle> favoriteArticles = await _favoriteArticleRepo.GetAllFavoriteArticlesAsync(userId);
             if (favoriteListId.HasValue)
             {
-                favoriteArticles = favoriteArticles.Where(f => f.FavoriteListId == favoriteListId).ToList();
+                favoriteArticles = favoriteArticles = favoriteArticles.Where(f => f.FavoriteListId == favoriteListId).ToList();
             }
             List<ArticleDto> articleDtos = _mapper.Map<List<ArticleDto>>(favoriteArticles.Select(f => f.Article));
             return articleDtos;

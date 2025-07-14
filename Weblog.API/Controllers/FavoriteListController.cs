@@ -68,7 +68,7 @@ namespace Weblog.API.Controllers
             return NoContent();
         }
         [HttpGet("event")]
-        public async Task<IActionResult> GetAllFavoriteEvents([FromBody] int? favoriteListId)
+        public async Task<IActionResult> GetAllFavoriteEvents([FromQuery] int? favoriteListId)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
@@ -76,7 +76,7 @@ namespace Weblog.API.Controllers
             return Ok(eventDtos);
         }
         [HttpGet("podcast")]
-        public async Task<IActionResult> GetAllFavoritePodcasts([FromBody] int? favoriteListId)
+        public async Task<IActionResult> GetAllFavoritePodcasts([FromQuery] int? favoriteListId)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
@@ -84,7 +84,7 @@ namespace Weblog.API.Controllers
             return Ok(podcastDtos);
         }
         [HttpGet("article")]
-        public async Task<IActionResult> GetAllFavoriteArticles([FromBody] int? favoriteListId)
+        public async Task<IActionResult> GetAllFavoriteArticles([FromQuery] int? favoriteListId)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");

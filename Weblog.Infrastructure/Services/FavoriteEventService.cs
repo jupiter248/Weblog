@@ -75,7 +75,7 @@ namespace Weblog.Infrastructure.Services
             List<FavoriteEvent> favoriteEvents = await _favoriteEventRepo.GetAllFavoriteEventsAsync(userId);
             if (favoriteListId.HasValue)
             {
-                favoriteEvents.Where(f => f.FavoriteListId == favoriteListId).ToList();
+               favoriteEvents = favoriteEvents.Where(f => f.FavoriteListId == favoriteListId).ToList();
             }
             List<EventDto> eventDtos = _mapper.Map<List<EventDto>>(favoriteEvents.Select(f => f.Event));
             return eventDtos;
