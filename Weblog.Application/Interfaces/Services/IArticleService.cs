@@ -12,7 +12,7 @@ namespace Weblog.Application.Interfaces.Services
 {
     public interface IArticleService
     {
-        Task<List<ArticleDto>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams);
+        Task<List<ArticleSummaryDto>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams);
         Task<ArticleDto> GetArticleByIdAsync(int articleId);
         Task<ArticleDto> AddArticleAsync(AddArticleDto addArticleDto);
         Task UpdateViewersAsync(int articleId);

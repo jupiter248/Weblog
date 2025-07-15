@@ -31,8 +31,8 @@ namespace Weblog.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllEvents([FromQuery] EventFilteringParams eventFilteringParams, [FromQuery] PaginationParams paginationParams)
         {
-            List<EventDto> eventDtos = await _eventService.GetAllEventsAsync(paginationParams, eventFilteringParams);
-            return Ok(eventDtos);
+            List<EventSummaryDto> eventSummaryDtos = await _eventService.GetAllEventsAsync(paginationParams, eventFilteringParams);
+            return Ok(eventSummaryDtos);
         }
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetEventById(int id)

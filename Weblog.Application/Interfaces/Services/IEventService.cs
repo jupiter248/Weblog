@@ -10,7 +10,7 @@ namespace Weblog.Application.Interfaces.Services
 {
     public interface IEventService
     {
-        Task<List<EventDto>> GetAllEventsAsync(PaginationParams paginationParams, EventFilteringParams eventFilteringParams);
+        Task<List<EventSummaryDto>> GetAllEventsAsync(PaginationParams paginationParams, EventFilteringParams eventFilteringParams);
         Task<EventDto> GetEventByIdAsync(int eventId);
         Task<EventDto> AddEventAsync(AddEventDto addEventDto);
         Task UpdateViewersAsync(int eventId);

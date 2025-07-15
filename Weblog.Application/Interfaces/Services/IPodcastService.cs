@@ -10,7 +10,7 @@ namespace Weblog.Application.Interfaces.Services
 {
     public interface IPodcastService
     {
-        Task<List<PodcastDto>> GetAllPodcastsAsync(PaginationParams paginationParams, FilteringParams filteringParams);
+        Task<List<PodcastSummaryDto>> GetAllPodcastsAsync(PaginationParams paginationParams, FilteringParams filteringParams);
         Task<PodcastDto> GetPodcastByIdAsync(int podcastId);
         Task<PodcastDto> AddPodcastAsync(AddPodcastDto addPodcastDto);
         Task UpdatePodcastAsync(UpdatePodcastDto updatePodcastDto, int podcastId);

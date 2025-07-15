@@ -80,11 +80,11 @@ namespace Weblog.Infrastructure.Services
             await _podcastRepo.DeleteTagAsync(podcast, tag);
         }
 
-        public async Task<List<PodcastDto>> GetAllPodcastsAsync(PaginationParams paginationParams, FilteringParams filteringParams)
+        public async Task<List<PodcastSummaryDto>> GetAllPodcastsAsync(PaginationParams paginationParams, FilteringParams filteringParams)
         {
             List<Podcast> podcasts = await _podcastRepo.GetAllPodcastsAsync(filteringParams, paginationParams);
-            List<PodcastDto> podcastDtos = _mapper.Map<List<PodcastDto>>(podcasts);
-            return podcastDtos;
+            List<PodcastSummaryDto> podcastSummaryDtos = _mapper.Map<List<PodcastSummaryDto>>(podcasts);
+            return podcastSummaryDtos;
         }
 
         public async Task<PodcastDto> GetPodcastByIdAsync(int podcastId)

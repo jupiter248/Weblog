@@ -34,7 +34,8 @@ namespace Weblog.Infrastructure.Services
         {
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
             Contributor contributor = await _contributorRepo.GetContributorByIdAsync(eventId) ?? throw new NotFoundException("Contributor not found");
-            await _eventRepo.AddContributorAsync(eventModel,contributor);        }
+            await _eventRepo.AddContributorAsync(eventModel, contributor); 
+       }
 
         public async Task<EventDto> AddEventAsync(AddEventDto addEventDto)
         {
@@ -81,11 +82,11 @@ namespace Weblog.Infrastructure.Services
             await _eventRepo.DeleteTagFromEvent(eventModel ,tag);
         }
 
-        public async Task<List<EventDto>> GetAllEventsAsync(PaginationParams paginationParams, EventFilteringParams eventFilteringParams)
+        public async Task<List<EventSummaryDto>> GetAllEventsAsync(PaginationParams paginationParams, EventFilteringParams eventFilteringParams)
         {
             List<Event> events = await _eventRepo.GetAllEventsAsync(eventFilteringParams,paginationParams);
-            List<EventDto> eventDtos = _mapper.Map<List<EventDto>>(events);
-            return eventDtos;
+            List<EventSummaryDto> eventSummaryDtos = _mapper.Map<List<EventSummaryDto>>(events);
+            return eventSummaryDtos;
         }
 
         public async Task<EventDto> GetEventByIdAsync(int eventId)

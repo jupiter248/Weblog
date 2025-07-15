@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.CategoryDtos;
 using Weblog.Application.Interfaces.Services;
@@ -33,18 +34,21 @@ namespace Weblog.API.Controllers
             CategoryDto categoryDto = await _categoryService.GetCategoryByIdAsync(id);
             return Ok(categoryDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddCategory([FromQuery] AddCategoryDto addCategoryDto)
         {
             CategoryDto categoryDto = await _categoryService.AddCategoryAsync(addCategoryDto);
             return CreatedAtAction(nameof(GetCategoryById), new { id = categoryDto.Id }, categoryDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateCategory([FromRoute] int id, [FromBody] UpdateCategoryDto updateCategoryDto)
         {
             await _categoryService.UpdateCategoryAsync(updateCategoryDto, id);
             return NoContent();
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteCategory([FromRoute] int id)
         {

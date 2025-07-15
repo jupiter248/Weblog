@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.ContributorDtos;
 using Weblog.Application.Interfaces.Services;
@@ -29,18 +30,21 @@ namespace Weblog.API.Controllers
             ContributorDto contributorDto = await _contributorService.GetContributorByIdAsync(id);
             return Ok(contributorDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddContributor([FromBody] AddContributorDto addContributorDto)
         {
             ContributorDto contributorDto = await _contributorService.AddContributorAsync(addContributorDto);
             return CreatedAtAction(nameof(GetContributorById), new { id = contributorDto.Id }, contributorDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateContributor([FromRoute] int id, [FromBody] UpdateContributorDto updateContributorDto)
         {
             await _contributorService.UpdateContributorAsync(updateContributorDto, id);
             return NoContent();
         } 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteContributor([FromRoute] int id)
         {

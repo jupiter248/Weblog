@@ -55,10 +55,10 @@ namespace Weblog.Infrastructure.Services
             await _articleRepo.DeleteArticleByIdAsync(article);
         }
 
-        public async Task<List<ArticleDto>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
+        public async Task<List<ArticleSummaryDto>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
         {
             List<Article> articles = await _articleRepo.GetAllArticlesAsync(paginationParams, filteringParams);
-            List<ArticleDto> articleDtos = _mapper.Map<List<ArticleDto>>(articles);
+            List<ArticleSummaryDto> articleDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
             return articleDtos;
         }
 

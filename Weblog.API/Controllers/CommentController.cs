@@ -28,6 +28,7 @@ namespace Weblog.API.Controllers
             List<CommentDto> commentDtos = await _commentService.GetAllCommentsAsync(commentFilteringParams, paginationParams);
             return Ok(commentDtos);
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetCommentById([FromRoute] int id)
         {

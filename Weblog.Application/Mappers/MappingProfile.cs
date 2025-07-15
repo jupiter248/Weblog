@@ -30,6 +30,9 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+            CreateMap<Article, ArticleSummaryDto>()
+                .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
+                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
             CreateMap<AddArticleDto, Article>();
             CreateMap<UpdateArticleDto, Article>();
             // Category
@@ -54,6 +57,9 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+            CreateMap<Event, EventSummaryDto>()
+                .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
+                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
             CreateMap<AddEventDto, Event>();
             CreateMap<UpdateEventDto, Event>();
             //Podcast
@@ -62,6 +68,9 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+            CreateMap<Podcast, PodcastSummaryDto>()
+                .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
+                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
             CreateMap<AddPodcastDto, Podcast>();
             CreateMap<UpdatePodcastDto, Podcast>();
             //Comment
