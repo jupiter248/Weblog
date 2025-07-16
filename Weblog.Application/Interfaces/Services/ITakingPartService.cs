@@ -10,6 +10,7 @@ namespace Weblog.Application.Interfaces.Services
     public interface ITakingPartService
     {
         Task<List<ParticipantDto>> GetAllParticipantsAsync(int eventId);
+        Task<List<EventSummaryDto>> GetAllTookPartEventsAsync(string userId , int? categoryId);
         Task TakePartAsync(int eventId , string userId);
         Task CancelTakingPartAsync(int eventId , string userId);
         Task UpdateTakingPartAsync(int id , bool isConfirmed);

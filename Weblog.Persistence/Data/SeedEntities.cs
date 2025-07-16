@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Weblog.Application.Dtos;
 using Weblog.Application.Dtos.Common;
+using Weblog.Domain.Models;
 
 namespace Weblog.Persistence.Data
 {

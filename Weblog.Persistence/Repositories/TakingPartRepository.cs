@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Domain.JoinModels;
 using Weblog.Persistence.Data;
@@ -56,6 +57,11 @@ namespace Weblog.Persistence.Repositories
         {
             _context.TakingParts.Update(takingPart);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<TakingPart>> GetAllTookPartsByEventsAsync(string userId)
+        {
+            return await _context.TakingParts.Where(t => t.UserId == userId).Include(e => e.Event).ToListAsync();
         }
     }
 }

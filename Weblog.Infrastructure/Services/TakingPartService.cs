@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Weblog.Application.CustomExceptions;
@@ -18,13 +19,16 @@ namespace Weblog.Infrastructure.Services
         private readonly ITakingPartRepository _takingPartRepo;
         private readonly IEventRepository _eventRepo;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IMapper _mapper;
 
 
-        public TakingPartService(ITakingPartRepository takingPartRepo, IEventRepository eventRepo, UserManager<AppUser> userManager)
+
+        public TakingPartService(IMapper mapper, ITakingPartRepository takingPartRepo, IEventRepository eventRepo, UserManager<AppUser> userManager)
         {
             _takingPartRepo = takingPartRepo;
             _userManager = userManager;
             _eventRepo = eventRepo;
+            _mapper = mapper;
         }
         public async Task CancelTakingPartAsync(int eventId, string userId)
         {
@@ -80,6 +84,17 @@ namespace Weblog.Infrastructure.Services
                 throw new ConflictException("You already took part");
             }
             await _takingPartRepo.TakePartAsync(takingPart);
+        }
+
+        public async Task<List<EventSummaryDto>> GetAllTookPartEventsAsync(string userId , int? categoryId)
+        {
+            List<TakingPart> takingParts = await _takingPartRepo.GetAllTookPartsByEventsAsync(userId);
+            List<EventSummaryDto> eventSummaryDtos = _mapper.Map<List<EventSummaryDto>>(takingParts.Select(t => t.Event).ToList());
+            if (categoryId.HasValue)
+            {
+                eventSummaryDtos = _mapper.Map<List<EventSummaryDto>>(takingParts.Where(t => t.Event.CategoryId == categoryId).ToList());
+            }
+            return eventSummaryDtos;
         }
     }
 }
