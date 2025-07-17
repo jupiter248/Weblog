@@ -53,13 +53,7 @@ var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var dbContext = services.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.Migrate(); // Ensure the database is created and migrations are applied
-    await SeedEntities.SeedRolesWithClaimsAsync(services);
-}
+await app.Services.ApplyMigrations();
 
 app.UseRouting();
 

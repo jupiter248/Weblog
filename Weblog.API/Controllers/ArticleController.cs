@@ -99,7 +99,7 @@ namespace Weblog.API.Controllers
             return NoContent();
         }
         [Authorize]
-        [HttpPost("/favorite")]
+        [HttpPost("favorite")]
         public async Task<IActionResult> AddArticleToFavorite(AddFavoriteArticleDto addFavoriteArticleDto)
         {
             string? userId = User.GetUserId();
