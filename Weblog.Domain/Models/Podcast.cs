@@ -28,5 +28,7 @@ namespace Weblog.Domain.Models
         public List<Contributor> Contributors { get; set; } = new List<Contributor>(); // The hosts of podcast
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<FavoritePodcast> FavoritePodcasts { get; set; } = new List<FavoritePodcast>();
+        public List<LikeContent> LikeContents { get; set; } = new List<LikeContent>();
+        public List<ViewContent> ViewContents { get; set; } = new List<ViewContent>();
     }
 }

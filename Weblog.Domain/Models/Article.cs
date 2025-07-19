@@ -30,6 +30,8 @@ namespace Weblog.Domain.Models
         public List<Contributor> Contributors { get; set; } = new List<Contributor>(); // The authors of article
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<FavoriteArticle> FavoriteArticles { get; set; } = new List<FavoriteArticle>();
+        public List<LikeContent> LikeContents { get; set; } = new List<LikeContent>();
+        public List<ViewContent> ViewContents { get; set; } = new List<ViewContent>();
 
 
     }

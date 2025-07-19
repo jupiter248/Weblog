@@ -29,7 +29,7 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<FavoriteList>> GetAllFavoritesListAsync(string   userId)
+        public async Task<List<FavoriteList>> GetAllFavoritesListAsync(string userId)
         {
             return await _context.FavoriteLists.Where(f => f.UserId == userId).Include(f => f.Articles).Include(f => f.Events).Include(f => f.Podcasts).ToListAsync();
         }
