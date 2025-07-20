@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using Weblog.Domain.Enums;
 using Weblog.Domain.JoinModels;
 
-namespace Weblog.Application.Interfaces.Repositories
+namespace Weblog.Application.Interfaces.Services
 {
-    public interface IViewContentRepository
+    public interface IViewContentService
     {
-        Task<ViewContent?> GetViewContentByIdAsync(int viewContentId);
-        Task<ViewContent> AddViewContentAsync(ViewContent viewContent);
+        Task AddViewContentAsync(string userId , int entityTypeId , LikeAndViewType entityType);
         Task<int> GetViewCountAsync(int entityTypeId , LikeAndViewType entityType);
     }
 }

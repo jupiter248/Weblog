@@ -25,12 +25,6 @@ namespace Weblog.Persistence.Repositories
             return viewContent;
         }
 
-        public async Task DeleteViewContentAsync(ViewContent viewContent)
-        {
-            _context.Remove(viewContent);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<ViewContent?> GetViewContentByIdAsync(int viewContentId)
         {
             ViewContent? viewContent = await _context.ViewContents.FirstOrDefaultAsync(l => l.Id == viewContentId);
