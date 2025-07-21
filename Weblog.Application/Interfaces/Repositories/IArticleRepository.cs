@@ -13,8 +13,6 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<List<Article>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams);
         Task<Article?> GetArticleByIdAsync(int articleId);
         Task<Article> AddArticleAsync(Article article);
-        Task UpdateViewersAsync(Article article);
-        Task UpdateLikesAsync(Article article);
         Task UpdateArticleAsync(Article currentArticle, Article newArticle);
         Task DeleteArticleByIdAsync(Article article);
         Task<List<Article>> SearchByTitleAsync(string keyword);
@@ -22,6 +20,6 @@ namespace Weblog.Application.Interfaces.Repositories
         Task DeleteTagAsync(Article article, Tag tag);
         Task AddContributorAsync(Article article, Contributor contributor);
         Task DeleteContributorAsync(Article article, Contributor contributor);
-
+        Task<bool> ArticleExistsAsync(int articleId);
     }
 } 

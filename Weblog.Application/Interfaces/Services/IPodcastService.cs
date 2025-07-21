@@ -15,9 +15,10 @@ namespace Weblog.Application.Interfaces.Services
         Task<PodcastDto> AddPodcastAsync(AddPodcastDto addPodcastDto);
         Task UpdatePodcastAsync(UpdatePodcastDto updatePodcastDto, int podcastId);
         Task DeletePodcastAsync(int podcastId);
-        Task AddTagAsync(int podcastId , int tagId);
-        Task DeleteTagAsync(int podcastId , int tagId);
-        Task AddContributorAsync(int podcastId , int contributorId);
-        Task DeleteContributorAsync(int podcastId , int contributorId);
+        Task AddTagAsync(int podcastId, int tagId);
+        Task DeleteTagAsync(int podcastId, int tagId);
+        Task AddContributorAsync(int podcastId, int contributorId);
+        Task DeleteContributorAsync(int podcastId, int contributorId);
+
     }
 }

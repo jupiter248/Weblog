@@ -38,7 +38,7 @@ namespace Weblog.API.Controllers
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
-            await _likeContentService.AddLikeContentAsync(userId, entityTypeId, entityType);
+            await _likeContentService.LikeAsync(userId, entityTypeId, entityType);
             return NoContent();
         }
         [Authorize]
@@ -47,7 +47,7 @@ namespace Weblog.API.Controllers
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
-            await _likeContentService.DeleteLikeContentAsync(userId, entityTypeId, entityType);
+            await _likeContentService.UnlikeAsync(userId, entityTypeId, entityType);
             return NoContent();
         }
     }

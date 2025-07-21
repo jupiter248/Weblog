@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Domain.Enums;
 using Weblog.Domain.JoinModels;
+using Weblog.Domain.Models;
 using Weblog.Persistence.Data;
 
 namespace Weblog.Persistence.Repositories
@@ -18,19 +19,6 @@ namespace Weblog.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<LikeContent> AddLikeContentAsync(LikeContent likeContent)
-        {
-            await _context.LikeContents.AddAsync(likeContent);
-            await _context.SaveChangesAsync();
-            return likeContent;
-        }
-
-        public async Task DeleteLikeContentAsync(LikeContent likeContent)
-        {
-            _context.LikeContents.Remove(likeContent);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<List<LikeContent>> GetAllContentLikesAsync(int entityTypeId, LikeAndViewType entityType)
         {
             return await _context.LikeContents.Where(l => l.EntityId == entityTypeId && l.EntityType == entityType).Include(a => a.AppUser).ToListAsync();
@@ -41,19 +29,39 @@ namespace Weblog.Persistence.Repositories
             return await _context.LikeContents.Where(u => u.UserId == UserId).ToListAsync();
         }
 
-        public async Task<LikeContent?> GetLikeContentByIdAsync(int likeContentId)
-        {
-            LikeContent? likeContent = await _context.LikeContents.FirstOrDefaultAsync(l => l.Id == likeContentId);
-            if (likeContent == null)
-            {
-                return null;
-            }
-            return likeContent;
-        }
-
         public async Task<int> GetLikeCountAsync(int entityTypeId, LikeAndViewType entityType)
         {
             return await _context.LikeContents.Where(e => e.EntityId == entityTypeId && e.EntityType == entityType).CountAsync();
+        }
+
+        public async Task<bool> IsLikedAsync(string userId, int entityTypeId, LikeAndViewType entityType)
+        {
+            LikeContent? likeContents = await _context.LikeContents.Where(l => l.UserId == userId && l.EntityId == entityTypeId && l.EntityType == entityType).FirstOrDefaultAsync();
+            if (likeContents == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task LikeAsync(AppUser appUser, int entityTypeId, LikeAndViewType entityType)
+        {
+            LikeContent likeContent = new LikeContent()
+            {
+                UserId = appUser.Id,
+                AppUser = appUser,
+                EntityId = entityTypeId,
+                EntityType = entityType
+            };
+            await _context.LikeContents.AddAsync(likeContent);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UnlikeAsync(string userId, int entityTypeId, LikeAndViewType entityType)
+        {
+            LikeContent? likeContent = await _context.LikeContents.Where(l => l.UserId == userId && l.EntityId == entityTypeId && l.EntityType == entityType).FirstOrDefaultAsync();
+            _context.LikeContents.Remove(likeContent);
+            await _context.SaveChangesAsync();
         }
     }
 }

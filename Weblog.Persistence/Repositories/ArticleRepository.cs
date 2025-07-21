@@ -40,6 +40,16 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> ArticleExistsAsync(int articleId)
+        {
+            Article? article = await _context.Articles.FirstOrDefaultAsync(a => a.Id == articleId);
+            if (article == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public async Task DeleteArticleByIdAsync(Article article)
         {
             _context.Articles.Remove(article);
@@ -108,18 +118,6 @@ namespace Weblog.Persistence.Repositories
             currentArticle.IsPublished = newArticle.IsPublished;
             currentArticle.CategoryId = newArticle.CategoryId;
             currentArticle.Category = newArticle.Category;
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateLikesAsync(Article article)
-        {
-            article.Likes++;
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateViewersAsync(Article article)
-        {
-            article.Viewers++;
             await _context.SaveChangesAsync();
         }
     }

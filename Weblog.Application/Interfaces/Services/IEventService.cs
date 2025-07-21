@@ -13,13 +13,12 @@ namespace Weblog.Application.Interfaces.Services
         Task<List<EventSummaryDto>> GetAllEventsAsync(PaginationParams paginationParams, EventFilteringParams eventFilteringParams);
         Task<EventDto> GetEventByIdAsync(int eventId);
         Task<EventDto> AddEventAsync(AddEventDto addEventDto);
-        Task UpdateViewersAsync(int eventId);
-        Task UpdateLikesAsync(int eventId);
         Task UpdateEventAsync(UpdateEventDto updateEventDto, int eventId);
         Task DeleteEventAsync(int eventId);
         Task AddTagAsync(int eventId, int tagId);
         Task DeleteTagAsync(int eventId, int tagId);
-        Task AddContributorAsync(int eventId , int contributorId);
-        Task DeleteContributorAsync(int eventId , int contributorId);
+        Task AddContributorAsync(int eventId, int contributorId);
+        Task DeleteContributorAsync(int eventId, int contributorId);
+
     }
 }

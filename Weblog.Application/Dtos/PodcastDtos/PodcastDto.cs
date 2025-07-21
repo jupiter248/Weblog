@@ -19,6 +19,8 @@ namespace Weblog.Application.Dtos.PodcastDtos
         public required string Description { get; set; }
         public required string Link { get; set; }
         public required bool IsDisplayed { get; set; }
+        public required int ViewCount { get; set; }
+        public required int LikeCount { get; set; }
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? DisplayedAt { get; set; }
         public List<MediumDto>? MediumDtos { get; set; }

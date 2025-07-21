@@ -58,18 +58,6 @@ namespace Weblog.API.Controllers
             await _articleService.DeleteArticleAsync(id);
             return NoContent();
         }
-        [HttpPut("{id:int}/viewer")]
-        public async Task<IActionResult> UpdateViewers(int id)
-        {
-            await _articleService.UpdateViewersAsync(id);
-            return NoContent();
-        }
-        [HttpPut("{id:int}/like")]
-        public async Task<IActionResult> UpdateLikes(int id)
-        {
-            await _articleService.UpdateLikesAsync(id);
-            return NoContent();
-        }
         [Authorize(Roles = "Admin")]
         [HttpPost("{id:int}/tag")]
         public async Task<IActionResult> AddTagToArticle(int id, int tagId)

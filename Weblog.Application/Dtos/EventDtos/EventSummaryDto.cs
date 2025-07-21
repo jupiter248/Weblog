@@ -15,7 +15,8 @@ namespace Weblog.Application.Dtos.EventDtos
         public required string Place { get; set; }
         public bool IsDisplayed { get; set; }
         public bool IsFinished { get; set; }
-        public int Viewers { get; set; }
+        public required int ViewCount { get; set; }
+        public required int LikeCount { get; set; }
         public List<ContributorDto>? ContributorDtos { get; set; }
         public List<MediumDto>? MediumDtos { get; set; }
 

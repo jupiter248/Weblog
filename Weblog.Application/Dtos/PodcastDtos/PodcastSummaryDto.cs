@@ -13,6 +13,8 @@ namespace Weblog.Application.Dtos.PodcastDtos
         public required string Name { get; set; }
         public required string Description { get; set; }
         public required bool IsDisplayed { get; set; }
+        public required int ViewCount { get; set; }
+        public required int LikeCount { get; set; }
         public List<MediumDto>? MediumDtos { get; set; }
         public List<ContributorDto>? ContributorDtos { get; set; }
 

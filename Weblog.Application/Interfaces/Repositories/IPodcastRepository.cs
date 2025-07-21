@@ -20,5 +20,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task DeleteTagAsync(Podcast podcast, Tag tag);
         Task AddContributorAsync(Podcast podcast, Contributor contributor);
         Task DeleteContributorAsync(Podcast podcast, Contributor contributor);
+        Task<bool> PodcastExistsAsync(int podcastId);
+
     }
 }

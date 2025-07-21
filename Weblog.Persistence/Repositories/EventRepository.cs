@@ -57,6 +57,16 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> EventExistsAsync(int eventId)
+        {
+            Event? eventModel = await _context.Events.FirstOrDefaultAsync(a => a.Id == eventId);
+            if (eventModel == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public async Task<List<Event>> GetAllEventsAsync(EventFilteringParams eventFilteringParams, PaginationParams paginationParams)
         {
             var eventQuery = _context.Events.Include(c => c.Contributors).Include(c => c.Category).Include(t => t.Tags).AsQueryable();
@@ -108,16 +118,5 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateLikesAsync(Event eventModel)
-        {
-            eventModel.Likes++;
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateViewersAsync(Event eventModel)
-        {
-            eventModel.Viewers++;
-            await _context.SaveChangesAsync();
-        }
     }
 }

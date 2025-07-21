@@ -119,17 +119,5 @@ namespace Weblog.Infrastructure.Services
             eventModel.UpdatedAt = DateTimeOffset.Now;
             await _eventRepo.UpdateEventAsync(eventModel);
         }
-
-        public async Task UpdateLikesAsync(int eventId)
-        {
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
-            await _eventRepo.UpdateLikesAsync(eventModel);
-        }
-
-        public async Task UpdateViewersAsync(int eventId)
-        {
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
-            await _eventRepo.UpdateViewersAsync(eventModel);
-        }
     }
 }

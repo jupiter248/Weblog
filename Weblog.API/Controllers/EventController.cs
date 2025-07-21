@@ -58,18 +58,6 @@ namespace Weblog.API.Controllers
             await _eventService.DeleteEventAsync(id);
             return NoContent();
         }
-        [HttpPut("{id:int}/viewer")]
-        public async Task<IActionResult> UpdateViewers(int id)
-        {
-            await _eventService.UpdateViewersAsync(id);
-            return NoContent();
-        }
-        [HttpPut("{id:int}/like")]
-        public async Task<IActionResult> UpdateLikes(int id)
-        {
-            await _eventService.UpdateLikesAsync(id);
-            return NoContent();
-        }
         [HttpPost("{id:int}/tag")]
         public async Task<IActionResult> AddTagToEvent(int id, int tagId)
         {

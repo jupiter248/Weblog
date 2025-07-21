@@ -11,6 +11,7 @@ using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
+using Weblog.Domain.Enums;
 using Weblog.Domain.Models;
 using Weblog.Infrastructure.Extension;
 
@@ -23,14 +24,18 @@ namespace Weblog.Infrastructure.Services
         private readonly ICategoryRepository _categoryRepo;
         private readonly ITagRepository _tagRepo;
         private readonly IContributorRepository _contributorRepo;
+        private readonly ILikeContentRepository _likeContentRepo;
 
-        public ArticleService(IArticleRepository articleRepo, IMapper mapper, IContributorRepository contributorRepo, ICategoryRepository categoryRepo, ITagRepository tagRepo)
+
+
+        public ArticleService(ILikeContentRepository likeContentRepo, IArticleRepository articleRepo, IMapper mapper, IContributorRepository contributorRepo, ICategoryRepository categoryRepo, ITagRepository tagRepo)
         {
             _articleRepo = articleRepo;
             _mapper = mapper;
             _categoryRepo = categoryRepo;
             _tagRepo = tagRepo;
             _contributorRepo = contributorRepo;
+            _likeContentRepo = likeContentRepo;
         }
         public async Task<ArticleDto> AddArticleAsync(AddArticleDto addArticleDto)
         {
@@ -54,18 +59,26 @@ namespace Weblog.Infrastructure.Services
             Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
             await _articleRepo.DeleteArticleByIdAsync(article);
         }
-
         public async Task<List<ArticleSummaryDto>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
         {
             List<Article> articles = await _articleRepo.GetAllArticlesAsync(paginationParams, filteringParams);
             List<ArticleSummaryDto> articleDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
+
+            var tasks = articleDtos.Select(async a =>
+            {
+                a.LikeCount = await _likeContentRepo.GetLikeCountAsync(a.Id, LikeAndViewType.Article);
+            }).ToList();
+            await Task.WhenAll(tasks);   
+
             return articleDtos;
         }
 
         public async Task<ArticleDto> GetArticleByIdAsync(int articleId)
         {
             Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
-            return _mapper.Map<ArticleDto>(article);
+            ArticleDto articleDto = _mapper.Map<ArticleDto>(article);
+            articleDto.LikeCount = await _likeContentRepo.GetLikeCountAsync(articleDto.Id, LikeAndViewType.Article);
+            return articleDto;
         }
 
         public async Task UpdateArticleAsync(UpdateArticleDto updateArticleDto, int articleId)
@@ -77,18 +90,6 @@ namespace Weblog.Infrastructure.Services
             newArticle.CategoryId = category.Id;
             await _articleRepo.UpdateArticleAsync(currentArticle, newArticle);
         }
-
-        public async Task UpdateViewersAsync(int articleId)
-        {
-            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
-            await _articleRepo.UpdateViewersAsync(article);
-        }
-        public async Task UpdateLikesAsync(int articleId)
-        {
-            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
-            await _articleRepo.UpdateLikesAsync(article);
-        }
-
         public async Task AddTagAsync(int articleId, int tagId)
         {
             Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");

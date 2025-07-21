@@ -14,13 +14,13 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<Event?> GetEventByIdAsync(int eventId);
         Task<Event> AddEventAsync(Event eventModel);
         Task UpdateEventAsync(Event eventModel);
-        Task UpdateLikesAsync(Event eventModel);
-        Task UpdateViewersAsync(Event eventModel);
         Task DeleteEventAsync(Event eventModel);
         Task<List<Event>> SearchByTitleAsync(string keyword);
         Task AddTagToEvent(Event eventModel, Tag tag);
         Task DeleteTagFromEvent(Event eventModel, Tag tag);
         Task AddContributorAsync(Event eventModel, Contributor contributor);
         Task DeleteContributorAsync(Event eventModel, Contributor contributor);
+        Task<bool> EventExistsAsync(int eventId);
+
     }
 }

@@ -90,6 +90,16 @@ namespace Weblog.Persistence.Repositories
             return podcast;
         }
 
+        public async Task<bool> PodcastExistsAsync(int podcastId)
+        {
+            Podcast? podcast = await _context.Podcasts.FirstOrDefaultAsync(a => a.Id == podcastId);
+            if (podcast == null)
+            {
+                return false;
+            }
+            return true; 
+        }
+
         public async Task<List<Podcast>> SearchByTitleAsync(string keyword)
         {
             return await _context.Podcasts
