@@ -25,10 +25,12 @@ namespace Weblog.Infrastructure.Services
         private readonly ITagRepository _tagRepo;
         private readonly IContributorRepository _contributorRepo;
         private readonly ILikeContentRepository _likeContentRepo;
+        private readonly IViewContentRepository _viewContentRepo;
 
 
 
-        public ArticleService(ILikeContentRepository likeContentRepo, IArticleRepository articleRepo, IMapper mapper, IContributorRepository contributorRepo, ICategoryRepository categoryRepo, ITagRepository tagRepo)
+
+        public ArticleService(IViewContentRepository viewContentRepo, ILikeContentRepository likeContentRepo, IArticleRepository articleRepo, IMapper mapper, IContributorRepository contributorRepo, ICategoryRepository categoryRepo, ITagRepository tagRepo)
         {
             _articleRepo = articleRepo;
             _mapper = mapper;
@@ -36,6 +38,7 @@ namespace Weblog.Infrastructure.Services
             _tagRepo = tagRepo;
             _contributorRepo = contributorRepo;
             _likeContentRepo = likeContentRepo;
+            _viewContentRepo = viewContentRepo;
         }
         public async Task<ArticleDto> AddArticleAsync(AddArticleDto addArticleDto)
         {
@@ -67,6 +70,7 @@ namespace Weblog.Infrastructure.Services
             var tasks = articleDtos.Select(async a =>
             {
                 a.LikeCount = await _likeContentRepo.GetLikeCountAsync(a.Id, LikeAndViewType.Article);
+                a.ViewCount = await _viewContentRepo.GetViewCountAsync(a.Id, LikeAndViewType.Article);
             }).ToList();
             await Task.WhenAll(tasks);   
 
@@ -78,6 +82,7 @@ namespace Weblog.Infrastructure.Services
             Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
             ArticleDto articleDto = _mapper.Map<ArticleDto>(article);
             articleDto.LikeCount = await _likeContentRepo.GetLikeCountAsync(articleDto.Id, LikeAndViewType.Article);
+            articleDto.ViewCount = await _viewContentRepo.GetViewCountAsync(articleDto.Id, LikeAndViewType.Article);
             return articleDto;
         }
 

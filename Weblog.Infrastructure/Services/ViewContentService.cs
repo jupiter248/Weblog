@@ -21,67 +21,47 @@ namespace Weblog.Infrastructure.Services
         private readonly IViewContentRepository _viewContentRepo;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IPodcastService _podcastService;
-        private readonly IArticleService _articleService;
-        private readonly IEventService _eventService;
+        private readonly IContentExistenceService _contentExistenceService;
         public ViewContentService(
             IViewContentRepository viewContentRepo, IMapper mapper, UserManager<AppUser> userManager,
-            IArticleService articleService, IPodcastService podcastService, IEventService eventService
+            IContentExistenceService contentExistenceService
             )
         {
             _viewContentRepo = viewContentRepo;
             _mapper = mapper;
             _userManager = userManager;
-            _articleService = articleService;
-            _eventService = eventService;
-            _podcastService = podcastService;
+            _contentExistenceService = contentExistenceService;
         }
         public async Task AddViewContentAsync(string userId, int entityTypeId, LikeAndViewType entityType)
         {
             AppUser? appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
-            switch (entityType)
+            if (!await _contentExistenceService.ContentExistsAsync(entityTypeId , entityType))
             {
-                case LikeAndViewType.Article:
-                    ArticleDto articleDto = await _articleService.GetArticleByIdAsync(entityTypeId) ?? throw new NotFoundException("Article not found");
-                    break;
-                case LikeAndViewType.Event:
-                    EventDto eventDto = await _eventService.GetEventByIdAsync(entityTypeId) ?? throw new NotFoundException("Event not found");
-                    break;
-                case LikeAndViewType.Podcast:
-                    PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(entityTypeId) ?? throw new NotFoundException("Podcast not found");
-                    break;
-
-                default:
-                    throw new ValidationException("The Id is invalid");
+                throw new NotFoundException("Content not found");   
             }
-            ViewContent viewContent = new ViewContent
+            if (await _viewContentRepo.IsViewedAsync(userId , entityTypeId , entityType))
             {
-                UserId = appUser.Id,
-                AppUser = appUser,
-                EntityId = entityTypeId,
-                EntityType = entityType
-            };
-            await _viewContentRepo.AddViewContentAsync(viewContent);
+                throw new ValidationException("Yoy already viewed");
+            }
+            await _viewContentRepo.ViewAsync(appUser ,entityTypeId , entityType);
         }
 
         public async Task<int> GetViewCountAsync(int entityTypeId, LikeAndViewType entityType)
         {
-            switch (entityType)
+            if (!await _contentExistenceService.ContentExistsAsync(entityTypeId , entityType))
             {
-                case LikeAndViewType.Article:
-                    ArticleDto articleDto = await _articleService.GetArticleByIdAsync(entityTypeId) ?? throw new NotFoundException("Article not found");
-                    break;
-                case LikeAndViewType.Event:
-                    EventDto eventDto = await _eventService.GetEventByIdAsync(entityTypeId) ?? throw new NotFoundException("Event not found");
-                    break;
-                case LikeAndViewType.Podcast:
-                    PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(entityTypeId) ?? throw new NotFoundException("Podcast not found");
-                    break;
-
-                default:
-                    throw new ValidationException("The Id is invalid");
-            }
+                throw new NotFoundException("Content not found");   
+            }   
             return await _viewContentRepo.GetViewCountAsync(entityTypeId, entityType);
+        }
+
+        public async Task<bool> IsViewedAsync(string userId, int entityTypeId, LikeAndViewType entityType)
+        {
+            if (!await _contentExistenceService.ContentExistsAsync(entityTypeId, entityType))
+            {
+                throw new NotFoundException("Content not found");
+            }
+            return await _viewContentRepo.IsViewedAsync(userId ,entityTypeId , entityType);
         }
     }
 }

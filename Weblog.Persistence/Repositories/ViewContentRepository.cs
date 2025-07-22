@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Domain.Enums;
 using Weblog.Domain.JoinModels;
+using Weblog.Domain.Models;
 using Weblog.Persistence.Data;
 
 namespace Weblog.Persistence.Repositories
@@ -18,26 +19,32 @@ namespace Weblog.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<ViewContent> AddViewContentAsync(ViewContent viewContent)
-        {
-            await _context.ViewContents.AddAsync(viewContent);
-            await _context.SaveChangesAsync();
-            return viewContent;
-        }
-
-        public async Task<ViewContent?> GetViewContentByIdAsync(int viewContentId)
-        {
-            ViewContent? viewContent = await _context.ViewContents.FirstOrDefaultAsync(l => l.Id == viewContentId);
-            if (viewContent == null)
-            {
-                return null;
-            }
-            return viewContent;
-        }
-
         public async Task<int> GetViewCountAsync(int entityTypeId, LikeAndViewType entityType)
         {
             return await _context.ViewContents.Where(e => e.EntityId == entityTypeId && e.EntityType == entityType).CountAsync();
+        }
+
+        public async Task<bool> IsViewedAsync(string userId, int entityTypeId, LikeAndViewType entityType)
+        {
+            ViewContent? viewContent = await _context.ViewContents.FirstOrDefaultAsync(v => v.UserId == userId && v.EntityId == entityTypeId && v.EntityType == entityType);
+            if (viewContent == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task ViewAsync(AppUser appUser, int entityTypeId, LikeAndViewType entityType)
+        {
+            ViewContent viewContent = new ViewContent
+            {
+                UserId = appUser.Id,
+                AppUser = appUser,
+                EntityId = entityTypeId,
+                EntityType = entityType
+            };
+            await _context.ViewContents.AddAsync(viewContent);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Weblog.API.Controllers
         {
             _viewContentService = viewContentService;
         }
-        [HttpGet]
+        [HttpGet("count")]
         public async Task<IActionResult> GetViewCount(int entityTypeId, LikeAndViewType entityType)
         {
             int viewCount = await _viewContentService.GetViewCountAsync(entityTypeId, entityType);
