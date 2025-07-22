@@ -20,7 +20,7 @@ namespace Weblog.API.Controllers
         {
             _likeContentService = likeContentService;
         }
-        [HttpGet]
+        [HttpGet("users")]
         public async Task<IActionResult> GetAllLikeUsers(int entityTypeId, LikeAndViewType likeAndViewType)
         {
             List<UserDto> userDtos = await _likeContentService.GetAllContentLikesAsync(entityTypeId, likeAndViewType);

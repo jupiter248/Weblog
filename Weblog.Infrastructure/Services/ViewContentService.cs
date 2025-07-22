@@ -8,6 +8,7 @@ using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Dtos.PodcastDtos;
+using Weblog.Application.Dtos.UserDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Enums;
@@ -44,6 +45,13 @@ namespace Weblog.Infrastructure.Services
                 throw new ValidationException("Yoy already viewed");
             }
             await _viewContentRepo.ViewAsync(appUser ,entityTypeId , entityType);
+        }
+
+        public async Task<List<UserDto>> GetAllContentViewersAsync(int entityTypeId, LikeAndViewType entityType)
+        {
+            List<ViewContent> viewContents = await _viewContentRepo.GetAllContentViewersAsync(entityTypeId, entityType);
+            List<UserDto> userDtos = _mapper.Map<List<UserDto>>(viewContents.Select(l => l.AppUser));
+            return userDtos;
         }
 
         public async Task<int> GetViewCountAsync(int entityTypeId, LikeAndViewType entityType)

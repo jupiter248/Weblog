@@ -19,6 +19,11 @@ namespace Weblog.Persistence.Repositories
             _context = context;
         }
 
+        public async Task<List<ViewContent>> GetAllContentViewersAsync(int entityTypeId, LikeAndViewType entityType)
+        {
+            return await _context.ViewContents.Where(l => l.EntityId == entityTypeId && l.EntityType == entityType).Include(a => a.AppUser).ToListAsync();
+        }
+
         public async Task<int> GetViewCountAsync(int entityTypeId, LikeAndViewType entityType)
         {
             return await _context.ViewContents.Where(e => e.EntityId == entityTypeId && e.EntityType == entityType).CountAsync();

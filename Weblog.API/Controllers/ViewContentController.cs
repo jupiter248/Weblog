@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Weblog.Application.Dtos.UserDtos;
 using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Enums;
@@ -18,6 +19,12 @@ namespace Weblog.API.Controllers
         public ViewContentController(IViewContentService viewContentService)
         {
             _viewContentService = viewContentService;
+        }
+        [HttpGet("users")]
+        public async Task<IActionResult> GetAllLikeUsers(int entityTypeId, LikeAndViewType likeAndViewType)
+        {
+            List<UserDto> userDtos = await _viewContentService.GetAllContentViewersAsync(entityTypeId, likeAndViewType);
+            return Ok(userDtos);
         }
         [HttpGet("count")]
         public async Task<IActionResult> GetViewCount(int entityTypeId, LikeAndViewType entityType)
@@ -34,5 +41,6 @@ namespace Weblog.API.Controllers
             await _viewContentService.AddViewContentAsync(userId, entityTypeId, entityType);
             return NoContent();
         }
+
     }
 }
