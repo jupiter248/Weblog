@@ -92,7 +92,7 @@ namespace Weblog.API.Controllers
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
-            await _favoriteArticleService.AddArticleToFavoriteAsync( userId , addFavoriteArticleDto);
+            await _favoriteArticleService.AddArticleToFavoriteAsync(userId, addFavoriteArticleDto);
             return NoContent();
         }
         [Authorize]
@@ -103,6 +103,12 @@ namespace Weblog.API.Controllers
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
             await _favoriteArticleService.DeleteArticleFromFavoriteAsync(id, userId);
             return NoContent();
+        }
+        [HttpGet("{id:int}/suggestion")]
+        public async Task<IActionResult> GetSuggestions(int id, [FromQuery] PaginationParams paginationParams)
+        {
+            List<ArticleSummaryDto> articleSummaryDtos = await _articleService.GetSuggestionsAsync(paginationParams, id);
+            return Ok(articleSummaryDtos);
         }
     }
 }

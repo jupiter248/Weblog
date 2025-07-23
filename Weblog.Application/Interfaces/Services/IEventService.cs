@@ -19,6 +19,7 @@ namespace Weblog.Application.Interfaces.Services
         Task DeleteTagAsync(int eventId, int tagId);
         Task AddContributorAsync(int eventId, int contributorId);
         Task DeleteContributorAsync(int eventId, int contributorId);
+        Task<List<EventSummaryDto>> GetSuggestionsAsync(PaginationParams paginationParams, int eventId);
 
     }
 }

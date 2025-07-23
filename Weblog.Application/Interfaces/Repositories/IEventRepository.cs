@@ -21,6 +21,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task AddContributorAsync(Event eventModel, Contributor contributor);
         Task DeleteContributorAsync(Event eventModel, Contributor contributor);
         Task<bool> EventExistsAsync(int eventId);
+        Task<List<Event>> GetSuggestionsAsync(PaginationParams paginationParams, Event eventModel);
 
     }
 }

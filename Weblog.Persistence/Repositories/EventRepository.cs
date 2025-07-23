@@ -105,6 +105,23 @@ namespace Weblog.Persistence.Repositories
             return eventModel;
         }
 
+        public async Task<List<Event>> GetSuggestionsAsync(PaginationParams paginationParams, Event eventModel)
+        {
+            List<int> tagIds = eventModel.Tags.Select(t => t.Id).ToList();
+            List<int> contributorIds = eventModel.Contributors.Select(t => t.Id).ToList();
+            int categoryId = eventModel.CategoryId;
+
+            var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
+
+            var query = _context.Events
+                .Where(a => a.Id != eventModel.Id && (a.CategoryId == categoryId || a.Tags.Any(t => tagIds.Contains(t.Id) ||
+                        a.Contributors.Any(c => contributorIds.Contains(c.Id)) || a.Contributors.Any(c => contributorIds.Contains(c.Id)))))
+                        .OrderByDescending(a => a.DisplayedAt)
+                        .Take(10);
+
+            return await query.Skip(skipNumber).Take(paginationParams.PageSize).ToListAsync();
+        }
+
         public async Task<List<Event>> SearchByTitleAsync(string keyword)
         {
             return await _context.Events

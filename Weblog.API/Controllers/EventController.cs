@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Dtos.FavoritesDtos.EventFavoriteDtos;
+using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
@@ -87,7 +88,7 @@ namespace Weblog.API.Controllers
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
-            await _favoriteEventService.AddEventToFavoriteAsync(userId , addFavoriteEventDto);
+            await _favoriteEventService.AddEventToFavoriteAsync(userId, addFavoriteEventDto);
             return NoContent();
         }
         [HttpDelete("{id:int}/favorite")]
@@ -109,7 +110,7 @@ namespace Weblog.API.Controllers
         [HttpGet("{id:int}/participants")]
         public async Task<IActionResult> GetAllParticipantsByEventId(int id)
         {
-            List<ParticipantDto> participantDtos =  await _takingPartService.GetAllParticipantsAsync(id);
+            List<ParticipantDto> participantDtos = await _takingPartService.GetAllParticipantsAsync(id);
             return Ok(participantDtos);
         }
         [HttpPut("{id:int}/taking-part")]
@@ -125,6 +126,12 @@ namespace Weblog.API.Controllers
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
             await _takingPartService.CancelTakingPartAsync(id, userId);
             return NoContent();
+        }
+        [HttpGet("{id:int}/suggestion")]
+        public async Task<IActionResult> GetSuggestions(int id, [FromQuery] PaginationParams paginationParams)
+        {
+            List<EventSummaryDto> eventSummaryDtos = await _eventService.GetSuggestionsAsync(paginationParams, id);
+            return Ok(eventSummaryDtos);
         }
     }
 }

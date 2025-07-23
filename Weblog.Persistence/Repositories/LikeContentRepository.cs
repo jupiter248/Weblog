@@ -60,8 +60,11 @@ namespace Weblog.Persistence.Repositories
         public async Task UnlikeAsync(string userId, int entityTypeId, LikeAndViewType entityType)
         {
             LikeContent? likeContent = await _context.LikeContents.Where(l => l.UserId == userId && l.EntityId == entityTypeId && l.EntityType == entityType).FirstOrDefaultAsync();
-            _context.LikeContents.Remove(likeContent);
-            await _context.SaveChangesAsync();
+            if (likeContent != null)
+            {
+                _context.LikeContents.Remove(likeContent);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

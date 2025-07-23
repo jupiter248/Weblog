@@ -90,6 +90,22 @@ namespace Weblog.Persistence.Repositories
             return podcast;
         }
 
+        public async Task<List<Podcast>> GetSuggestionsAsync(PaginationParams paginationParams, Podcast podcast)
+        {
+            List<int> tagIds = podcast.Tags.Select(t => t.Id).ToList();
+            List<int> contributorIds = podcast.Contributors.Select(t => t.Id).ToList();
+            int categoryId = podcast.CategoryId;
+
+            var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
+
+            var query = _context.Podcasts
+                .Where(a => a.Id != podcast.Id && (a.CategoryId == categoryId || a.Tags.Any(t => tagIds.Contains(t.Id) ||
+                        a.Contributors.Any(c => contributorIds.Contains(c.Id)) || a.Contributors.Any(c => contributorIds.Contains(c.Id)))))
+                        .OrderByDescending(a => a.DisplayedAt)
+                        .Take(10);
+
+            return await query.Skip(skipNumber).Take(paginationParams.PageSize).ToListAsync();        }
+
         public async Task<bool> PodcastExistsAsync(int podcastId)
         {
             Podcast? podcast = await _context.Podcasts.FirstOrDefaultAsync(a => a.Id == podcastId);

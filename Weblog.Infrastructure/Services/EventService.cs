@@ -92,12 +92,11 @@ namespace Weblog.Infrastructure.Services
         {
             List<Event> events = await _eventRepo.GetAllEventsAsync(eventFilteringParams,paginationParams);
             List<EventSummaryDto> eventSummaryDtos = _mapper.Map<List<EventSummaryDto>>(events);
-            var tasks = eventSummaryDtos.Select(async a =>
+            foreach (var item in eventSummaryDtos)
             {
-                a.LikeCount = await _likeContentRepo.GetLikeCountAsync(a.Id, LikeAndViewType.Article);
-                a.ViewCount = await _viewContentRepo.GetViewCountAsync(a.Id, LikeAndViewType.Article);
-            }).ToList();
-            await Task.WhenAll(tasks);
+                item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Event);
+                item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Event);
+            }
             return eventSummaryDtos;
         }
 
@@ -105,10 +104,23 @@ namespace Weblog.Infrastructure.Services
         {
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
             EventDto eventDto = _mapper.Map<EventDto>(eventModel);
-            eventDto.LikeCount = await _likeContentRepo.GetLikeCountAsync(eventDto.Id, LikeAndViewType.Article);
-            eventDto.ViewCount = await _viewContentRepo.GetViewCountAsync(eventDto.Id, LikeAndViewType.Article);
+            eventDto.LikeCount = await _likeContentRepo.GetLikeCountAsync(eventDto.Id, LikeAndViewType.Event);
+            eventDto.ViewCount = await _viewContentRepo.GetViewCountAsync(eventDto.Id, LikeAndViewType.Event);
             return eventDto;
         }
+
+        public async Task<List<EventSummaryDto>> GetSuggestionsAsync(PaginationParams paginationParams, int eventId)
+        {
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
+            List<Event> events = await _eventRepo.GetSuggestionsAsync(paginationParams, eventModel);
+            List<EventSummaryDto> eventSummaryDtos = _mapper.Map<List<EventSummaryDto>>(events);
+            foreach (var item in eventSummaryDtos)
+            {
+                item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Event);
+                item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Event);
+            }
+            return eventSummaryDtos; 
+       }
 
         public async Task UpdateEventAsync(UpdateEventDto updateEventDto, int eventId)
         {

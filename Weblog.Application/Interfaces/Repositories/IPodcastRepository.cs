@@ -21,6 +21,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task AddContributorAsync(Podcast podcast, Contributor contributor);
         Task DeleteContributorAsync(Podcast podcast, Contributor contributor);
         Task<bool> PodcastExistsAsync(int podcastId);
+        Task<List<Podcast>> GetSuggestionsAsync(PaginationParams paginationParams, Podcast podcast);
 
     }
 }

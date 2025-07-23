@@ -89,12 +89,11 @@ namespace Weblog.Infrastructure.Services
         {
             List<Podcast> podcasts = await _podcastRepo.GetAllPodcastsAsync(filteringParams, paginationParams);
             List<PodcastSummaryDto> podcastSummaryDtos = _mapper.Map<List<PodcastSummaryDto>>(podcasts);
-            var tasks = podcastSummaryDtos.Select(async a =>
+            foreach (var item in podcastSummaryDtos)
             {
-                a.LikeCount = await _likeContentRepo.GetLikeCountAsync(a.Id, LikeAndViewType.Article);
-                a.ViewCount = await _viewContentRepo.GetViewCountAsync(a.Id, LikeAndViewType.Article);
-            }).ToList();
-            await Task.WhenAll(tasks);
+                item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Podcast);
+                item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Podcast);
+            }
             return podcastSummaryDtos;
         }
 
@@ -102,10 +101,23 @@ namespace Weblog.Infrastructure.Services
         {
             Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException("Podcast not found");
             PodcastDto podcastDto = _mapper.Map<PodcastDto>(podcast);
-            podcastDto.LikeCount = await _likeContentRepo.GetLikeCountAsync(podcastDto.Id, LikeAndViewType.Article);
-            podcastDto.ViewCount = await _viewContentRepo.GetViewCountAsync(podcastDto.Id, LikeAndViewType.Article);
+            podcastDto.LikeCount = await _likeContentRepo.GetLikeCountAsync(podcastDto.Id, LikeAndViewType.Podcast);
+            podcastDto.ViewCount = await _viewContentRepo.GetViewCountAsync(podcastDto.Id, LikeAndViewType.Podcast);
             return podcastDto;
         }
+
+        public async Task<List<PodcastSummaryDto>> GetSuggestionsAsync(PaginationParams paginationParams, int podcastId)
+        {
+            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException("Podcast not found");
+            List<Podcast> podcasts = await _podcastRepo.GetSuggestionsAsync(paginationParams, podcast);
+            List<PodcastSummaryDto> podcastSummaryDtos = _mapper.Map<List<PodcastSummaryDto>>(podcasts);
+            foreach (var item in podcastSummaryDtos)
+            {
+                item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Event);
+                item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Event);
+            }
+            return podcastSummaryDtos;  
+       }
 
         public async Task UpdatePodcastAsync(UpdatePodcastDto updatePodcastDto, int podcastId)
         {

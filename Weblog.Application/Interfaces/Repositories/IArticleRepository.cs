@@ -21,5 +21,6 @@ namespace Weblog.Application.Interfaces.Repositories
         Task AddContributorAsync(Article article, Contributor contributor);
         Task DeleteContributorAsync(Article article, Contributor contributor);
         Task<bool> ArticleExistsAsync(int articleId);
+        Task<List<Article>> GetSuggestionsAsync(PaginationParams paginationParams, Article article);
     }
 } 

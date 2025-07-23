@@ -94,7 +94,7 @@ namespace Weblog.API.Controllers
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
-            await _favoritePodcastService.AddPodcastToFavoriteAsync( userId , addFavoritePodcastDto);
+            await _favoritePodcastService.AddPodcastToFavoriteAsync(userId, addFavoritePodcastDto);
             return NoContent();
         }
         [Authorize]
@@ -105,6 +105,12 @@ namespace Weblog.API.Controllers
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
             await _favoritePodcastService.DeletePodcastFromFavoriteAsync(id, userId);
             return NoContent();
+        }
+        [HttpGet("{id:int}/suggestion")]
+        public async Task<IActionResult> GetSuggestions(int id, [FromQuery] PaginationParams paginationParams)
+        {
+            List<PodcastSummaryDto> podcastSummaryDtos = await _podcastService.GetSuggestionsAsync(paginationParams, id);
+            return Ok(podcastSummaryDtos);
         }
     }
 }

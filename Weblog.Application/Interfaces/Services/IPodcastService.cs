@@ -19,6 +19,7 @@ namespace Weblog.Application.Interfaces.Services
         Task DeleteTagAsync(int podcastId, int tagId);
         Task AddContributorAsync(int podcastId, int contributorId);
         Task DeleteContributorAsync(int podcastId, int contributorId);
+        Task<List<PodcastSummaryDto>> GetSuggestionsAsync(PaginationParams paginationParams, int podcastId);
 
     }
 }

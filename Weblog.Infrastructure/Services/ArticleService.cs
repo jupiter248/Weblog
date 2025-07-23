@@ -65,16 +65,15 @@ namespace Weblog.Infrastructure.Services
         public async Task<List<ArticleSummaryDto>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
         {
             List<Article> articles = await _articleRepo.GetAllArticlesAsync(paginationParams, filteringParams);
-            List<ArticleSummaryDto> articleDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
+            List<ArticleSummaryDto> articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
 
-            var tasks = articleDtos.Select(async a =>
+            foreach (var item in articleSummaryDtos)
             {
-                a.LikeCount = await _likeContentRepo.GetLikeCountAsync(a.Id, LikeAndViewType.Article);
-                a.ViewCount = await _viewContentRepo.GetViewCountAsync(a.Id, LikeAndViewType.Article);
-            }).ToList();
-            await Task.WhenAll(tasks);   
+                item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Article);
+                item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Article);
+            }
 
-            return articleDtos;
+            return articleSummaryDtos;
         }
 
         public async Task<ArticleDto> GetArticleByIdAsync(int articleId)
@@ -121,6 +120,19 @@ namespace Weblog.Infrastructure.Services
             Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
             Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException("Contributor not found");
             await _articleRepo.DeleteContributorAsync(article , contributor);
+        }
+
+        public async Task<List<ArticleSummaryDto>> GetSuggestionsAsync(PaginationParams paginationParams, int articleId)
+        {
+            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
+            List<Article> articles = await _articleRepo.GetSuggestionsAsync(paginationParams, article);
+            List<ArticleSummaryDto> articleSummaryDto = _mapper.Map<List<ArticleSummaryDto>>(articles);
+            foreach (var item in articleSummaryDto)
+            {
+                item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Article);
+                item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Article);
+            }
+            return articleSummaryDto;
         }
     }
 }

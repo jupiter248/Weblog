@@ -102,6 +102,23 @@ namespace Weblog.Persistence.Repositories
             return article;
         }
 
+        public async Task<List<Article>> GetSuggestionsAsync(PaginationParams paginationParams, Article article)
+        {
+            List<int> tagIds = article.Tags.Select(t => t.Id).ToList();
+            List<int> contributorIds = article.Contributors.Select(t => t.Id).ToList();
+            int categoryId = article.CategoryId;
+
+            var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
+
+            var query = _context.Articles
+                .Where(a => a.Id != article.Id && (a.CategoryId == categoryId || a.Tags.Any(t => tagIds.Contains(t.Id) ||
+                        a.Contributors.Any(c => contributorIds.Contains(c.Id)) || a.Contributors.Any(c => contributorIds.Contains(c.Id)))))
+                        .OrderByDescending(a => a.PublishedAt)
+                        .Take(10);
+
+            return await query.Skip(skipNumber).Take(paginationParams.PageSize).ToListAsync();
+        }
+
         public async Task<List<Article>> SearchByTitleAsync(string keyword)
         {
             return await _context.Articles
