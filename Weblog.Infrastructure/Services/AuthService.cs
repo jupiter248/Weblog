@@ -8,6 +8,7 @@ using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.AuthDtos;
 using Weblog.Application.Dtos.SmsDtos;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Domain.Enums;
 using Weblog.Domain.Models;
 using Weblog.Persistence.Services.Generators;
 
@@ -27,24 +28,45 @@ namespace Weblog.Infrastructure.Services
         }
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
         {
-            bool verified = await _smsService.VerifyConsentSmsAsync(new VerifyConsentSms
+            AppUser? user = null;
+            if (loginDto.LoginAndRegisterType == LoginAndRegisterType.Phone)
             {
-                Code = loginDto.Code,
-                Mobile = loginDto.PhoneNumber,
-                Purpose = "login"
-            });
+                user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == loginDto.PhoneNumber);
+                if (user == null)
+                {
+                    throw new NotFoundException("User with this phone notfound");
+                }
 
-            // if (!verified)
-            // {
-            //     throw new ValidationException("The code is incorrect");
-            // }
+                bool verified = await _smsService.VerifyConsentSmsAsync(new VerifyConsentSms
+                {
+                    Code = loginDto.Code ?? throw new ValidationException("Code is invalid"),
+                    Mobile = loginDto.PhoneNumber ?? throw new ValidationException("Phone is invalid"),
+                    Purpose = "login"
+                });
 
-            AppUser? user = await _userManager.FindByLoginAsync("Phone", loginDto.PhoneNumber);
+                // if (!verified)
+                // {
+                //     throw new ValidationException("The code is incorrect");
+                // }
+
+            }
+            if (loginDto.LoginAndRegisterType == LoginAndRegisterType.Username)
+            {
+                user = await _userManager.FindByNameAsync(loginDto.Username ?? throw new ValidationException("Username is invalid"));
+                if (user == null)
+                {
+                    throw new NotFoundException("User with username notfound");
+                }
+                var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password ?? throw new ValidationException("Password is invalid"), false);
+                if (!result.Succeeded)
+                {
+                    throw new UnauthorizedAccessException("Password does not match with the user");
+                }
+            }
             if (user == null)
             {
-                user = await _userManager.FindByNameAsync(loginDto.Username) ?? throw new NotFoundException("User not found");
-            }                
-
+                throw new ValidationException("User is invalid");
+            }
             var role = await _userManager.GetRolesAsync(user);
 
             return new AuthResponseDto
@@ -60,62 +82,110 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto)
         {
-            bool verified = await _smsService.VerifyConsentSmsAsync(new VerifyConsentSms
-            {
-                Code = registerDto.Code,
-                Mobile = registerDto.PhoneNumber,
-                Purpose = "register"
-            });
+            AppUser appUser;
+            AuthResponseDto? authResponseDto = null;
 
-            // if (!verified)
-            // {
-            //     throw new ValidationException("The code is incorrect");
-            // }
-            AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == registerDto.PhoneNumber);       
-            if (user != null)
+            if (registerDto.LoginAndRegisterType == LoginAndRegisterType.Phone)
             {
-                throw new ConflictException("Phone number already used");
-            }
-            user = await _userManager.FindByNameAsync(registerDto.Username);
-            if (user != null)
-            {
-                throw new ConflictException("Username already used");
-            }
-            
-            AppUser appUser = new AppUser
-            {
-                PhoneNumber = registerDto.PhoneNumber,
-                UserName = registerDto.Username,
-                FirstName = registerDto.FirstName,
-                LastName = registerDto.LastName,
-                FullName = $"{registerDto.FirstName} {registerDto.LastName}",
-                CreatedAt = DateTimeOffset.UtcNow
-            };
-
-            var createdUser = await _userManager.CreateAsync(appUser);
-            if (createdUser.Succeeded)
-            {
-                var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
-                if (!roleResult.Succeeded)
+                AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == registerDto.PhoneNumber);
+                if (user != null)
                 {
-                    throw new ValidationException("The role could not have added");
+                    throw new ConflictException("Phone number already used");
                 }
-                var role = await _userManager.GetRolesAsync(appUser);
-                return new AuthResponseDto
+
+                bool verified = await _smsService.VerifyConsentSmsAsync(new VerifyConsentSms
                 {
-                    Username = appUser.UserName ?? string.Empty,
-                    PhoneNumber = appUser.PhoneNumber ?? string.Empty,
-                    Token = JwtTokenService.CreateToken(appUser , role),
-                    FirstName = appUser.FirstName,
-                    LastName = appUser.LastName,
-                    FullName = appUser.FullName
+                    Code = registerDto.Code ?? throw new ValidationException("The code is invalid"),
+                    Mobile = registerDto.PhoneNumber ?? throw new ValidationException("The phone is invalid"),
+                    Purpose = "register"
+                });
+
+                // if (!verified)
+                // {
+                //     throw new ValidationException("The code is incorrect");
+                // }
+
+                appUser = new AppUser
+                {
+                    PhoneNumber = registerDto.PhoneNumber,
+                    UserName = registerDto.PhoneNumber,
+                    FirstName = registerDto.FirstName,
+                    LastName = registerDto.LastName,
+                    FullName = $"{registerDto.FirstName} {registerDto.LastName}",
+                    CreatedAt = DateTimeOffset.Now
                 };
-            }
-            else
-            {
-                throw new Exception();
+                var createdUser = await _userManager.CreateAsync(appUser);
+                if (createdUser.Succeeded)
+                {
+                    var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
+                    if (!roleResult.Succeeded)
+                    {
+                        throw new ValidationException("The role could not have added");
+                    }
+
+                    var role = await _userManager.GetRolesAsync(appUser);
+                    authResponseDto = new AuthResponseDto
+                    {
+                        Username = appUser.UserName ?? string.Empty,
+                        PhoneNumber = appUser.PhoneNumber ?? string.Empty,
+                        Token = JwtTokenService.CreateToken(appUser, role),
+                        FirstName = appUser.FirstName,
+                        LastName = appUser.LastName,
+                        FullName = appUser.FullName,
+                    };
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
             }
 
+            if (registerDto.LoginAndRegisterType == LoginAndRegisterType.Username)
+            {
+                AppUser? user = await _userManager.FindByNameAsync(registerDto.Username ?? throw new ValidationException("The username is invalid"));
+                if (user != null)
+                {
+                    throw new ConflictException("Username already used");
+                }
+                appUser = new AppUser
+                {
+                    UserName = registerDto.Username,
+                    FirstName = registerDto.FirstName,
+                    LastName = registerDto.LastName,
+                    FullName = $"{registerDto.FirstName} {registerDto.LastName}",
+                    CreatedAt = DateTimeOffset.Now
+                };
+                var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password ?? string.Empty);
+                if (createdUser.Succeeded)
+                {
+                    var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
+                    if (!roleResult.Succeeded)
+                    {
+                        throw new ValidationException("The role could not have added");
+                    }
+
+                    var role = await _userManager.GetRolesAsync(appUser);
+                    authResponseDto = new AuthResponseDto
+                    {
+                        Username = appUser.UserName ?? string.Empty,
+                        PhoneNumber = appUser.PhoneNumber ?? string.Empty,
+                        Token = JwtTokenService.CreateToken(appUser, role),
+                        FirstName = appUser.FirstName,
+                        LastName = appUser.LastName,
+                        FullName = appUser.FullName,
+                    };
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            if (authResponseDto == null)
+            {
+                throw new ValidationException("Response is invalid  ");
+            }
+            return authResponseDto;
         }
     }
 }
