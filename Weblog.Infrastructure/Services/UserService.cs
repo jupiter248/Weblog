@@ -51,16 +51,24 @@ namespace Weblog.Infrastructure.Services
         {
 
             var currentUser = _httpContextAccessor.HttpContext?.User;
-
             string? currentUserId = currentUser?.GetUserId();
+
             if (currentUserId != userId && !currentUser.IsInRole("Admin"))
             {
                 throw new NotFoundException("Not a correct user or an admin");
             }
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
+
             AppUser newAppUser = _mapper.Map<AppUser>(updateUserDto);
+
+            var result = await _userManager.ChangePasswordAsync(appUser , updateUserDto.OldPassword , updateUserDto.NewPassword );
+            if (!result.Succeeded)
+            {
+                throw new ValidationException($"{result.Errors}");
+            }
             newAppUser.UpdatedAt = DateTimeOffset.UtcNow;
             newAppUser.FullName = $"{newAppUser.FirstName} {newAppUser.LastName}";
+            
 
             await _userManager.UpdateAsync(newAppUser);
         }

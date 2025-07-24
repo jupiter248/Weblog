@@ -156,6 +156,10 @@ namespace Weblog.Infrastructure.Services
                     FullName = $"{registerDto.FirstName} {registerDto.LastName}",
                     CreatedAt = DateTimeOffset.Now
                 };
+                if (registerDto.Password != registerDto.PasswordRepetition)
+                {
+                    throw new ValidationException("Passwords are not the same");
+                }
                 var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password ?? string.Empty);
                 if (createdUser.Succeeded)
                 {

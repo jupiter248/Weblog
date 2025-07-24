@@ -36,7 +36,7 @@ namespace Weblog.API.Controllers
             UserDto userDto = await _userService.GetUserByIdAsync(userId);
             return Ok(userDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(string userId, UpdateUserDto updateUserDto)
         {
