@@ -45,7 +45,10 @@ namespace Weblog.Infrastructure.Services
         {
             Podcast newPodcast = _mapper.Map<Podcast>(addPodcastDto);
             Category category = await _categoryRepo.GetCategoryByIdAsync(addPodcastDto.CategoryId) ?? throw new NotFoundException("Category not found");
-
+            if (category.EntityType == CategoryType.Podcast)
+            {
+                newPodcast.Category = category;
+            }
             newPodcast.Category = category;
             newPodcast.CreatedAt = DateTimeOffset.Now;
             newPodcast.Slug = newPodcast.Name.Slugify();

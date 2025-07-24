@@ -47,6 +47,10 @@ namespace Weblog.Infrastructure.Services
         {
             Event newEvent = _mapper.Map<Event>(addEventDto);
             Category? category = await _categoryRepo.GetCategoryByIdAsync(addEventDto.CategoryId) ?? throw new NotFoundException("Category not found");
+            if (category.EntityType == CategoryType.Event)
+            {
+                newEvent.Category = category;
+            }
             newEvent.Category = category;
 
             newEvent.Slug = newEvent.Title.Slugify();

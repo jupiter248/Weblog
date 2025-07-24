@@ -43,9 +43,11 @@ namespace Weblog.Infrastructure.Services
         public async Task<ArticleDto> AddArticleAsync(AddArticleDto addArticleDto)
         {
             Article newArticle = _mapper.Map<Article>(addArticleDto);
-
             Category? category = await _categoryRepo.GetCategoryByIdAsync(addArticleDto.CategoryId) ?? throw new NotFoundException("Category not found");
-            newArticle.Category = category;
+            if (category.EntityType == CategoryType.Article)
+            {
+                newArticle.Category = category;
+            }
             newArticle.Slug = newArticle.Title.Slugify();
 
             if (newArticle.IsPublished)
