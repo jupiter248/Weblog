@@ -18,7 +18,6 @@ namespace Weblog.Domain.Models
         public required int EntityId { get; set; }
         public string? UserId{ get; set; }
         public AppUser? AppUser{ get; set; }
-
         public bool IsPrimary { get; set; } = false;
         public bool IsOnPoster { get; set; } = false;
 

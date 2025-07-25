@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblog.Domain.Enums;
@@ -9,6 +10,7 @@ namespace Weblog.Application.Dtos.AuthDtos
     public class RegisterDto
     {
         public string? Username { get; set; }
+        [Phone]
         public string? PhoneNumber { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }  

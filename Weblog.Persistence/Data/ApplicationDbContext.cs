@@ -70,6 +70,14 @@ namespace Weblog.Persistence.Data
                 .HasMany(c => c.Contributors)
                 .WithMany(p => p.Podcasts);
 
+            // One to many between comment and user 
+            // modelBuilder.Entity<Comment>()
+            //     .HasOne<AppUser>()
+            //     .WithMany()
+            //     .HasForeignKey(c => c.UserId);
+
+            
+
             base.OnModelCreating(modelBuilder);
         }
     }
