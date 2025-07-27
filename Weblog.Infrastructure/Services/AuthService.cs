@@ -10,7 +10,7 @@ using Weblog.Application.Dtos.SmsDtos;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Enums;
 using Weblog.Domain.Models;
-using Weblog.Persistence.Services.Generators;
+using Weblog.Infrastructure.Services.Generators;
 
 namespace Weblog.Infrastructure.Services
 {

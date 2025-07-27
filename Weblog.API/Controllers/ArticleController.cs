@@ -109,6 +109,7 @@ namespace Weblog.API.Controllers
         {
             List<ArticleSummaryDto> articleSummaryDtos = await _articleService.GetSuggestionsAsync(paginationParams, id);
             return Ok(articleSummaryDtos);
+            
         }
     }
 }

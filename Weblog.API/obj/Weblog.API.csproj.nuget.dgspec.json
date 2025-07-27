@@ -26,9 +26,6 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj": {
-                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj"
-              },
               "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj": {
                 "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj"
               },
@@ -244,12 +241,6 @@
             "projectReferences": {
               "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj": {
                 "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj"
-              },
-              "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj": {
-                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj"
-              },
-              "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj": {
-                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj"
               }
             }
           }
@@ -264,6 +255,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Microsoft.AspNetCore.Hosting": {
               "target": "Package",
               "version": "[2.3.0, )"
@@ -334,9 +329,6 @@
             "projectReferences": {
               "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj": {
                 "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj"
-              },
-              "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj": {
-                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj"
               }
             }
           }

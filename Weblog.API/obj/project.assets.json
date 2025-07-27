@@ -3203,13 +3203,12 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.0",
           "Microsoft.AspNetCore.Hosting": "2.3.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.0",
           "Microsoft.Extensions.DependencyInjection": "8.0.1",
           "Swashbuckle.AspNetCore": "9.0.1",
-          "Weblog.Application": "1.0.0",
-          "Weblog.Domain": "1.0.0",
-          "Weblog.Persistence": "1.0.0"
+          "Weblog.Application": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Weblog.Infrastructure.dll": {}
@@ -3231,8 +3230,7 @@
           "Microsoft.EntityFrameworkCore": "8.0.0",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.0",
           "System.IdentityModel.Tokens.Jwt": "8.12.1",
-          "Weblog.Application": "1.0.0",
-          "Weblog.Domain": "1.0.0"
+          "Weblog.Application": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Weblog.Persistence.dll": {}
@@ -9227,7 +9225,6 @@
       "MediatR >= 12.5.0",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.0",
       "Swashbuckle.AspNetCore >= 9.0.1",
-      "Weblog.Application >= 1.0.0",
       "Weblog.Infrastructure >= 1.0.0",
       "Weblog.Persistence >= 1.0.0"
     ]
@@ -9257,9 +9254,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj": {
-              "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj"
-            },
             "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj": {
               "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj"
             },

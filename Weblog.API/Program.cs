@@ -28,7 +28,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Appli
 
 builder.Services.AddControllers();
 
-builder.Services.ApplyDependencies(); // Apply dependencies like repository and service scopes 
+builder.Services.AddInfrastructure(); // Apply dependencies like repository and service scopes 
+builder.Services.AddPersistence();
 
 builder.Services.ConnectToDatabase();
 builder.Services.ConfigureIdentity();

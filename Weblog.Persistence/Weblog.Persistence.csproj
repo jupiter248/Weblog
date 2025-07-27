@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Weblog.Application\Weblog.Application.csproj" />
-    <ProjectReference Include="..\Weblog.Domain\Weblog.Domain.csproj" />
+    <!-- <ProjectReference Include="..\Weblog.Domain\Weblog.Domain.csproj" /> -->
   </ItemGroup>
 
   <ItemGroup>

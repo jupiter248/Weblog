@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Weblog.Application.CustomExceptions;
 using Weblog.Domain.Models;
 
-namespace Weblog.Persistence.Services.Generators
+namespace Weblog.Infrastructure.Services.Generators
 {
     public static class JwtTokenService
     {
