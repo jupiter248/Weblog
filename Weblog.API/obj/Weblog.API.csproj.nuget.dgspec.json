@@ -327,8 +327,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj": {
-                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj"
+              "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj"
               }
             }
           }

@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Weblog.Application\Weblog.Application.csproj" />
+    <!-- <ProjectReference Include="..\Weblog.Application\Weblog.Application.csproj" /> -->
     <!-- <ProjectReference Include="..\Weblog.Domain\Weblog.Domain.csproj" /> -->
+    <ProjectReference Include="..\Weblog.Infrastructure\Weblog.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

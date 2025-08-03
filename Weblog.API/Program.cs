@@ -12,6 +12,10 @@ using Weblog.Persistence.Extensions;
 Env.Load(Path.Combine("..", ".env")); // This loads .env into Environment variables
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddEnvironmentVariables();
+
+var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
+Console.WriteLine("👉 Connection String: " + connectionString);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

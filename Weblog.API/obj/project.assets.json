@@ -3230,7 +3230,7 @@
           "Microsoft.EntityFrameworkCore": "8.0.0",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.0",
           "System.IdentityModel.Tokens.Jwt": "8.12.1",
-          "Weblog.Application": "1.0.0"
+          "Weblog.Infrastructure": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Weblog.Persistence.dll": {}
