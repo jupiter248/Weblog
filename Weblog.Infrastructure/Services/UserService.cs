@@ -38,13 +38,35 @@ namespace Weblog.Infrastructure.Services
         {
             List<AppUser> appUsers = await _userManager.Users.ToListAsync();
             List<UserDto> userDtos = _mapper.Map<List<UserDto>>(appUsers);
+            foreach (var user in appUsers)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                foreach (var userDto in userDtos)
+                {
+                    if (userDto.Id == user.Id)
+                    {
+                        userDto.Roles = roles;
+                    }
+                }
+            }
             return userDtos;
+        }
+
+        public async Task<UserDto> GetCurrentUser(string userId)
+        {
+            AppUser? appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
+            UserDto userDto = _mapper.Map<UserDto>(appUser);
+            userDto.Roles = await _userManager.GetRolesAsync(appUser);
+            return userDto;
         }
 
         public async Task<UserDto> GetUserByIdAsync(string userId)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
-            return _mapper.Map<UserDto>(appUser);
+            UserDto userDto = _mapper.Map<UserDto>(appUser);
+            userDto.Roles = await _userManager.GetRolesAsync(appUser);
+
+            return userDto;
         }
 
         public async Task UpdateUserAsync(UpdateUserDto updateUserDto, string userId)

@@ -37,6 +37,15 @@ namespace Weblog.API.Controllers
             return Ok(userDto);
         }
         [Authorize]
+        [HttpGet("current-user")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            string? userId = User.GetUserId();
+            if (userId == null) return NotFound("User not found");
+            UserDto userDto = await _userService.GetCurrentUser(userId);
+            return Ok(userDto);
+        }
+        [Authorize]
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(string userId,[FromBody] UpdateUserDto updateUserDto)
         {

@@ -9,6 +9,7 @@ namespace Weblog.Application.Interfaces.Services
     public interface IUserService
     {
         Task<List<UserDto>> GetAllUsersAsync();
+        Task<UserDto> GetCurrentUser(string userId);
         Task<UserDto> GetUserByIdAsync(string userId);
         Task UpdateUserAsync(UpdateUserDto updateUserDto , string userId);
         Task DeleteUserAsync(string userId);
