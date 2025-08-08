@@ -34,6 +34,7 @@ namespace Weblog.Infrastructure.Services.Generators
                 Subject = new ClaimsIdentity(claims),
                 Issuer = Environment.GetEnvironmentVariable("JWT_Issuer"),
                 Audience = Environment.GetEnvironmentVariable("JWT_Audience"),
+                Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = creds,
             };
             var tokenHandler = new JwtSecurityTokenHandler();

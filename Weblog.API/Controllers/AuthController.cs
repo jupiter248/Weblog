@@ -33,11 +33,11 @@ namespace Weblog.API.Controllers
             AuthResponseDto authResponseDto = await _authService.LoginAsync(loginDto);
             return Ok(authResponseDto);
         }
-        [HttpPost("consent-code")]
-        public async Task<IActionResult> SendConsentCode([FromBody] AddConsentSmsDto addConsentSmsDto)
-        {
-            await _smsService.SendConsentSmsAsync(addConsentSmsDto);
-            return Ok();
-        }
+        // [HttpPost("consent-code")]
+        // public async Task<IActionResult> SendConsentCode([FromBody] AddConsentSmsDto addConsentSmsDto)
+        // {
+        //     await _smsService.SendConsentSmsAsync(addConsentSmsDto);
+        //     return Ok();
+        // }
     }
 }

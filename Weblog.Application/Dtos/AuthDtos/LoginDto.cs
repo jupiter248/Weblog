@@ -9,11 +9,11 @@ namespace Weblog.Application.Dtos.AuthDtos
 {
     public class LoginDto
     {
-        [Phone]
-        public string? PhoneNumber { get; set; }
-        public string? Username { get; set; }
-        public string? Code { get; set; }
-        public string? Password { get; set; }
-        public required LoginAndRegisterType LoginAndRegisterType { get; set; }
+        // [Phone]
+        // public required string PhoneNumber { get; set; }
+        public required string Username { get; set; }
+        public required string Password { get; set; }
+        // public string? Code { get; set; }
+        // public required LoginAndRegisterType LoginAndRegisterType { get; set; }
     }
 }
