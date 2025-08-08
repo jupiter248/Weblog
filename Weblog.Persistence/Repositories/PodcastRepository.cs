@@ -56,13 +56,22 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Podcast>> GetAllPodcastsAsync(FilteringParams filteringParams, PaginationParams paginationParams)
+        public async Task<List<Podcast>> GetAllPodcastsAsync(PodcastFilteringParams podcastFilteringParams, PaginationParams paginationParams)
         {
             var podcastQuery = _context.Podcasts.Include(c => c.Category).Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
 
-            if (filteringParams.CategoryId.HasValue)
+            if (podcastFilteringParams.CategoryId.HasValue)
             {
-                podcastQuery = podcastQuery.Where(a => a.CategoryId == filteringParams.CategoryId);
+                podcastQuery = podcastQuery.Where(a => a.CategoryId == podcastFilteringParams.CategoryId);
+            }
+
+            if (podcastFilteringParams.NewestArrivals == true)
+            {
+                podcastQuery = podcastQuery.OrderByDescending(p => p.CreatedAt);
+            }
+            else
+            {
+                podcastQuery = podcastQuery.OrderBy(p => p.CreatedAt);
             }
 
             var podcasts = await podcastQuery.ToListAsync();

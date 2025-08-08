@@ -64,9 +64,9 @@ namespace Weblog.Infrastructure.Services
             Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException("Article not found");
             await _articleRepo.DeleteArticleByIdAsync(article);
         }
-        public async Task<List<ArticleSummaryDto>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams)
+        public async Task<List<ArticleSummaryDto>> GetAllArticlesAsync(PaginationParams paginationParams, ArticleFilteringParams articleFilteringParams)
         {
-            List<Article> articles = await _articleRepo.GetAllArticlesAsync(paginationParams, filteringParams);
+            List<Article> articles = await _articleRepo.GetAllArticlesAsync(paginationParams, articleFilteringParams);
             List<ArticleSummaryDto> articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
 
             foreach (var item in articleSummaryDtos)

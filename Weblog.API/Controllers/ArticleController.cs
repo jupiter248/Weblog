@@ -26,9 +26,9 @@ namespace Weblog.API.Controllers
             _favoriteArticleService = favoriteArticleService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllArticles([FromQuery] FilteringParams filteringParams, [FromQuery] PaginationParams paginationParams)
+        public async Task<IActionResult> GetAllArticles([FromQuery] ArticleFilteringParams articleFilteringParams, [FromQuery] PaginationParams paginationParams)
         {
-            List<ArticleSummaryDto> articleDtos = await _articleService.GetAllArticlesAsync(paginationParams, filteringParams);
+            List<ArticleSummaryDto> articleDtos = await _articleService.GetAllArticlesAsync(paginationParams, articleFilteringParams);
             return Ok(articleDtos);
         }
         [HttpGet("{id:int}")]

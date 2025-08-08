@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Weblog.Application.Queries.FilteringParams
 {
-    public class EventFilteringParams
+    public class ArticleFilteringParams
     {
         public int? CategoryId { get; set; }
-        public string? Place { get; set; }
         public bool NewestArrivals { get; set; } = false;
+
 
     }
 }

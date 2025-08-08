@@ -28,9 +28,9 @@ namespace Weblog.API.Controllers
             _favoritePodcastService = favoritePodcastService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllPodcasts([FromQuery] FilteringParams filteringParams, [FromQuery] PaginationParams paginationParams)
+        public async Task<IActionResult> GetAllPodcasts([FromQuery] PodcastFilteringParams podcastFilteringParams, [FromQuery] PaginationParams paginationParams)
         {
-            List<PodcastSummaryDto> podcastSummaryDtos = await _podcastService.GetAllPodcastsAsync(paginationParams, filteringParams);
+            List<PodcastSummaryDto> podcastSummaryDtos = await _podcastService.GetAllPodcastsAsync(paginationParams, podcastFilteringParams);
             return Ok(podcastSummaryDtos);
         }
         [HttpGet("{id:int}")]

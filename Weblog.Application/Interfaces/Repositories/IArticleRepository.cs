@@ -10,7 +10,7 @@ namespace Weblog.Application.Interfaces.Repositories
 {
     public interface IArticleRepository
     {
-        Task<List<Article>> GetAllArticlesAsync(PaginationParams paginationParams, FilteringParams filteringParams);
+        Task<List<Article>> GetAllArticlesAsync(PaginationParams paginationParams, ArticleFilteringParams articleFilteringParams);
         Task<Article?> GetArticleByIdAsync(int articleId);
         Task<Article> AddArticleAsync(Article article);
         Task UpdateArticleAsync(Article currentArticle, Article newArticle);

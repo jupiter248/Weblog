@@ -88,9 +88,9 @@ namespace Weblog.Infrastructure.Services
             await _podcastRepo.DeleteTagAsync(podcast, tag);
         }
 
-        public async Task<List<PodcastSummaryDto>> GetAllPodcastsAsync(PaginationParams paginationParams, FilteringParams filteringParams)
+        public async Task<List<PodcastSummaryDto>> GetAllPodcastsAsync(PaginationParams paginationParams, PodcastFilteringParams podcastFilteringParams)
         {
-            List<Podcast> podcasts = await _podcastRepo.GetAllPodcastsAsync(filteringParams, paginationParams);
+            List<Podcast> podcasts = await _podcastRepo.GetAllPodcastsAsync(podcastFilteringParams, paginationParams);
             List<PodcastSummaryDto> podcastSummaryDtos = _mapper.Map<List<PodcastSummaryDto>>(podcasts);
             foreach (var item in podcastSummaryDtos)
             {

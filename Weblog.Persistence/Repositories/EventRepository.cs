@@ -80,6 +80,15 @@ namespace Weblog.Persistence.Repositories
                 eventQuery = eventQuery.Where(a => a.Place.ToLower() == eventFilteringParams.Place.ToLower());
             }
 
+            if (eventFilteringParams.NewestArrivals == true)
+            {
+                eventQuery = eventQuery.OrderByDescending(p => p.CreatedAt);
+            }
+            else
+            {
+                eventQuery = eventQuery.OrderBy(p => p.CreatedAt);
+            }
+            
             var events = await eventQuery.ToListAsync();
             foreach (var eventModel in events)
             {

@@ -10,7 +10,7 @@ namespace Weblog.Application.Interfaces.Repositories
 {
     public interface IPodcastRepository
     {
-        Task<List<Podcast>> GetAllPodcastsAsync(FilteringParams filteringParams, PaginationParams paginationParams);
+        Task<List<Podcast>> GetAllPodcastsAsync(PodcastFilteringParams podcastFilteringParams, PaginationParams paginationParams);
         Task<Podcast?> GetPodcastByIdAsync(int podcastId);
         Task<Podcast> AddPodcastAsync(Podcast podcast);
         Task UpdatePodcastAsync(Podcast podcast);
