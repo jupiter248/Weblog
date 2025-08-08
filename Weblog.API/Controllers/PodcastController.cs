@@ -48,7 +48,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdatePodcast(int id, UpdatePodcastDto updatePodcastDto)
+        public async Task<IActionResult> UpdatePodcast(int id,[FromBody] UpdatePodcastDto updatePodcastDto)
         {
             await _podcastService.UpdatePodcastAsync(updatePodcastDto, id);
             return NoContent();
@@ -90,7 +90,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize]
         [HttpPost("favorite")]
-        public async Task<IActionResult> AddArticleToFavorite(AddFavoritePodcastDto addFavoritePodcastDto)
+        public async Task<IActionResult> AddArticleToFavorite([FromBody] AddFavoritePodcastDto addFavoritePodcastDto)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");

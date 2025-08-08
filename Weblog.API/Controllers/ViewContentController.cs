@@ -21,20 +21,20 @@ namespace Weblog.API.Controllers
             _viewContentService = viewContentService;
         }
         [HttpGet("users")]
-        public async Task<IActionResult> GetAllLikeUsers(int entityTypeId, LikeAndViewType likeAndViewType)
+        public async Task<IActionResult> GetAllLikeUsers(int entityTypeId,[FromQuery] LikeAndViewType likeAndViewType)
         {
             List<UserDto> userDtos = await _viewContentService.GetAllContentViewersAsync(entityTypeId, likeAndViewType);
             return Ok(userDtos);
         }
         [HttpGet("count")]
-        public async Task<IActionResult> GetViewCount(int entityTypeId, LikeAndViewType entityType)
+        public async Task<IActionResult> GetViewCount(int entityTypeId,[FromQuery] LikeAndViewType entityType)
         {
             int viewCount = await _viewContentService.GetViewCountAsync(entityTypeId, entityType);
             return Ok(viewCount);
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> ViewContent(int entityTypeId, LikeAndViewType entityType)
+        public async Task<IActionResult> ViewContent(int entityTypeId,[FromBody] LikeAndViewType entityType)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");

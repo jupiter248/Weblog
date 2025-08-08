@@ -21,20 +21,20 @@ namespace Weblog.API.Controllers
             _likeContentService = likeContentService;
         }
         [HttpGet("users")]
-        public async Task<IActionResult> GetAllLikeUsers(int entityTypeId, LikeAndViewType likeAndViewType)
+        public async Task<IActionResult> GetAllLikeUsers(int entityTypeId,[FromQuery] LikeAndViewType likeAndViewType)
         {
             List<UserDto> userDtos = await _likeContentService.GetAllContentLikesAsync(entityTypeId, likeAndViewType);
             return Ok(userDtos);
         }
         [HttpGet("count")]
-        public async Task<IActionResult> GetLikeCount(int entityTypeId, LikeAndViewType entityType)
+        public async Task<IActionResult> GetLikeCount(int entityTypeId,[FromQuery] LikeAndViewType entityType)
         {
             int likeCount = await _likeContentService.GetLikeCountAsync(entityTypeId, entityType);
             return Ok(likeCount);
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> LikeContent(int entityTypeId, LikeAndViewType entityType)
+        public async Task<IActionResult> LikeContent(int entityTypeId,[FromBody] LikeAndViewType entityType)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
@@ -43,7 +43,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize]
         [HttpDelete]
-        public async Task<IActionResult> UnlikeContent(int entityTypeId, LikeAndViewType entityType)
+        public async Task<IActionResult> UnlikeContent(int entityTypeId,[FromBody] LikeAndViewType entityType)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");

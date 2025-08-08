@@ -41,14 +41,14 @@ namespace Weblog.API.Controllers
         }
         [Authorize]
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetFavoriteListById([FromRoute] int id)
+        public async Task<IActionResult> GetFavoriteListById(int id)
         {
             FavoriteListDto favoriteListDto = await _favoriteListService.GetFavoriteListByIdAsync(id);
             return Ok(favoriteListDto);
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddFavoriteList([FromQuery] AddFavoriteListDto addFavoriteListDto)
+        public async Task<IActionResult> AddFavoriteList([FromBody] AddFavoriteListDto addFavoriteListDto)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
@@ -57,7 +57,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize]
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateFavoriteList([FromRoute] int id, [FromBody] UpdateFavoriteListDto updateFavoriteListDto)
+        public async Task<IActionResult> UpdateFavoriteList( int id, [FromBody] UpdateFavoriteListDto updateFavoriteListDto)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
@@ -66,7 +66,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize]
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteFavoriteList([FromRoute] int id)
+        public async Task<IActionResult> DeleteFavoriteList( int id)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
@@ -75,7 +75,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize]
         [HttpGet("event")]
-        public async Task<IActionResult> GetAllFavoriteEvents([FromQuery] int? favoriteListId)
+        public async Task<IActionResult> GetAllFavoriteEvents([FromBody] int? favoriteListId)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");

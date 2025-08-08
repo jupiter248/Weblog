@@ -48,7 +48,7 @@ namespace Weblog.API.Controllers
             return CreatedAtAction(nameof(GetEventById), new { id = eventDto.Id }, eventDto);
         }
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateEvent(int id, UpdateEventDto updateEventDto)
+        public async Task<IActionResult> UpdateEvent(int id, [FromBody] UpdateEventDto updateEventDto)
         {
             await _eventService.UpdateEventAsync(updateEventDto, id);
             return NoContent();
@@ -84,7 +84,7 @@ namespace Weblog.API.Controllers
             return NoContent();
         }
         [HttpPost("favorite")]
-        public async Task<IActionResult> AddArticleToFavorite(AddFavoriteEventDto addFavoriteEventDto)
+        public async Task<IActionResult> AddArticleToFavorite([FromBody] AddFavoriteEventDto addFavoriteEventDto)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");

@@ -25,7 +25,7 @@ namespace Weblog.API.Controllers
             return Ok(contributorDtos);
         }
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetContributorById([FromRoute] int id)
+        public async Task<IActionResult> GetContributorById( int id)
         {
             ContributorDto contributorDto = await _contributorService.GetContributorByIdAsync(id);
             return Ok(contributorDto);
@@ -39,14 +39,14 @@ namespace Weblog.API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateContributor([FromRoute] int id, [FromBody] UpdateContributorDto updateContributorDto)
+        public async Task<IActionResult> UpdateContributor( int id, [FromBody] UpdateContributorDto updateContributorDto)
         {
             await _contributorService.UpdateContributorAsync(updateContributorDto, id);
             return NoContent();
         } 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteContributor([FromRoute] int id)
+        public async Task<IActionResult> DeleteContributor( int id)
         {
             await _contributorService.DeleteContributorAsync( id);
             return NoContent();

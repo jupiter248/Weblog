@@ -30,14 +30,14 @@ namespace Weblog.API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetCommentById([FromRoute] int id)
+        public async Task<IActionResult> GetCommentById( int id)
         {
             CommentDto commentDtos = await _commentService.GetCommentByIdAsync(id);
             return Ok(commentDtos);
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddComment([FromQuery] AddCommentDto addCommentDto)
+        public async Task<IActionResult> AddComment([FromBody] AddCommentDto addCommentDto)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
@@ -46,7 +46,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize]
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateComment([FromRoute] int id, [FromBody] UpdateCommentDto updateCommentDto)
+        public async Task<IActionResult> UpdateComment( int id, [FromBody] UpdateCommentDto updateCommentDto)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
@@ -55,7 +55,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize]
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteComment([FromRoute] int id)
+        public async Task<IActionResult> DeleteComment( int id)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");

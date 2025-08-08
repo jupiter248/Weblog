@@ -29,14 +29,14 @@ namespace Weblog.API.Controllers
             return Ok(categoryDtos);
         }
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetCategoryById([FromRoute] int id)
+        public async Task<IActionResult> GetCategoryById(int id)
         {
             CategoryDto categoryDto = await _categoryService.GetCategoryByIdAsync(id);
             return Ok(categoryDto);
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> AddCategory([FromQuery] AddCategoryDto addCategoryDto)
+        public async Task<IActionResult> AddCategory([FromBody] AddCategoryDto addCategoryDto)
         {
             CategoryDto categoryDto = await _categoryService.AddCategoryAsync(addCategoryDto);
             return CreatedAtAction(nameof(GetCategoryById), new { id = categoryDto.Id }, categoryDto);
@@ -50,7 +50,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteCategory([FromRoute] int id)
+        public async Task<IActionResult> DeleteCategory( int id)
         {
             await _categoryService.DeleteCategoryAsync(id);
             return NoContent();

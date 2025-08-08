@@ -28,7 +28,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetTagById([FromRoute] int id)
+        public async Task<IActionResult> GetTagById( int id)
         {
             TagDto tagDto = await _tagService.GetTagByIdAsync(id);
             return Ok(tagDto);
@@ -49,7 +49,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteTag([FromRoute] int id)
+        public async Task<IActionResult> DeleteTag( int id)
         {
             await _tagService.DeleteTagAsync( id);
             return NoContent();

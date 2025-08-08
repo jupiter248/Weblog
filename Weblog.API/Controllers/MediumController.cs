@@ -35,7 +35,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> AddMedium(UploadMediumDto uploadMediumDto)
+        public async Task<IActionResult> AddMedium([FromBody] UploadMediumDto uploadMediumDto)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
@@ -44,7 +44,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateMedium(UpdateMediumDto updateMediumDto, int id)
+        public async Task<IActionResult> UpdateMedium([FromBody] UpdateMediumDto updateMediumDto, int id)
         {
             await _mediumService.UpdateMediumAsync(updateMediumDto, id);
             return NoContent();

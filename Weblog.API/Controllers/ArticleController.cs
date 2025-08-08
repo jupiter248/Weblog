@@ -46,7 +46,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateArticle(int id, UpdateArticleDto updateArticleDto)
+        public async Task<IActionResult> UpdateArticle(int id, [FromBody]UpdateArticleDto updateArticleDto)
         {
             await _articleService.UpdateArticleAsync(updateArticleDto, id);
             return NoContent();
