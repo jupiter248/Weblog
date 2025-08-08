@@ -13,6 +13,7 @@ namespace Weblog.Domain.Models
         public int Id { get; set; }
         public required string Name { get; set; }
         public required string Path { get; set; }
+        public required string AltText { get; set; }
         public MediumType MediumType { get; set; }
         public EntityType EntityType { get; set; }
         public required int EntityId { get; set; }

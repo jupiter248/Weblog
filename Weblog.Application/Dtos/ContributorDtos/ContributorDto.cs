@@ -13,6 +13,7 @@ namespace Weblog.Application.Dtos.ContributorDtos
         public required string FirstName { get; set; }
         public required string FamilyName { get; set; } 
         public required string FullName { get; set; } 
+        public required string Description { get; set; }
         public List<MediumDto>? MediumDtos { get; set; }
         
     }

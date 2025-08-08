@@ -13,6 +13,7 @@ namespace Weblog.Domain.Models
         public required string FirstName { get; set; }
         public required string FamilyName { get; set; }
         public required string FullName { get; set; }
+        public required string Description { get; set; }
         public List<Article> Articles { get; set; } = new List<Article>();
         public List<Podcast> Podcasts { get; set; } = new List<Podcast>();
         public List<Medium> Media { get; set; } = new List<Medium>();

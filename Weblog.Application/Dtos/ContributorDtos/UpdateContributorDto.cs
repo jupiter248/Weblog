@@ -10,6 +10,7 @@ namespace Weblog.Application.Dtos.ContributorDtos
     {
         public required string FirstName { get; set; }
         public required string FamilyName { get; set; } 
-        
+        public required string Description { get; set; }
+
     }
 }

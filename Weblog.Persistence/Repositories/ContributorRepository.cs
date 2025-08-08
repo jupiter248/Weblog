@@ -60,6 +60,7 @@ namespace Weblog.Persistence.Repositories
         {
             currentContributor.FirstName = newContributor.FirstName;
             currentContributor.FamilyName = newContributor.FamilyName;
+            currentContributor.Description = newContributor.Description;
             currentContributor.FullName = $"{newContributor.FirstName} {newContributor.FamilyName}";
             await _context.SaveChangesAsync();
         }

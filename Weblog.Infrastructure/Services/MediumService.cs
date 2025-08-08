@@ -135,6 +135,7 @@ namespace Weblog.Infrastructure.Services
                 EntityType = uploadMediaDto.EntityType,
                 EntityId = uploadMediaDto.ParentTypeId,
                 UserId = userId,
+                AltText = uploadMediaDto.AltText
             };
 
             await _mediumRepo.AddMediumAsync(medium);
@@ -146,6 +147,7 @@ namespace Weblog.Infrastructure.Services
             Medium medium = await _mediumRepo.GetMediumByIdAsync(mediaId) ?? throw new NotFoundException("Media not found");
             medium.Name = updateMediumDto.Name;
             medium.Path = updateMediumDto.Path;
+            medium.AltText = updateMediumDto.AltText;
             medium.IsPrimary = updateMediumDto.IsPrimary;
             await _mediumRepo.UpdateMediumAsync(medium);
         }

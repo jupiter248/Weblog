@@ -11,6 +11,7 @@ namespace Weblog.Application.Dtos.MediaDtos
         public int Id { get; set; }
         public required string Name { get; set; }
         public required string Path { get; set; }
+        public required string AltText { get; set; }
         public bool IsPrimary { get; set; } = false;
         public MediumType MediumType { get; set; }
         public EntityType EntityType { get; set; }
