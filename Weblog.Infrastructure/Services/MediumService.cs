@@ -80,16 +80,16 @@ namespace Weblog.Infrastructure.Services
             switch (uploadMediaDto.EntityType)
             {
                 case EntityType.Article:
-                    ArticleDto articleDto = await _articleService.GetArticleByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Article not found");
+                    ArticleDto articleDto = await _articleService.GetArticleByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException("Article not found");
                     break;
                 case EntityType.Event:
-                    EventDto eventDto = await _eventService.GetEventByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Event not found");
+                    EventDto eventDto = await _eventService.GetEventByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException("Event not found");
                     break;
                 case EntityType.Contributor:
-                    ContributorDto contributorDto = await _contributorService.GetContributorByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Contributor not found");
+                    ContributorDto contributorDto = await _contributorService.GetContributorByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException("Contributor not found");
                     break;
                 case EntityType.Podcast:
-                    PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(uploadMediaDto.ParentTypeId) ?? throw new NotFoundException("Podcast not found");
+                    PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException("Podcast not found");
                     break;
                 case EntityType.User:
                     var appUser = await _userManager.FindByIdAsync(userId ?? throw new NotFoundException("User not found"));
@@ -133,7 +133,7 @@ namespace Weblog.Infrastructure.Services
                 IsPrimary = uploadMediaDto.IsPrimary,
                 MediumType = uploadMediaDto.MediumType,
                 EntityType = uploadMediaDto.EntityType,
-                EntityId = uploadMediaDto.ParentTypeId,
+                EntityId = uploadMediaDto.EntityId,
                 UserId = userId,
                 AltText = uploadMediaDto.AltText
             };

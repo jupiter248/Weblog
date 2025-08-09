@@ -35,7 +35,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> AddMedium([FromBody] UploadMediumDto uploadMediumDto)
+        public async Task<IActionResult> AddMedium([FromForm] UploadMediumDto uploadMediumDto)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
