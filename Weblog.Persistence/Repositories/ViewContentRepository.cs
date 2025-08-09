@@ -46,7 +46,8 @@ namespace Weblog.Persistence.Repositories
                 UserId = appUser.Id,
                 AppUser = appUser,
                 EntityId = entityTypeId,
-                EntityType = entityType
+                EntityType = entityType,
+                 ViewedOn = DateTimeOffset.Now
             };
             await _context.ViewContents.AddAsync(viewContent);
             await _context.SaveChangesAsync();

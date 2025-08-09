@@ -10,7 +10,7 @@ namespace Weblog.Application.Queries.FilteringParams
         public int? CategoryId { get; set; }
         public string? Place { get; set; }
         public bool NewestArrivals { get; set; } = false;
-        public bool IsPublished { get; set; } = false;
+        public bool? IsPublished { get; set; }
 
     }
 }

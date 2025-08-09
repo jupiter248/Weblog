@@ -88,7 +88,7 @@ namespace Weblog.Infrastructure.Services
             {
                 throw new ValidationException($"{result.Errors}");
             }
-            newAppUser.UpdatedAt = DateTimeOffset.UtcNow;
+            newAppUser.UpdatedAt = DateTimeOffset.Now;
             newAppUser.FullName = $"{newAppUser.FirstName} {newAppUser.LastName}";
             
 

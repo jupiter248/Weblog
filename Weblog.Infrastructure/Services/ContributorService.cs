@@ -27,6 +27,7 @@ namespace Weblog.Infrastructure.Services
         {
             Contributor newContributor = _mapper.Map<Contributor>(addContributorDto);
             newContributor.FullName = $"{newContributor.FirstName} {newContributor.FamilyName}";
+            newContributor.CreatedOn = DateTimeOffset.Now;
             Contributor addedContributor = await _contributorRepo.AddContributorAsync(newContributor);
             return _mapper.Map<ContributorDto>(addedContributor);
         }

@@ -78,6 +78,10 @@ namespace Weblog.Persistence.Repositories
             {
                 podcastQuery = podcastQuery.Where(a => a.IsDisplayed == true);
             }
+            else if (podcastFilteringParams.IsPublished == false)
+            {
+                podcastQuery = podcastQuery.Where(a => a.IsDisplayed == false);
+            }
             var podcasts = await podcastQuery.ToListAsync();
             foreach (var podcast in podcasts)
             {

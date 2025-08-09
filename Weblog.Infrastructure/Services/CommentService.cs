@@ -58,6 +58,7 @@ namespace Weblog.Infrastructure.Services
             Comment comment = _mapper.Map<Comment>(addCommentDto);
             comment.UserId = appUser.Id;
             comment.AppUser = appUser;
+            comment.TextedOn = DateTimeOffset.Now;
             Comment addedComment =  await _commentRepository.AddCommentAsync(comment);
             CommentDto commentDto = _mapper.Map<CommentDto>(addedComment);
             return commentDto;

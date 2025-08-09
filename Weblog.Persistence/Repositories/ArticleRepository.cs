@@ -86,9 +86,13 @@ namespace Weblog.Persistence.Repositories
                 articleQuery = articleQuery.OrderBy(a => a.CreatedAt);
             }
 
-            if (articleFilteringParams.IsPublished)
+            if (articleFilteringParams.IsPublished == true)
             {
                 articleQuery = articleQuery.Where(a => a.IsPublished == true);
+            }
+            else if(articleFilteringParams.IsPublished == false)
+            {
+                articleQuery = articleQuery.Where(a => a.IsPublished == false);
             }
             var articles = await articleQuery.ToListAsync();
             foreach (var article in articles)
@@ -144,7 +148,7 @@ namespace Weblog.Persistence.Repositories
             currentArticle.Title = newArticle.Title;
             currentArticle.Slug = newArticle.Slug;
             currentArticle.Context = newArticle.Context;
-            currentArticle.UpdatedAt = DateTime.Now;
+            currentArticle.UpdatedAt = DateTimeOffset.Now;
             currentArticle.IsPublished = newArticle.IsPublished;
             currentArticle.CategoryId = newArticle.CategoryId;
             currentArticle.Category = newArticle.Category;

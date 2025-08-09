@@ -14,5 +14,6 @@ namespace Weblog.Domain.JoinModels
         public LikeAndViewType EntityType { get; set; }
         public required string UserId { get; set; }
         public AppUser? AppUser { get; set; }
+        public DateTimeOffset LikedOn { get; set; }
     }
 }

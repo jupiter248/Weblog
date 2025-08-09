@@ -10,5 +10,6 @@ namespace Weblog.Application.Dtos.CommentDtos
         public int Id { get; set; }
         public required string Text { get; set; }
         public required string FullName { get; set; }
+        public DateTimeOffset TextedOn { get; set; }
     }
 }

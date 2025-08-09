@@ -93,6 +93,10 @@ namespace Weblog.Persistence.Repositories
             {
                 eventQuery = eventQuery.Where(a => a.IsDisplayed == true);
             }
+            else if(eventFilteringParams.IsPublished == false)
+            {
+                eventQuery = eventQuery.Where(a => a.IsDisplayed == false);
+            }
             var events = await eventQuery.ToListAsync();
             foreach (var eventModel in events)
             {

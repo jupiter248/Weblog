@@ -51,7 +51,8 @@ namespace Weblog.Persistence.Repositories
                 UserId = appUser.Id,
                 AppUser = appUser,
                 EntityId = entityTypeId,
-                EntityType = entityType
+                EntityType = entityType,
+                LikedOn = DateTimeOffset.Now
             };
             await _context.LikeContents.AddAsync(likeContent);
             await _context.SaveChangesAsync();
