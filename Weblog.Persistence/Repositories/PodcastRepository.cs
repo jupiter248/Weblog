@@ -74,6 +74,10 @@ namespace Weblog.Persistence.Repositories
                 podcastQuery = podcastQuery.OrderBy(p => p.CreatedAt);
             }
 
+            if (podcastFilteringParams.IsPublished)
+            {
+                podcastQuery = podcastQuery.Where(a => a.IsDisplayed == true);
+            }
             var podcasts = await podcastQuery.ToListAsync();
             foreach (var podcast in podcasts)
             {

@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace Weblog.Application.Queries.FilteringParams
 {
-    public class FilteringParams
+    public class MediumFilteringParams
     {
-        public int? CategoryId { get; set; }
+        public bool IsPrimary { get; set; } = false;
+        public bool IsOnPoster { get; set; } = false;
     }
 }

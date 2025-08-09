@@ -86,6 +86,10 @@ namespace Weblog.Persistence.Repositories
                 articleQuery = articleQuery.OrderBy(a => a.CreatedAt);
             }
 
+            if (articleFilteringParams.IsPublished)
+            {
+                articleQuery = articleQuery.Where(a => a.IsPublished == true);
+            }
             var articles = await articleQuery.ToListAsync();
             foreach (var article in articles)
             {
