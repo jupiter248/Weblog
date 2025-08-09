@@ -94,6 +94,7 @@ namespace Weblog.Infrastructure.Services
             Article newArticle = _mapper.Map<Article>(updateArticleDto);
             newArticle.Category = category;
             newArticle.CategoryId = category.Id;
+            newArticle.Slug = updateArticleDto.Title.Slugify();
             await _articleRepo.UpdateArticleAsync(currentArticle, newArticle);
         }
         public async Task AddTagAsync(int articleId, int tagId)

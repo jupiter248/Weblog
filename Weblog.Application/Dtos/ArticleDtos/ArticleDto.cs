@@ -21,9 +21,9 @@ namespace Weblog.Application.Dtos.ArticleDtos
         public required bool IsPublished { get; set; }
         public required int ViewCount { get; set; }
         public required int LikeCount { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset? PublishedAt { get; set; }
+        public required string CreatedAt { get; set; }
+        public string? UpdatedAt { get; set; }
+        public string? PublishedAt { get; set; }
         public List<MediumDto>? MediumDtos { get; set; }
         public List<TagDto>? TagDtos { get; set; }
         public List<ContributorDto>? ContributorDtos { get; set; }

@@ -21,11 +21,11 @@ namespace Weblog.Domain.Models
         public required Category Category { get; set; }
         public bool IsDisplayed { get; set; } = false;
         public bool IsFinished { get; set; } = false;
-        public DateTimeOffset? DisplayedAt { get; set; }
+        public DateTimeOffset DisplayedAt { get; set; }
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset? StartedAt { get; set; }
-        public DateTimeOffset? FinishedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTimeOffset StartedAt { get; set; }
+        public DateTimeOffset FinishedAt { get; set; }
         // public TimeSpan? StartTime { get; set; }
         // public TimeSpan? EndTime { get; set; }
         public List<Medium> Media { get; set; } = new List<Medium>();

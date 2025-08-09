@@ -138,6 +138,7 @@ namespace Weblog.Infrastructure.Services
             eventModel.Place = updateEventDto.Place;
             eventModel.IsDisplayed = updateEventDto.IsDisplayed;
             eventModel.IsFinished = updateEventDto.IsFinished;
+            eventModel.Slug = updateEventDto.Title.Slugify();
 
             if (eventModel.IsDisplayed)
             {

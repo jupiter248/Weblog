@@ -15,6 +15,7 @@ namespace Weblog.Application.Dtos.PodcastDtos
         public required bool IsDisplayed { get; set; }
         public required int ViewCount { get; set; }
         public required int LikeCount { get; set; }
+        public required string CreatedOn { get; set; }
         public List<MediumDto>? MediumDtos { get; set; }
         public List<ContributorDto>? ContributorDtos { get; set; }
 

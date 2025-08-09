@@ -23,11 +23,11 @@ namespace Weblog.Application.Dtos.EventDtos
         public bool IsFinished { get; set; }
         public required int ViewCount { get; set; }
         public required int LikeCount { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset? DisplayedAt { get; set; }
-        public DateTimeOffset? StartedAt { get; set; }
-        public DateTimeOffset? FinishedAt { get; set; }
+        public required string CreatedAt { get; set; }
+        public string? UpdatedAt { get; set; }
+        public string? DisplayedAt { get; set; }
+        public string? StartedAt { get; set; }
+        public string? FinishedAt { get; set; }
         public List<MediumDto>? MediumDtos { get; set; }
         public List<TagDto>? TagDtos { get; set; }
         public List<ContributorDto>? ContributorDtos { get; set; }

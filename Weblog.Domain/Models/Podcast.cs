@@ -21,8 +21,8 @@ namespace Weblog.Domain.Models
         public required bool IsDisplayed { get; set; } = false;
         public ContributorType ContributorType { get; set; }
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
-        public DateTimeOffset? DisplayedAt { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset DisplayedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
         public List<Medium> Media { get; set; } = new List<Medium>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
         public List<Contributor> Contributors { get; set; } = new List<Contributor>(); // The hosts of podcast

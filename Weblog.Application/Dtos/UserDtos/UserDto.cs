@@ -7,7 +7,7 @@ using Weblog.Application.Dtos.MediaDtos;
 namespace Weblog.Application.Dtos.UserDtos
 {
     public class UserDto
-    {
+    {   
         public required string Id { get; set; }
         public required string Username { get; set; }
         public required string PhoneNumber { get; set; }
@@ -15,8 +15,9 @@ namespace Weblog.Application.Dtos.UserDtos
         public required string LastName { get; set; }
         public required string FullName { get; set; }
         public required IList<string> Roles { get; set; }
-        public required DateTimeOffset CreatedAt { get; set; }
-        public required DateTimeOffset UpdatedAt { get; set; }
+        public required string UserActiveDuration { get; set; }
+        public required string CreatedAt { get; set; }
+        public string? UpdatedAt { get; set; }
         public List<MediumDto>? Media { get; set; }
     }
 }

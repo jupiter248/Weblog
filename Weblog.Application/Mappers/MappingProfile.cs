@@ -14,6 +14,7 @@ using Weblog.Application.Dtos.MediaDtos;
 using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Dtos.TagDtos;
 using Weblog.Application.Dtos.UserDtos;
+using Weblog.Application.Helpers;
 using Weblog.Domain.JoinModels;
 using Weblog.Domain.JoinModels.Favorites;
 using Weblog.Domain.Models;
@@ -29,10 +30,16 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
-                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
+                .ForMember(dest => dest.PublishedAt, opt => opt.MapFrom(src => src.PublishedAt.ToShamsi()))
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.ToShamsi()));
+
             CreateMap<Article, ArticleSummaryDto>()
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
-                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
+                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
+                .ForMember(dest => dest.PublishedAt, opt => opt.MapFrom(src => src.PublishedAt.ToShamsi()));
+                
             CreateMap<AddArticleDto, Article>();
             CreateMap<UpdateArticleDto, Article>();
             // Category
@@ -44,7 +51,8 @@ namespace Weblog.Application.Mappers
             CreateMap<AddTagDto, Tag>();
             CreateMap<UpdateTagDto, Tag>();
             // Contributor
-            CreateMap<Contributor, ContributorDto>();
+            CreateMap<Contributor, ContributorDto>()
+                .ForMember(dest => dest.CreatedOn, opt => opt.MapFrom(src => src.CreatedOn.ToShamsi()));
             CreateMap<AddContributorDto, Contributor>();
             CreateMap<UpdateContributorDto, Contributor>();
             //Medium
@@ -56,10 +64,16 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
-                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
+                .ForMember(dest => dest.DisplayedAt, opt => opt.MapFrom(src => src.DisplayedAt.ToShamsi()))
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.ToShamsi()))
+                .ForMember(dest => dest.StartedAt, opt => opt.MapFrom(src => src.StartedAt.ToShamsi()))
+                .ForMember(dest => dest.FinishedAt, opt => opt.MapFrom(src => src.FinishedAt.ToShamsi()));
             CreateMap<Event, EventSummaryDto>()
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
-                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
+                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
+                .ForMember(dest => dest.DisplayedAt, opt => opt.MapFrom(src => src.DisplayedAt.ToShamsi()));
             CreateMap<AddEventDto, Event>();
             CreateMap<UpdateEventDto, Event>();
             //Podcast
@@ -67,21 +81,29 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.TagDtos, opt => opt.MapFrom(src => src.Tags))
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
-                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.ToShamsi()))
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
+                .ForMember(dest => dest.DisplayedAt, opt => opt.MapFrom(src => src.DisplayedAt.ToShamsi()));
             CreateMap<Podcast, PodcastSummaryDto>()
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
-                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
+                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
+                .ForMember(dest => dest.CreatedOn, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
+
             CreateMap<AddPodcastDto, Podcast>();
             CreateMap<UpdatePodcastDto, Podcast>();
             //Comment
             CreateMap<Comment, CommentDto>()
-                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.AppUser.FullName));
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.AppUser.FullName))
+                .ForMember(dest => dest.TextedOn, opt => opt.MapFrom(src => src.TextedOn.ToShamsi()));
             CreateMap<AddCommentDto, Comment>();
             CreateMap<UpdateCommentDto, Comment>();
             //User
             CreateMap<UpdateUserDto, AppUser>();
             CreateMap<AppUser, UserDto>()
-                .ForMember(dest => dest.Media, opt => opt.MapFrom(src => src.Media));
+                .ForMember(dest => dest.Media, opt => opt.MapFrom(src => src.Media))
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.ToShamsi())); 
             //Favorite List
             CreateMap<FavoriteList, FavoriteListDto>()
                 .ForMember(dest => dest.Articles, opt => opt.MapFrom(src => src.Articles))
@@ -89,7 +111,6 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.Podcasts, opt => opt.MapFrom(src => src.Podcasts));
             CreateMap<AddFavoriteListDto, FavoriteList>();
             CreateMap<UpdateFavoriteListDto, FavoriteList>();
-
 
         }
     }
