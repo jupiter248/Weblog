@@ -21,8 +21,14 @@ FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "Weblog.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
+
 FROM base AS final
 WORKDIR /app
-
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Weblog.API.dll"]
+
+# Copy wait script into container
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
+# Change ENTRYPOINT to wait for MySQL (host: db, port: 3306) before starting API
+ENTRYPOINT ["/wait-for-it.sh", "db:3306", "--timeout=60", "--", "dotnet", "Weblog.API.dll"]

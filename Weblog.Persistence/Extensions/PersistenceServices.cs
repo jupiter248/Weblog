@@ -22,7 +22,7 @@ namespace Weblog.Persistence.Extensions
                 options =>
                 {
                     string cs = Environment.GetEnvironmentVariable("DefaultConnection") ?? throw new NotFoundException("Connection not found");
-                    options.UseMySql(cs, ServerVersion.AutoDetect(cs));
+                    options.UseMySql(cs, ServerVersion.AutoDetect(cs) , sqlOption => sqlOption.EnableRetryOnFailure());
                 }
             );
         }

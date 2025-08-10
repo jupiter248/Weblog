@@ -1,6 +1,7 @@
 version: '3.3'
 services:
   db:
+    container_name: weblog-db
     image: mysql:5.7
     environment:
        MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -12,7 +13,7 @@ services:
        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       # <Port exposed> : <MySQL Port running inside container>
-      - '3306:3306'
+      - '3308:3306'
     expose:
       # Opens port 3306 on the container
       - '3306'
@@ -20,6 +21,7 @@ services:
     volumes:
       - my-weblog:/var/lib/mysql
   api:
+    container_name: weblog-api
     build:
       context: .
       dockerfile: dockerfile
@@ -31,6 +33,8 @@ services:
       - .env
     depends_on:
       - db
+    volumes:
+      - ./Weblog.API/wwwroot:/app/wwwroot
 # Names our volume
 volumes:
   my-weblog:
