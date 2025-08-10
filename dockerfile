@@ -27,8 +27,10 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # Copy wait script into container
-COPY wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh
+# COPY wait-for-it.sh /wait-for-it.sh
+# RUN chmod +x /wait-for-it.sh
 
 # Change ENTRYPOINT to wait for MySQL (host: db, port: 3306) before starting API
-ENTRYPOINT ["/wait-for-it.sh", "db:3306", "--timeout=60", "--", "dotnet", "Weblog.API.dll"]
+# ENTRYPOINT ["/wait-for-it.sh", "db:3306", "--timeout=60", "--", "dotnet", "Weblog.API.dll"]
+
+ENTRYPOINT ["dotnet", "Weblog.API.dll"]
