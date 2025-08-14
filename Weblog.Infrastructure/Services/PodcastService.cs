@@ -134,9 +134,20 @@ namespace Weblog.Infrastructure.Services
             podcast.Link = updatePodcastDto.Link;
             podcast.Name = updatePodcastDto.Name;
             podcast.Slug = podcast.Name.Slugify();
-            if (podcast.IsDisplayed)
+            
+            if (podcast.IsDisplayed == true)
             {
-                podcast.DisplayedAt = DateTimeOffset.Now;
+                if (podcast.DisplayedAt == DateTimeOffset.MinValue)
+                {
+                    podcast.DisplayedAt = DateTimeOffset.Now;
+                }
+            }
+            else
+            {
+                if (podcast.DisplayedAt != DateTimeOffset.MinValue)
+                {
+                    podcast.DisplayedAt = DateTimeOffset.MinValue;
+                }
             }
             podcast.UpdatedAt = DateTimeOffset.Now;
             await _podcastRepo.UpdatePodcastAsync(podcast);

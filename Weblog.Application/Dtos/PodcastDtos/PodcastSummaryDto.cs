@@ -12,6 +12,7 @@ namespace Weblog.Application.Dtos.PodcastDtos
         public int Id { get; set; }
         public required string Name { get; set; }
         public required string Description { get; set; }
+        public required string Slug { get; set; }
         public required bool IsDisplayed { get; set; }
         public required int ViewCount { get; set; }
         public required int LikeCount { get; set; }

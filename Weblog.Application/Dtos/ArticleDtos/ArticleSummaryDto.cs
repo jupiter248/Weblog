@@ -13,6 +13,8 @@ namespace Weblog.Application.Dtos.ArticleDtos
         public int Id { get; set; }
         public required string Title { get; set; }
         public required bool IsPublished { get; set; }
+        public required string Description { get; set; }
+        public required string Slug { get; set; }
         public required int ViewCount { get; set; }
         public required int LikeCount { get; set; }
         public required string PublishedAt { get; set; }

@@ -20,9 +20,10 @@ namespace Weblog.Persistence.Repositories
         public async Task CancelTakingPartAsync(TakingPart takingPart)
         {
             _context.TakingParts.Remove(takingPart);
-            await _context.SaveChangesAsync();        }
+            await _context.SaveChangesAsync(); 
+        }
 
-        public async Task<List<TakingPart>> GetAllTakingPartsByEventIdAsync( int eventId)
+        public async Task<List<TakingPart>> GetAllTakingPartsByEventIdAsync(int eventId)
         {
             return await _context.TakingParts.Include(t => t.AppUser).Include(t => t.Event).Where(t => t.EventId == eventId).ToListAsync();
         }
@@ -59,9 +60,24 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<TakingPart>> GetAllTookPartsByEventsAsync(string userId)
+        public async Task<List<TakingPart>> GetAllTookPartsByEventsAsync(string userId, int? categoryId)
         {
-            return await _context.TakingParts.Where(t => t.UserId == userId).Include(e => e.Event).ToListAsync();
+            var takingParts = await _context.TakingParts.Where(t => t.UserId == userId).Include(e => e.Event).ToListAsync();
+            if (categoryId.HasValue)
+            {
+                takingParts = takingParts.Where(t => t.Event.CategoryId == categoryId).ToList();
+            }
+            return takingParts;
+        }
+
+        public async Task<TakingPart?> GetTakingPartByUserIdAndEventIdAsync(string userId, int eventId)
+        {
+            TakingPart? takingPart = await _context.TakingParts.FirstOrDefaultAsync(t => t.EventId == eventId && t.UserId == userId);
+            if (takingPart == null)
+            {
+                return null;
+            }
+            return takingPart;
         }
     }
 }

@@ -140,13 +140,34 @@ namespace Weblog.Infrastructure.Services
             eventModel.IsFinished = updateEventDto.IsFinished;
             eventModel.Slug = updateEventDto.Title.Slugify();
 
-            if (eventModel.IsDisplayed)
+            if (eventModel.IsDisplayed == true)
             {
-                eventModel.DisplayedAt = DateTimeOffset.Now;
+                if (eventModel.DisplayedAt == DateTimeOffset.MinValue)
+                {
+                    eventModel.DisplayedAt = DateTimeOffset.Now;
+                }
             }
-            if (eventModel.IsFinished)
+            else
             {
-                eventModel.FinishedAt = DateTimeOffset.Now;
+                if (eventModel.DisplayedAt != DateTimeOffset.MinValue)
+                {
+                    eventModel.DisplayedAt = DateTimeOffset.MinValue;
+                }
+            }
+
+            if (eventModel.IsFinished == true)
+            {
+                if (eventModel.FinishedAt == DateTimeOffset.MinValue)
+                {
+                    eventModel.FinishedAt = DateTimeOffset.Now;
+                }
+            }
+            else
+            {
+                if (eventModel.FinishedAt != DateTimeOffset.MinValue)
+                {
+                    eventModel.FinishedAt = DateTimeOffset.MinValue;
+                }
             }
             eventModel.UpdatedAt = DateTimeOffset.Now;
             await _eventRepo.UpdateEventAsync(eventModel);

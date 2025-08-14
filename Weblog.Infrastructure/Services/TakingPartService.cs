@@ -34,13 +34,8 @@ namespace Weblog.Infrastructure.Services
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
-            TakingPart takingPart = new TakingPart
-            {
-                UserId = appUser.Id,
-                AppUser = appUser,
-                EventId = eventModel.Id,
-                Event = eventModel
-            };
+
+            TakingPart takingPart = await _takingPartRepo.GetTakingPartByUserIdAndEventIdAsync(userId, eventId) ?? throw new NotFoundException("Not found");
             await _takingPartRepo.CancelTakingPartAsync(takingPart);
         }
 
@@ -88,11 +83,11 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<List<EventSummaryDto>> GetAllTookPartEventsAsync(string userId , int? categoryId)
         {
-            List<TakingPart> takingParts = await _takingPartRepo.GetAllTookPartsByEventsAsync(userId);
+            List<TakingPart> takingParts = await _takingPartRepo.GetAllTookPartsByEventsAsync(userId , categoryId);
             List<EventSummaryDto> eventSummaryDtos = _mapper.Map<List<EventSummaryDto>>(takingParts.Select(t => t.Event).ToList());
             if (categoryId.HasValue)
             {
-                eventSummaryDtos = _mapper.Map<List<EventSummaryDto>>(takingParts.Where(t => t.Event.CategoryId == categoryId).ToList());
+                eventSummaryDtos = _mapper.Map<List<EventSummaryDto>>(eventSummaryDtos);
             }
             return eventSummaryDtos;
         }

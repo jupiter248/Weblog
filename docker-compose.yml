@@ -1,5 +1,20 @@
 version: '3.3'
 services:
+  api:
+    container_name: weblog-api
+    build:
+      context: .
+      dockerfile: dockerfile
+    dns:
+      - 8.8.8.8
+    ports:
+      - "5000:8080"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - ./Weblog.API/wwwroot:/app/wwwroot
   db:
     container_name: weblog-db
     image: mysql:5.7
@@ -20,21 +35,6 @@ services:
       # Where our data will be persisted
     volumes:
       - my-weblog:/var/lib/mysql
-  api:
-    container_name: weblog-api
-    build:
-      context: .
-      dockerfile: dockerfile
-    dns:
-      - 8.8.8.8
-    ports:
-      - "5000:8080"
-    env_file:
-      - .env
-    depends_on:
-      - db
-    volumes:
-      - ./Weblog.API/wwwroot:/app/wwwroot
 # Names our volume
 volumes:
   my-weblog:
