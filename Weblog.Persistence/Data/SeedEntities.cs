@@ -14,7 +14,12 @@ namespace Weblog.Persistence.Data
     public class SeedEntities
     {
         public static async Task SeedUserAndAdmin(ApplicationDbContext _context , UserManager<AppUser> _userManager)
-        {
+        {       
+                if (_context.Users.Any())
+                {
+                    System.Console.WriteLine("Database already seeded");
+                    return;
+                }
                 //Add a user and an admin
                 AppUser appUser = new AppUser()
                 {
@@ -38,8 +43,13 @@ namespace Weblog.Persistence.Data
                 await _userManager.CreateAsync(appUser1, "@User248" ?? string.Empty);
                 await _userManager.AddToRoleAsync(appUser1, "User");
         }
-        public static async Task SeedRolesWithClaimsAsync(IServiceProvider serviceProvider)
+        public static async Task SeedRolesWithClaimsAsync(ApplicationDbContext _context , IServiceProvider serviceProvider)
         {
+            if (_context.Roles.Any())
+            {
+                System.Console.WriteLine("Database already seeded");
+                return;
+            }
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             var rolesWithClaims = new Dictionary<string, List<string>>

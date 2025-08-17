@@ -52,7 +52,9 @@ namespace Weblog.Application.Mappers
             CreateMap<UpdateTagDto, Tag>();
             // Contributor
             CreateMap<Contributor, ContributorDto>()
-                .ForMember(dest => dest.CreatedOn, opt => opt.MapFrom(src => src.CreatedOn.ToShamsi()));
+                .ForMember(dest => dest.CreatedOn, opt => opt.MapFrom(src => src.CreatedOn.ToShamsi()))
+                .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media));
+
             CreateMap<AddContributorDto, Contributor>();
             CreateMap<UpdateContributorDto, Contributor>();
             //Medium

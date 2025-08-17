@@ -28,6 +28,13 @@ namespace Weblog.Infrastructure.Services
             Contributor newContributor = _mapper.Map<Contributor>(addContributorDto);
             newContributor.FullName = $"{newContributor.FirstName} {newContributor.FamilyName}";
             newContributor.CreatedOn = DateTimeOffset.Now;
+            newContributor.Media.Add(new Medium()
+            {
+                AltText = "Default image",
+                EntityId = newContributor.Id,
+                Name = "DefaultImage",
+                Path = "localhost:5006/uploads/image/DefaultImage.png",
+            });
             Contributor addedContributor = await _contributorRepo.AddContributorAsync(newContributor);
             return _mapper.Map<ContributorDto>(addedContributor);
         }
