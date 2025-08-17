@@ -81,18 +81,17 @@ namespace Weblog.Infrastructure.Services
             }
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
 
-            AppUser newAppUser = _mapper.Map<AppUser>(updateUserDto);
-
+            appUser = _mapper.Map(updateUserDto, appUser);
             var result = await _userManager.ChangePasswordAsync(appUser , updateUserDto.OldPassword , updateUserDto.NewPassword );
             if (!result.Succeeded)
             {
                 throw new ValidationException($"{result.Errors}");
             }
-            newAppUser.UpdatedAt = DateTimeOffset.Now;
-            newAppUser.FullName = $"{newAppUser.FirstName} {newAppUser.LastName}";
+            appUser.UpdatedAt = DateTimeOffset.Now;
+            appUser.FullName = $"{appUser.FirstName} {appUser.LastName}";
             
 
-            await _userManager.UpdateAsync(newAppUser);
+            await _userManager.UpdateAsync(appUser);
         }
     }
 }
