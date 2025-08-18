@@ -15,6 +15,13 @@ using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Enums;
+using Weblog.Domain.Errors;
+using Weblog.Domain.Errors.Common;
+using Weblog.Domain.Errors.Contributor;
+using Weblog.Domain.Errors.Event;
+using Weblog.Domain.Errors.Medium;
+using Weblog.Domain.Errors.Podcast;
+using Weblog.Domain.Errors.User;
 using Weblog.Domain.Models;
 
 namespace Weblog.Infrastructure.Services
@@ -47,11 +54,11 @@ namespace Weblog.Infrastructure.Services
 
         public async Task DeleteMediumAsync(int mediaId , string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
-            Medium medium = await _mediumRepo.GetMediumByIdAsync(mediaId) ?? throw new NotFoundException("Media not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            Medium medium = await _mediumRepo.GetMediumByIdAsync(mediaId) ?? throw new NotFoundException(MediumErrorCodes.MediumNotFound);
             if (medium.UserId != appUser.Id)
             {
-                throw new ValidationException("The user does not access this medium");
+                throw new ForbiddenException(MediumErrorCodes.MediumDeleteForbidden, []);
             }
             string filePath = Path.Combine(_webHost.WebRootPath, medium.Path);
             if (File.Exists(filePath))
@@ -71,7 +78,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<MediumDto> GetMediumByIdAsync(int mediaId)
         {
-            Medium medium = await _mediumRepo.GetMediumByIdAsync(mediaId) ?? throw new NotFoundException("Media not found");
+            Medium medium = await _mediumRepo.GetMediumByIdAsync(mediaId) ?? throw new NotFoundException(MediumErrorCodes.MediumNotFound);
             return _mapper.Map<MediumDto>(medium);
         }
 
@@ -80,30 +87,30 @@ namespace Weblog.Infrastructure.Services
             switch (uploadMediaDto.EntityType)
             {
                 case EntityType.Article:
-                    ArticleDto articleDto = await _articleService.GetArticleByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException("Article not found");
+                    ArticleDto articleDto = await _articleService.GetArticleByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException(ArticleErrorCodes.ArticleNotFound);
                     break;
                 case EntityType.Event:
-                    EventDto eventDto = await _eventService.GetEventByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException("Event not found");
+                    EventDto eventDto = await _eventService.GetEventByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
                     break;
                 case EntityType.Contributor:
-                    ContributorDto contributorDto = await _contributorService.GetContributorByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException("Contributor not found");
+                    ContributorDto contributorDto = await _contributorService.GetContributorByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
                     break;
                 case EntityType.Podcast:
-                    PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException("Podcast not found");
+                    PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
                     break;
                 case EntityType.User:
-                    var appUser = await _userManager.FindByIdAsync(userId ?? throw new NotFoundException("User not found"));
+                    var appUser = await _userManager.FindByIdAsync(userId ?? throw new NotFoundException(UserErrorCodes.UserNotFound));
                     break;
 
                 default:
-                    throw new ValidationException("The Id is invalid");
+                    throw new BadRequestException(MediumErrorCodes.MediumParentIdInvalid);
             }
 
 
             IFormFile mediumFile = uploadMediaDto.UploadedFile;
             if (mediumFile == null || mediumFile.Length == 0)
             {
-                throw new ArgumentException("Invalid file");
+                throw new BadRequestException(MediumErrorCodes.MediumFileInvalid);
             }
 
             var uploadsFolder = Path.Combine(_webHost.WebRootPath, "uploads");
@@ -144,7 +151,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task UpdateMediumAsync(UpdateMediumDto updateMediumDto, int mediaId)
         {
-            Medium medium = await _mediumRepo.GetMediumByIdAsync(mediaId) ?? throw new NotFoundException("Media not found");
+            Medium medium = await _mediumRepo.GetMediumByIdAsync(mediaId) ?? throw new NotFoundException(MediumErrorCodes.MediumNotFound);
             medium.Name = updateMediumDto.Name;
             medium.Path = updateMediumDto.Path;
             medium.AltText = updateMediumDto.AltText;

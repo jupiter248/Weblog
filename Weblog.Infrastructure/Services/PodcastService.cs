@@ -10,6 +10,10 @@ using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Enums;
+using Weblog.Domain.Errors.Category;
+using Weblog.Domain.Errors.Contributor;
+using Weblog.Domain.Errors.Podcast;
+using Weblog.Domain.Errors.Tag;
 using Weblog.Domain.Models;
 using Weblog.Infrastructure.Extension;
 
@@ -36,15 +40,15 @@ namespace Weblog.Infrastructure.Services
         }
         public async Task AddContributorAsync(int podcastId, int contributorId)
         {
-            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException("Podcast not found");
-            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException("Contributor not found");
+            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
+            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             await _podcastRepo.AddContributorAsync(podcast , contributor);
         }
 
         public async Task<PodcastDto> AddPodcastAsync(AddPodcastDto addPodcastDto)
         {
             Podcast newPodcast = _mapper.Map<Podcast>(addPodcastDto);
-            Category category = await _categoryRepo.GetCategoryByIdAsync(addPodcastDto.CategoryId) ?? throw new NotFoundException("Category not found");
+            Category category = await _categoryRepo.GetCategoryByIdAsync(addPodcastDto.CategoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
             if (category.EntityType == CategoryType.Podcast)
             {
                 newPodcast.Category = category;
@@ -63,28 +67,28 @@ namespace Weblog.Infrastructure.Services
 
         public async Task AddTagAsync(int podcastId, int tagId)
         {
-            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException("Podcast not found");
-            Tag tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException("Tag not found");
+            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
+            Tag tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.TagNotFound);
             await _podcastRepo.AddTagAsync(podcast , tag);
         }
 
         public async Task DeleteContributorAsync(int podcastId, int contributorId)
         {
-            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException("Podcast not found");
-            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException("Contributor not found");
+            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
+            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             await _podcastRepo.DeleteContributorAsync(podcast , contributor);
         }
 
         public async Task DeletePodcastAsync(int podcastId)
         {
-            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException("Podcast not found");
+            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
             await _podcastRepo.DeletePodcastAsync(podcast);
         }
 
         public async Task DeleteTagAsync(int podcastId, int tagId)
         {
-            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException("Podcast not found");
-            Tag tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException("Tag not found");
+            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
+            Tag tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.TagNotFound);
             await _podcastRepo.DeleteTagAsync(podcast, tag);
         }
 
@@ -102,7 +106,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<PodcastDto> GetPodcastByIdAsync(int podcastId)
         {
-            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException("Podcast not found");
+            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
             PodcastDto podcastDto = _mapper.Map<PodcastDto>(podcast);
             podcastDto.LikeCount = await _likeContentRepo.GetLikeCountAsync(podcastDto.Id, LikeAndViewType.Podcast);
             podcastDto.ViewCount = await _viewContentRepo.GetViewCountAsync(podcastDto.Id, LikeAndViewType.Podcast);
@@ -111,7 +115,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<List<PodcastSummaryDto>> GetSuggestionsAsync(PaginationParams paginationParams, int podcastId)
         {
-            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException("Podcast not found");
+            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
             List<Podcast> podcasts = await _podcastRepo.GetSuggestionsAsync(paginationParams, podcast);
             List<PodcastSummaryDto> podcastSummaryDtos = _mapper.Map<List<PodcastSummaryDto>>(podcasts);
             foreach (var item in podcastSummaryDtos)
@@ -124,8 +128,8 @@ namespace Weblog.Infrastructure.Services
 
         public async Task UpdatePodcastAsync(UpdatePodcastDto updatePodcastDto, int podcastId)
         {
-            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException("Podcast not found");
-            Category category = await _categoryRepo.GetCategoryByIdAsync(updatePodcastDto.CategoryId) ?? throw new NotFoundException("Category not found");
+            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
+            Category category = await _categoryRepo.GetCategoryByIdAsync(updatePodcastDto.CategoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
 
             podcast.Category = category;
             podcast.CategoryId = updatePodcastDto.CategoryId;

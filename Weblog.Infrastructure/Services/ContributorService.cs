@@ -8,6 +8,7 @@ using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.ContributorDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Domain.Errors.Contributor;
 using Weblog.Domain.Models;
 
 namespace Weblog.Infrastructure.Services
@@ -28,20 +29,13 @@ namespace Weblog.Infrastructure.Services
             Contributor newContributor = _mapper.Map<Contributor>(addContributorDto);
             newContributor.FullName = $"{newContributor.FirstName} {newContributor.FamilyName}";
             newContributor.CreatedOn = DateTimeOffset.Now;
-            newContributor.Media.Add(new Medium()
-            {
-                AltText = "Default image",
-                EntityId = newContributor.Id,
-                Name = "DefaultImage",
-                Path = "localhost:5006/uploads/image/DefaultImage.png",
-            });
             Contributor addedContributor = await _contributorRepo.AddContributorAsync(newContributor);
             return _mapper.Map<ContributorDto>(addedContributor);
         }
 
         public async Task DeleteContributorAsync(int contributorId)
         {
-            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException("Contributor cot found");
+            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             await _contributorRepo.DeleteContributorAsync(contributor);
         }
 
@@ -54,13 +48,13 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<ContributorDto> GetContributorByIdAsync(int contributorId)
         {
-            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException("Contributor cot found");
+            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             return _mapper.Map<ContributorDto>(contributor);
         }
 
         public async Task UpdateContributorAsync(UpdateContributorDto updateContributorDto, int contributorId)
         {
-            Contributor currentContributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException("Contributor cot found");
+            Contributor currentContributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             Contributor newContributor = _mapper.Map<Contributor>(updateContributorDto);
             await _contributorRepo.UpdateContributorAsync(currentContributor ,newContributor);
         }

@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 namespace Weblog.Application.CustomExceptions
 {
-    public class ConflictException : Exception
+    public class ConflictException : AppException
     {
-        public ConflictException(string message) : base(message) { }
+        public ConflictException(string message, string errorCode = "CONFLICT") : base(message, errorCode, 409, null)
+        {
+        }
     }
     
 }

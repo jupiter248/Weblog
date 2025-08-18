@@ -9,6 +9,8 @@ using Weblog.Application.Dtos.AuthDtos;
 using Weblog.Application.Dtos.SmsDtos;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Enums;
+using Weblog.Domain.Errors.Common;
+using Weblog.Domain.Errors.User;
 using Weblog.Domain.Models;
 using Weblog.Infrastructure.Services.Generators;
 
@@ -49,13 +51,13 @@ namespace Weblog.Infrastructure.Services
             //     // }
 
             // }
-            AppUser? user = await _userManager.FindByNameAsync(loginDto.Username ?? throw new ValidationException("Username is invalid"));
+            AppUser? user = await _userManager.FindByNameAsync(loginDto.Username ?? throw new UnauthorizedException(CommonErrorCodes.Unauthorized , [UserErrorCodes.InvalidUsername]));
             if (user == null)
             {
                 throw new NotFoundException("User not found");
             }
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password ?? throw new ValidationException("Password is invalid"), false);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password ?? throw new UnauthorizedException(CommonErrorCodes.Unauthorized , [UserErrorCodes.IncorrectPassword]), false);
             if (!result.Succeeded)
             {
                 throw new UnauthorizedAccessException("Password does not match with the user");
@@ -130,7 +132,7 @@ namespace Weblog.Infrastructure.Services
 
             // }
 
-            AppUser? user = await _userManager.FindByNameAsync(registerDto.Username ?? throw new ValidationException("The username is invalid"));
+            AppUser? user = await _userManager.FindByNameAsync(registerDto.Username ?? throw new UnauthorizedException(CommonErrorCodes.Unauthorized , [UserErrorCodes.InvalidUsername]));
             if (user != null)
             {
                 throw new ConflictException("Username already used");
@@ -154,7 +156,7 @@ namespace Weblog.Infrastructure.Services
                 var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
                 if (!roleResult.Succeeded)
                 {
-                    throw new ValidationException("The role could not have added");
+                    throw new InternalServerException(CommonErrorCodes.InternalServer,[UserErrorCodes.RoleAssignFailed]);
                 }
                 var role = await _userManager.GetRolesAsync(appUser);
                 return new AuthResponseDto
@@ -169,7 +171,7 @@ namespace Weblog.Infrastructure.Services
             }
             else
             {
-                throw new Exception();
+                throw new InternalServerException(CommonErrorCodes.InternalServer, [UserErrorCodes.UserCreateFailed]);
             };
         }
     }

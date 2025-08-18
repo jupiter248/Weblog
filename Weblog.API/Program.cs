@@ -56,7 +56,13 @@ builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
-app.UseMiddleware<ErrorHandlingMiddleware>();
+var supportedCultures = new[] { "en", "fa" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture("en")
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+app.UseRequestLocalization(localizationOptions);
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 await app.Services.ApplyMigrations();
 

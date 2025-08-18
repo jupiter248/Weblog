@@ -43,7 +43,7 @@ namespace Weblog.Infrastructure.Services
             ConsentSmsModel model = new ConsentSmsModel()
             {
                 Mobile = addConsentSmsDto.Mobile,
-                TemplateId = int.Parse(Environment.GetEnvironmentVariable("SMS_TemplateId") ?? throw new ValidationException("TemplateId is invalid")),
+                TemplateId = int.Parse(Environment.GetEnvironmentVariable("SMS_TemplateId") ?? throw new BadRequestException("TemplateId is invalid")),
                 Parameters =
                 [
                     new ConsentSmsParameterModel { Name = "Code" , Value = code}

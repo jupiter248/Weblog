@@ -8,6 +8,7 @@ using Weblog.Application.Dtos.TagDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Enums;
+using Weblog.Domain.Errors.Tag;
 using Weblog.Domain.Models;
 
 namespace Weblog.Infrastructure.Services
@@ -32,7 +33,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task DeleteTagAsync(int tagId)
         {
-            Tag? tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException("Tag not found");
+            Tag? tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.TagNotFound);
             await _tagRepo.DeleteTagAsync(tag);
         }
 
@@ -45,14 +46,14 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<TagDto> GetTagByIdAsync(int tagId)
         {
-            Tag? tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException("Tag not found");
+            Tag? tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.TagNotFound);
             return _mapper.Map<TagDto>(tag);
 
         }
 
         public async Task UpdateTagAsync(UpdateTagDto updateTagDto, int currentTagId)
         {
-            Tag? currentTag = await _tagRepo.GetTagByIdAsync(currentTagId) ?? throw new NotFoundException("Tag not found");
+            Tag? currentTag = await _tagRepo.GetTagByIdAsync(currentTagId) ?? throw new NotFoundException(TagErrorCodes.TagNotFound);
             Tag? newTag = _mapper.Map<Tag>(updateTagDto);
             await _tagRepo.UpdateTagAsync(currentTag , newTag);
         }

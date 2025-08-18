@@ -12,6 +12,9 @@ using Weblog.Application.Dtos.UserDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Enums;
+using Weblog.Domain.Errors.Common;
+using Weblog.Domain.Errors.LikeContent;
+using Weblog.Domain.Errors.User;
 using Weblog.Domain.JoinModels;
 using Weblog.Domain.Models;
 
@@ -55,13 +58,13 @@ namespace Weblog.Infrastructure.Services
         {
             if (!await _contentExistenceService.ContentExistsAsync(entityTypeId, entityType))
             {
-                throw new NotFoundException("Content not found");
+                throw new NotFoundException(CommonErrorCodes.ContentNotFound);
             }
             if (await _likeContentRepo.IsLikedAsync(userId, entityTypeId, entityType))
             {
-                throw new ValidationException("You already liked");
+                throw new ConflictException(LikeContentErrorCodes.AlreadyLiked);
             }
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("The user not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             await _likeContentRepo.LikeAsync(appUser ,entityTypeId , entityType);
         }
 
@@ -69,11 +72,11 @@ namespace Weblog.Infrastructure.Services
         {
             if (!await _contentExistenceService.ContentExistsAsync(entityTypeId, entityType))
             {
-                throw new NotFoundException("Content not found");
+                throw new NotFoundException(CommonErrorCodes.ContentNotFound);
             }
             if (!await _likeContentRepo.IsLikedAsync(userId, entityTypeId, entityType))
             {
-                throw new ValidationException("You did not like");
+                throw new ConflictException(LikeContentErrorCodes.AlreadyLiked);
             }
             await _likeContentRepo.UnlikeAsync(userId, entityTypeId, entityType);
         }

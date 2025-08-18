@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +13,9 @@ using Weblog.Application.Dtos.UserDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Enums;
+using Weblog.Domain.Errors.Common;
+using Weblog.Domain.Errors.User;
+using Weblog.Domain.Errors.ViewContent;
 using Weblog.Domain.JoinModels;
 using Weblog.Domain.Models;
 
@@ -35,14 +39,14 @@ namespace Weblog.Infrastructure.Services
         }
         public async Task AddViewContentAsync(string userId, int entityTypeId, LikeAndViewType entityType)
         {
-            AppUser? appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
+            AppUser? appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             if (!await _contentExistenceService.ContentExistsAsync(entityTypeId , entityType))
             {
-                throw new NotFoundException("Content not found");   
+                throw new NotFoundException(CommonErrorCodes.ContentNotFound);   
             }
             if (await _viewContentRepo.IsViewedAsync(userId , entityTypeId , entityType))
             {
-                throw new ValidationException("Yoy already viewed");
+                throw new ConflictException(ViewContentErrorCodes.AlreadyViewed);
             }
             await _viewContentRepo.ViewAsync(appUser ,entityTypeId , entityType);
         }
@@ -58,7 +62,7 @@ namespace Weblog.Infrastructure.Services
         {
             if (!await _contentExistenceService.ContentExistsAsync(entityTypeId , entityType))
             {
-                throw new NotFoundException("Content not found");   
+                throw new NotFoundException(CommonErrorCodes.ContentNotFound);   
             }   
             return await _viewContentRepo.GetViewCountAsync(entityTypeId, entityType);
         }
@@ -67,7 +71,7 @@ namespace Weblog.Infrastructure.Services
         {
             if (!await _contentExistenceService.ContentExistsAsync(entityTypeId, entityType))
             {
-                throw new NotFoundException("Content not found");
+                throw new NotFoundException(CommonErrorCodes.ContentNotFound);
             }
             return await _viewContentRepo.IsViewedAsync(userId ,entityTypeId , entityType);
         }

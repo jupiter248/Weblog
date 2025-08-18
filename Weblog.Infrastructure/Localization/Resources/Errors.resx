@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="GENRE_NOT_FOUND" xml:space="preserve">
+    <value>Item not found.</value>
+  </data>
+</root>

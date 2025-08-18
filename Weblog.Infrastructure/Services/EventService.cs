@@ -10,6 +10,10 @@ using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Enums;
+using Weblog.Domain.Errors.Category;
+using Weblog.Domain.Errors.Contributor;
+using Weblog.Domain.Errors.Event;
+using Weblog.Domain.Errors.Tag;
 using Weblog.Domain.Models;
 using Weblog.Infrastructure.Extension;
 
@@ -38,15 +42,15 @@ namespace Weblog.Infrastructure.Services
 
         public async Task AddContributorAsync(int eventId, int contributorId)
         {
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
-            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(eventId) ?? throw new NotFoundException("Contributor not found");
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
+            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(eventId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             await _eventRepo.AddContributorAsync(eventModel, contributor); 
        }
 
         public async Task<EventDto> AddEventAsync(AddEventDto addEventDto)
         {
             Event newEvent = _mapper.Map<Event>(addEventDto);
-            Category? category = await _categoryRepo.GetCategoryByIdAsync(addEventDto.CategoryId) ?? throw new NotFoundException("Category not found");
+            Category? category = await _categoryRepo.GetCategoryByIdAsync(addEventDto.CategoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
             if (category.EntityType == CategoryType.Event)
             {
                 newEvent.Category = category;
@@ -67,28 +71,28 @@ namespace Weblog.Infrastructure.Services
 
         public async Task AddTagAsync(int eventId, int tagId)
         {
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
-            Tag tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException("Tag not found");
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
+            Tag tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.TagNotFound);
             await _eventRepo.AddTagToEvent(eventModel,tag);
         }
 
         public async Task DeleteContributorAsync(int eventId, int contributorId)
         {
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
-            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(eventId) ?? throw new NotFoundException("Contributor not found");
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
+            Contributor contributor = await _contributorRepo.GetContributorByIdAsync(eventId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             await _eventRepo.DeleteContributorAsync(eventModel,contributor);     
         }
 
         public async Task DeleteEventAsync(int eventId)
         {
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
             await _eventRepo.DeleteEventAsync(eventModel);
         }
 
         public async Task DeleteTagAsync(int eventId, int tagId)
         {
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
-            Tag tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException("Tag not found");
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
+            Tag tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.TagNotFound);
             await _eventRepo.DeleteTagFromEvent(eventModel ,tag);
         }
 
@@ -106,7 +110,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<EventDto> GetEventByIdAsync(int eventId)
         {
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
             EventDto eventDto = _mapper.Map<EventDto>(eventModel);
             eventDto.LikeCount = await _likeContentRepo.GetLikeCountAsync(eventDto.Id, LikeAndViewType.Event);
             eventDto.ViewCount = await _viewContentRepo.GetViewCountAsync(eventDto.Id, LikeAndViewType.Event);
@@ -115,7 +119,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<List<EventSummaryDto>> GetSuggestionsAsync(PaginationParams paginationParams, int eventId)
         {
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
             List<Event> events = await _eventRepo.GetSuggestionsAsync(paginationParams, eventModel);
             List<EventSummaryDto> eventSummaryDtos = _mapper.Map<List<EventSummaryDto>>(events);
             foreach (var item in eventSummaryDtos)
@@ -128,8 +132,8 @@ namespace Weblog.Infrastructure.Services
 
         public async Task UpdateEventAsync(UpdateEventDto updateEventDto, int eventId)
         {
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
-            Category category = await _categoryRepo.GetCategoryByIdAsync(updateEventDto.CategoryId) ?? throw new NotFoundException("Category not found");
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
+            Category category = await _categoryRepo.GetCategoryByIdAsync(updateEventDto.CategoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
             eventModel.Title = updateEventDto.Title;
             eventModel.Capacity = updateEventDto.Capacity;
             eventModel.CategoryId = updateEventDto.CategoryId;

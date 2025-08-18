@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Weblog.Application.Common.Interfaces;
 using Weblog.Application.Interfaces;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
-using Weblog.Domain.Models;
+using Weblog.Infrastructure.Localization;
 using Weblog.Infrastructure.Services;
 
 namespace Weblog.Infrastructure.Extension
@@ -17,6 +18,8 @@ namespace Weblog.Infrastructure.Extension
         {
 
             //Services
+            services.AddScoped<IErrorService, ErrorService>();
+            
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ITagService, TagService>();

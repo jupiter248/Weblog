@@ -9,6 +9,7 @@ using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
+using Weblog.Domain.Errors.Category;
 using Weblog.Domain.Models;
 
 namespace Weblog.Infrastructure.Services
@@ -32,7 +33,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task DeleteCategoryAsync(int categoryId)
         {
-            Category? category = await _categoryRepo.GetCategoryByIdAsync(categoryId) ?? throw new NotFoundException("Category not found");
+            Category? category = await _categoryRepo.GetCategoryByIdAsync(categoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
             await _categoryRepo.DeleteCategoryAsync(category);
         }
 
@@ -45,14 +46,14 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<CategoryDto> GetCategoryByIdAsync(int categoryId)
         {
-            Category? category = await _categoryRepo.GetCategoryByIdAsync(categoryId) ?? throw new NotFoundException("Category not found");
+            Category? category = await _categoryRepo.GetCategoryByIdAsync(categoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
             return _mapper.Map<CategoryDto>(category);
 
         }
 
         public async Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto, int categoryId)
         {
-            Category? currentCategory = await _categoryRepo.GetCategoryByIdAsync(categoryId) ?? throw new NotFoundException("Category not found");
+            Category? currentCategory = await _categoryRepo.GetCategoryByIdAsync(categoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
             Category newCategory = _mapper.Map<Category>(updateCategoryDto);
             await _categoryRepo.UpdateCategoryAsync(currentCategory , newCategory);
         }

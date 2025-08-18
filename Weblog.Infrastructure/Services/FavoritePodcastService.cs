@@ -12,6 +12,9 @@ using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
+using Weblog.Domain.Errors.Favorite;
+using Weblog.Domain.Errors.Podcast;
+using Weblog.Domain.Errors.User;
 using Weblog.Domain.JoinModels;
 using Weblog.Domain.JoinModels.Favorites;
 using Weblog.Domain.Models;
@@ -37,17 +40,17 @@ namespace Weblog.Infrastructure.Services
 
         public async Task AddPodcastToFavoriteAsync(string userId,AddFavoritePodcastDto addFavoritePodcastDto) 
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
-            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(addFavoritePodcastDto.PodcastId) ?? throw new NotFoundException("Podcast not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(addFavoritePodcastDto.PodcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
             if (addFavoritePodcastDto.favoriteListId.HasValue)
             {
-                FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoritePodcastDto.favoriteListId) ?? throw new NotFoundException("Favorite list not found");
+                FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoritePodcastDto.favoriteListId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound);
             }
 
             bool podcastAdded = await _favoritePodcastRepo.PodcastAddedToFavoriteAsync(new FavoritePodcast { PodcastId = addFavoritePodcastDto.PodcastId, UserId = userId });
             if(podcastAdded == true)
             {
-                throw new ValidationException("The podcast already added into favorites");
+                throw new ConflictException(FavoriteErrorCodes.FavoriteAlreadyExists);
             }
             FavoritePodcast favoritePodcast = new FavoritePodcast
             {
@@ -62,11 +65,11 @@ namespace Weblog.Infrastructure.Services
 
         public async Task DeletePodcastFromFavoriteAsync(int podcastId, string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
-            FavoritePodcast favoritePodcast = await _favoritePodcastRepo.GetFavoritePodcastByIdAsync(podcastId) ?? throw new NotFoundException("Favorite podcast not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            FavoritePodcast favoritePodcast = await _favoritePodcastRepo.GetFavoritePodcastByIdAsync(podcastId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteItemNotFound);
             if (appUser.Id != favoritePodcast.UserId)
             {
-                throw new ValidationException("Favorite event not found");
+                throw new ConflictException(FavoriteErrorCodes.FavoriteAlreadyExists);
             }
 
             await _favoritePodcastRepo.DeletePodcastFromFavoriteAsync(favoritePodcast);
@@ -74,7 +77,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<List<PodcastDto>> GetAllFavoritePodcastsAsync(string userId,int? favoriteListId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             List<FavoritePodcast> favoritePodcasts = await _favoritePodcastRepo.GetAllFavoritePodcastsAsync(userId);
             if (favoriteListId.HasValue)
             {

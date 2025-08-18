@@ -15,6 +15,11 @@ using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Enums;
+using Weblog.Domain.Errors;
+using Weblog.Domain.Errors.Comment;
+using Weblog.Domain.Errors.Event;
+using Weblog.Domain.Errors.Podcast;
+using Weblog.Domain.Errors.User;
 using Weblog.Domain.Models;
 
 namespace Weblog.Infrastructure.Services
@@ -40,20 +45,20 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<CommentDto> AddCommentAsync(AddCommentDto addCommentDto , string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             switch (addCommentDto.EntityType)
             {
                 case CommentType.Article:
-                    ArticleDto articleDto = await _articleService.GetArticleByIdAsync(addCommentDto.EntityId) ?? throw new NotFoundException("Article not found");
+                    ArticleDto articleDto = await _articleService.GetArticleByIdAsync(addCommentDto.EntityId) ?? throw new NotFoundException(ArticleErrorCodes.ArticleNotFound);
                     break;
                 case CommentType.Event:
-                    EventDto eventDto = await _eventService.GetEventByIdAsync(addCommentDto.EntityId) ?? throw new NotFoundException("Event not found");
+                    EventDto eventDto = await _eventService.GetEventByIdAsync(addCommentDto.EntityId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
                     break;
                 case CommentType.Podcast:
-                    PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(addCommentDto.EntityId) ?? throw new NotFoundException("Podcast not found");
+                    PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(addCommentDto.EntityId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
                     break;
                 default:
-                    throw new ValidationException("The Id is invalid");
+                    throw new BadRequestException(CommentErrorCodes.CommentParentIdInvalid);
             }
             Comment comment = _mapper.Map<Comment>(addCommentDto);
             comment.UserId = appUser.Id;
@@ -66,11 +71,12 @@ namespace Weblog.Infrastructure.Services
 
         public async Task DeleteCommentAsync(int commentId, string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
-            Comment comment = await _commentRepository.GetCommentByIdAsync(commentId) ?? throw new NotFoundException("Comment not found");
-            if (comment.UserId != appUser.Id)
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            Comment comment = await _commentRepository.GetCommentByIdAsync(commentId) ?? throw new NotFoundException(CommentErrorCodes.CommentNotFound);
+            var userRoles = await _userManager.GetRolesAsync(appUser); 
+            if (comment.UserId != appUser.Id || !userRoles.Contains("Admin"))
             {
-                throw new ValidationException("The user does not access to this comment");
+                throw new ForbiddenException(CommentErrorCodes.CommentDeleteForbidden , []);
             }
             await _commentRepository.DeleteCommentAsync(comment);
         }
@@ -84,17 +90,18 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<CommentDto> GetCommentByIdAsync(int commentId)
         {
-            Comment comment = await _commentRepository.GetCommentByIdAsync(commentId) ?? throw new NotFoundException("Comment not found");
+            Comment comment = await _commentRepository.GetCommentByIdAsync(commentId) ?? throw new NotFoundException(CommentErrorCodes.CommentNotFound);
             return _mapper.Map<CommentDto>(comment);
         }
 
-        public async Task UpdateCommentAsync(UpdateCommentDto updateCommentDto, int commentId , string userId)
+        public async Task UpdateCommentAsync(UpdateCommentDto updateCommentDto, int commentId, string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
-            Comment comment = await _commentRepository.GetCommentByIdAsync(commentId) ?? throw new NotFoundException("Comment not found");
-            if (comment.UserId != appUser.Id)
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            Comment comment = await _commentRepository.GetCommentByIdAsync(commentId) ?? throw new NotFoundException(CommentErrorCodes.CommentNotFound);
+            var userRoles = await _userManager.GetRolesAsync(appUser);
+            if (comment.UserId != appUser.Id || !userRoles.Contains("Admin"))
             {
-                throw new ValidationException("The user does not access to this comment");
+                throw new ForbiddenException(CommentErrorCodes.CommentUpdateForbidden , []);
             }
             Comment newComment = _mapper.Map<Comment>(updateCommentDto);
             await _commentRepository.UpdateCommentAsync(comment ,newComment);

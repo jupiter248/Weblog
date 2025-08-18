@@ -10,6 +10,7 @@ using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.UserDtos;
 using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Domain.Errors.User;
 using Weblog.Domain.Models;
 
 namespace Weblog.Infrastructure.Services
@@ -30,7 +31,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task DeleteUserAsync(string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             await _userManager.DeleteAsync(appUser);
         }
 
@@ -54,7 +55,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<UserDto> GetCurrentUser(string userId)
         {
-            AppUser? appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
+            AppUser? appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             UserDto userDto = _mapper.Map<UserDto>(appUser);
             userDto.Roles = await _userManager.GetRolesAsync(appUser);
             return userDto;
@@ -62,7 +63,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<UserDto> GetUserByIdAsync(string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             UserDto userDto = _mapper.Map<UserDto>(appUser);
             userDto.Roles = await _userManager.GetRolesAsync(appUser);
 
@@ -79,13 +80,13 @@ namespace Weblog.Infrastructure.Services
             {
                 throw new NotFoundException("Not a correct user or an admin");
             }
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
 
             appUser = _mapper.Map(updateUserDto, appUser);
             var result = await _userManager.ChangePasswordAsync(appUser , updateUserDto.OldPassword , updateUserDto.NewPassword );
             if (!result.Succeeded)
             {
-                throw new ValidationException($"{result.Errors}");
+                throw new UnauthorizedException(UserErrorCodes.PasswordChangeFailed , []);
             }
             appUser.UpdatedAt = DateTimeOffset.Now;
             appUser.FullName = $"{appUser.FirstName} {appUser.LastName}";

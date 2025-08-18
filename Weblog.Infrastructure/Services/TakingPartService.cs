@@ -9,6 +9,9 @@ using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Domain.Errors.Event;
+using Weblog.Domain.Errors.Participant;
+using Weblog.Domain.Errors.User;
 using Weblog.Domain.JoinModels;
 using Weblog.Domain.Models;
 
@@ -32,16 +35,16 @@ namespace Weblog.Infrastructure.Services
         }
         public async Task CancelTakingPartAsync(int eventId, string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
 
-            TakingPart takingPart = await _takingPartRepo.GetTakingPartByUserIdAndEventIdAsync(userId, eventId) ?? throw new NotFoundException("Not found");
+            TakingPart takingPart = await _takingPartRepo.GetTakingPartByUserIdAndEventIdAsync(userId, eventId) ?? throw new NotFoundException(ParticipantErrorCodes.ParticipantNotFound);
             await _takingPartRepo.CancelTakingPartAsync(takingPart);
         }
 
         public async Task UpdateTakingPartAsync(int id, bool isConfirmed)
         {
-            TakingPart takingPart = await _takingPartRepo.GetTakingPartByIdAsync(id) ?? throw new NotFoundException("Taking part not found");
+            TakingPart takingPart = await _takingPartRepo.GetTakingPartByIdAsync(id) ?? throw new NotFoundException(ParticipantErrorCodes.ParticipantNotFound);
             takingPart.IsConfirmed = isConfirmed;
             await _takingPartRepo.UpdateTakingPartAsync(takingPart);
         }
@@ -64,8 +67,8 @@ namespace Weblog.Infrastructure.Services
 
         public async Task TakePartAsync(int eventId, string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException("Event not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
             TakingPart takingPart = new TakingPart
             {
                 UserId = appUser.Id,

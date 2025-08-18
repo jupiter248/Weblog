@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Weblog.Application.CustomExceptions
 {
-    public class NotFoundException : Exception
+    public class NotFoundException : AppException
     {
-        public NotFoundException(string message) : base (message)
+        public NotFoundException(string message, string errorCode = "NOT_FOUND") : base(message, errorCode, 404, null)
         {
         }
     }

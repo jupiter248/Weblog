@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.ArticleDtos;
@@ -10,6 +11,9 @@ using Weblog.Application.Dtos.FavoritesDtos.ArticleFavoriteDto;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Enums;
+using Weblog.Domain.Errors;
+using Weblog.Domain.Errors.Favorite;
+using Weblog.Domain.Errors.User;
 using Weblog.Domain.JoinModels;
 using Weblog.Domain.JoinModels.Favorites;
 using Weblog.Domain.Models;
@@ -36,17 +40,17 @@ namespace Weblog.Infrastructure.Services
 
         public async Task AddArticleToFavoriteAsync(string userId,AddFavoriteArticleDto addFavoriteArticleDto)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
-            Article article = await _articleRepo.GetArticleByIdAsync(addFavoriteArticleDto.ArticleId) ?? throw new NotFoundException("Article not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            Article article = await _articleRepo.GetArticleByIdAsync(addFavoriteArticleDto.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.ArticleNotFound);
             if (addFavoriteArticleDto.favoriteListId.HasValue)
             {
-                FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoriteArticleDto.ArticleId) ?? throw new NotFoundException("Favorite list not found"); 
+                FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoriteArticleDto.ArticleId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound); 
             }
            
             bool articleAdded = await _favoriteArticleRepo.ArticleAddedToFavoriteAsync(new FavoriteArticle { ArticleId = addFavoriteArticleDto.ArticleId, UserId = userId });
             if(articleAdded == true)
             {
-                throw new ValidationException("The article already added into favorites");
+                throw new ConflictException(FavoriteErrorCodes.FavoriteAlreadyExists);
             }
             FavoriteArticle favoriteArticle = new FavoriteArticle
             {
@@ -61,11 +65,11 @@ namespace Weblog.Infrastructure.Services
 
         public async Task DeleteArticleFromFavoriteAsync(int favoriteArticleId, string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             FavoriteArticle favoriteArticle = await _favoriteArticleRepo.GetFavoriteArticleByIdAsync(favoriteArticleId) ?? throw new NotFoundException("Favorite article not found");
             if (appUser.Id != favoriteArticle.UserId)
             {
-                throw new ValidationException("Favorite article not found");
+                throw new NotFoundException(FavoriteErrorCodes.FavoriteItemNotFound);
             }
 
             await _favoriteArticleRepo.DeleteArticleFromFavoriteAsync(favoriteArticle);
@@ -73,7 +77,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<List<ArticleDto>> GetAllFavoriteArticlesAsync(string userId , int? favoriteListId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException("User not found");
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             List<FavoriteArticle> favoriteArticles = await _favoriteArticleRepo.GetAllFavoriteArticlesAsync(userId);
             if (favoriteListId.HasValue)
             {
