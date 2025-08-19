@@ -111,7 +111,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<Event?> GetEventByIdAsync(int eventId)
         {
-            Event? eventModel = await _context.Events.Include(m => m.Media.Where(m => m.EntityType == EntityType.Event)).Include(t => t.Tags).FirstOrDefaultAsync(e => e.Id == eventId);
+            Event? eventModel = await _context.Events.Include(t => t.Tags).Include(c => c.Contributors).FirstOrDefaultAsync(e => e.Id == eventId);
             if (eventModel == null)
             {
                 return null;

@@ -96,7 +96,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<Podcast?> GetPodcastByIdAsync(int podcastId)
         {
-            Podcast? podcast = await _context.Podcasts.Include(m => m.Media.Where(m => m.EntityType == EntityType.Podcast)).Include(t => t.Tags).FirstOrDefaultAsync(p => p.Id == podcastId);
+            Podcast? podcast = await _context.Podcasts.Include(c => c.Contributors).Include(t => t.Tags).FirstOrDefaultAsync(p => p.Id == podcastId);
             if (podcast == null)
             {
                 return null;
