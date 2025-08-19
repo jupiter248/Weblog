@@ -50,7 +50,7 @@ namespace Weblog.Infrastructure.Services
             bool articleAdded = await _favoriteArticleRepo.ArticleAddedToFavoriteAsync(new FavoriteArticle { ArticleId = addFavoriteArticleDto.ArticleId, UserId = userId });
             if(articleAdded == true)
             {
-                throw new ConflictException(FavoriteErrorCodes.FavoriteAlreadyExists);
+                throw new ConflictException(FavoriteErrorCodes.FavoriteItemAlreadyExists);
             }
             FavoriteArticle favoriteArticle = new FavoriteArticle
             {

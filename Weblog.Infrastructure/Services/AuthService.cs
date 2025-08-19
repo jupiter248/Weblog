@@ -54,13 +54,13 @@ namespace Weblog.Infrastructure.Services
             AppUser? user = await _userManager.FindByNameAsync(loginDto.Username ?? throw new UnauthorizedException(CommonErrorCodes.Unauthorized , [UserErrorCodes.InvalidUsername]));
             if (user == null)
             {
-                throw new NotFoundException("User not found");
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password ?? throw new UnauthorizedException(CommonErrorCodes.Unauthorized , [UserErrorCodes.IncorrectPassword]), false);
             if (!result.Succeeded)
             {
-                throw new UnauthorizedAccessException("Password does not match with the user");
+                throw new UnauthorizedException(CommonErrorCodes.Unauthorized, [UserErrorCodes.IncorrectPassword]);
             }
             var role = await _userManager.GetRolesAsync(user);
             return new AuthResponseDto

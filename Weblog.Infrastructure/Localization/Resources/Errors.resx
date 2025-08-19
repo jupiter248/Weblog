@@ -1,5 +1,135 @@
 <root>
+    => Common errors
+    <data name="UNKNOWN_ERROR" xml:space="preserve">
+        <value>An unknown error appeared</value>
+    </data>
+    <data name="VALIDATION_ERROR" xml:space="preserve">
+        <value>validation error</value>
+    </data>
+    <data name="UNAUTHORIZED" xml:space="preserve">
+        <value>Unauthorized error</value>
+    </data>
+    <data name="INTERNAL_SERVER" xml:space="preserve">
+        <value>Internal server error</value>
+    </data>
+    <data name="CONTENT_NOT_FOUND" xml:space="preserve">
+        <value>Content not found</value>
+    </data>
+
+
+    => Article errors
     <data name="ARTICLE_NOT_FOUND" xml:space="preserve">
-    <value>Article not found.</value>
+        <value>Article not found.</value>
+    </data>
+
+
+    => Category errors
+    <data name="CATEGORY_NOT_FOUND" xml:space="preserve">
+        <value>Category not found.</value>
+    </data>
+
+
+    => Comment errors  
+    <data name="Comment_NOT_FOUND" xml:space="preserve">
+        <value>Comment not found.</value>
+    </data>
+    <data name="COMMENT_PARENT_ID_INVALID" xml:space="preserve">
+        <value>Parent id of comment is invalid.</value>
+    </data> 
+    <data name="COMMENT_DELETE_FORBIDDEN" xml:space="preserve">
+        <value>You do not have access to delete this comment</value>
+    </data> 
+    <data name="COMMENT_UPDATE_FORBIDDEN" xml:space="preserve">
+        <value>You do not have access to update this comment.</value>
+    </data> 
+
+
+    => Contributor errors
+    <data name="CONTRIBUTOR_NOT_FOUND" xml:space="preserve">
+        <value>Contributor not found.</value>
+    </data> 
+
+
+    => Event errors
+    <data name="EVENT_NOT_FOUND" xml:space="preserve">
+        <value>Event not found.</value>
+    </data>
+
+
+    => Favorite errors
+    <data name="FAVORITE_ITEM_ALREADY_EXISTS" xml:space="preserve">
+        <value>You already added this itme to the favorites</value>
+    </data>
+    <data name="FAVORITE_LIST_NOT_FOUND" xml:space="preserve">
+        <value>Favorite list not found</value>
+    </data>
+    <data name="FAVORITE_ITEM_NOT_FOUND" xml:space="preserve">
+        <value>Favorite item not found.</value>
+    </data>
+    <data name="FAVORITE_DELETE_FORBIDDEN" xml:space="preserve">
+        <value>You do not have access to delete this favorite list</value>
+    </data>
+    <data name="FAVORITE_UPDATE_FORBIDDEN" xml:space="preserve">
+        <value>You do not have access to update this favorite list</value>
+    </data>
+
+
+    => Like content errors
+    <data name="ALREADY_LIKED" xml:space="preserve">
+        <value>You already liked this item.</value>
+    </data>
+
+
+    => Medium errors
+    <data name="MEDIUM_NOT_FOUND" xml:space="preserve">
+        <value>Medium not found</value>
+    </data>
+    <data name="MEDIUM_PARENT_ID_INVALID" xml:space="preserve">
+        <value>parent id of medium is invalid</value>
+    </data>
+    <data name="MEDIUM_FILE_INVALID" xml:space="preserve">
+        <value>medium file is invalid.</value>
+    </data>
+    <data name="MEDIUM_DELETE_FORBIDDEN" xml:space="preserve">
+        <value>You do not have access to delete this medium</value>
+    </data>
+
+
+    => Participant errors
+    <data name="PARTICIPANT_NOT_FOUND" xml:space="preserve">
+        <value>Participant not found</value>
+    </data>
+
+
+    => Podcast errors
+    <data name="PODCAST_NOT_FOUND" xml:space="preserve">
+        <value>Podcast not found.</value>
+    </data>
+
+
+    => Tag errors
+    <data name="TAG_NOT_FOUND" xml:space="preserve">
+        <value>Tag not found.</value>
+    </data>
+
+
+    => User errors
+    <data name="USER_NOT_FOUND" xml:space="preserve">
+        <value>User not found</value>
+    </data>
+    <data name="INVALID_USERNAME" xml:space="preserve">
+        <value>Username is invalid.</value>
+    </data>
+    <data name="INCORRECT_PASSWORD" xml:space="preserve">
+        <value>Password is not correct</value>
+    </data>
+    <data name="ROLE_ASSIGN_FAILED" xml:space="preserve">
+        <value>Role could not be assigned</value>
+    </data>
+    <data name="USER_CREATE_FAILED" xml:space="preserve">
+        <value>User could not have created</value>
+    </data>
+    <data name="PASSWORD_CHANGE_FAILED" xml:space="preserve">
+        <value>Password could not be changed</value>
     </data>
 </root>

@@ -8,6 +8,5 @@ namespace Weblog.Domain.Errors.Category
     public class CategoryErrorCodes
     {
         public const string CategoryNotFound = "CATEGORY_NOT_FOUND";
-
     }
 }

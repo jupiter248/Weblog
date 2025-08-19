@@ -1,5 +1,135 @@
 <root>
+    => Common errors
+    <data name="UNKNOWN_ERROR" xml:space="preserve">
+        <value>خطا ناشناخته رخ داد</value>
+    </data>
+    <data name="VALIDATION_ERROR" xml:space="preserve">
+        <value>خطا در اعتبار سنجی</value>
+    </data>
+    <data name="UNAUTHORIZED" xml:space="preserve">
+        <value>خطای  ورود غیر مجاز</value>
+    </data>
+    <data name="INTERNAL_SERVER" xml:space="preserve">
+        <value>خطای داخلی سرور</value>
+    </data>
+    <data name="CONTENT_NOT_FOUND" xml:space="preserve">
+        <value>مورد پیدا نشد</value>
+    </data>
+
+
+    => Article errors
     <data name="ARTICLE_NOT_FOUND" xml:space="preserve">
-    <value>مقاله پیدا نشد</value>
+        <value>مقاله پیدا نشد</value>
+    </data>
+
+
+    => Category errors
+    <data name="CATEGORY_NOT_FOUND" xml:space="preserve">
+        <value>دسته بندی پیدا نشد</value>
+    </data>
+
+
+    => Comment errors  
+    <data name="Comment_NOT_FOUND" xml:space="preserve">
+        <value>کامنت پیدا نشد</value>
+    </data>
+    <data name="COMMENT_PARENT_ID_INVALID" xml:space="preserve">
+        <value>آی دی وارد شده صحیح نمی باشد</value>
+    </data> 
+    <data name="COMMENT_DELETE_FORBIDDEN" xml:space="preserve">
+        <value>شما دسترسی برای پاک کردن این پیام را ندارید </value>
+    </data> 
+    <data name="COMMENT_UPDATE_FORBIDDEN" xml:space="preserve">
+        <value>شما دسترسی برای بروزرسانی کردن این پیام را ندارید</value>
+    </data> 
+
+
+    => Contributor errors
+    <data name="CONTRIBUTOR_NOT_FOUND" xml:space="preserve">
+        <value>ناشر یا گوینده  پیدا نشد</value>
+    </data> 
+
+
+    => Event errors
+    <data name="EVENT_NOT_FOUND" xml:space="preserve">
+        <value>رویداد پیدا نشد</value>
+    </data>
+
+
+    => Favorite errors
+    <data name="FAVORITE_ITEM_ALREADY_EXISTS" xml:space="preserve">
+        <value>شما قبلا این مورد رو به لیست مورد علاقه اضافه کردید</value>
+    </data>
+    <data name="FAVORITE_LIST_NOT_FOUND" xml:space="preserve">
+        <value>لیست مورد علاقه پیدا نشد</value>
+    </data>
+    <data name="FAVORITE_ITEM_NOT_FOUND" xml:space="preserve">
+        <value>ایتم مورد نظر در لیست علاقه مندی ها پیدا نشد</value>
+    </data>
+    <data name="FAVORITE_DELETE_FORBIDDEN" xml:space="preserve">
+        <value>شما دسترسی برای پاک کردن این لیست علاقه مندی ها را ندارید</value>
+    </data>
+    <data name="FAVORITE_UPDATE_FORBIDDEN" xml:space="preserve">
+        <value>شما دسترسی برای بروزرسانی کردن این لیست علاقه مندی ها را ندارید</value>
+    </data>
+
+
+    => Like content errors
+    <data name="ALREADY_LIKED" xml:space="preserve">
+        <value>شما قبلا این مورد رو لایک  کرده اید</value>
+    </data>
+
+
+    => Medium errors
+    <data name="MEDIUM_NOT_FOUND" xml:space="preserve">
+        <value>فایل مورد نظر پیدا نشد</value>
+    </data>
+    <data name="MEDIUM_PARENT_ID_INVALID" xml:space="preserve">
+        <value>آی دی وارد شده صحیح نمی باشد</value>
+    </data>
+    <data name="MEDIUM_FILE_INVALID" xml:space="preserve">
+        <value>فایل صحیح نمی باشد</value>
+    </data>
+    <data name="MEDIUM_DELETE_FORBIDDEN" xml:space="preserve">
+        <value>شما دسترسی برای پاک کردن این فایل را ندارید</value>
+    </data>
+
+
+    => Participant errors
+    <data name="PARTICIPANT_NOT_FOUND" xml:space="preserve">
+        <value>شرکت کننده پیدا نشد</value>
+    </data>
+
+
+    => Podcast errors
+    <data name="PODCAST_NOT_FOUND" xml:space="preserve">
+        <value>پادکست پیدا نشد</value>
+    </data>
+
+
+    => Tag errors
+    <data name="TAG_NOT_FOUND" xml:space="preserve">
+        <value>تگ پیدا نشد</value>
+    </data>
+
+
+    => User errors
+    <data name="USER_NOT_FOUND" xml:space="preserve">
+        <value>حساب کاربری پیدا نشد</value>
+    </data>
+    <data name="INVALID_USERNAME" xml:space="preserve">
+        <value>نام کاربری وارد شده صحیح نمی باشد</value>
+    </data>
+    <data name="INCORRECT_PASSWORD" xml:space="preserve">
+        <value>رمز صحیح نمی باشد</value>
+    </data>
+    <data name="ROLE_ASSIGN_FAILED" xml:space="preserve">
+        <value>نقش حساب کاربری اضافه نشد</value>
+    </data>
+    <data name="USER_CREATE_FAILED" xml:space="preserve">
+        <value>حساب کاربری ساخته نشد</value>
+    </data>
+    <data name="PASSWORD_CHANGE_FAILED" xml:space="preserve">
+        <value>رمز تغییر نکرد </value>
     </data>
 </root>

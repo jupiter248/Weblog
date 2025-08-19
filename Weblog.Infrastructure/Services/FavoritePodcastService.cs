@@ -50,7 +50,7 @@ namespace Weblog.Infrastructure.Services
             bool podcastAdded = await _favoritePodcastRepo.PodcastAddedToFavoriteAsync(new FavoritePodcast { PodcastId = addFavoritePodcastDto.PodcastId, UserId = userId });
             if(podcastAdded == true)
             {
-                throw new ConflictException(FavoriteErrorCodes.FavoriteAlreadyExists);
+                throw new ConflictException(FavoriteErrorCodes.FavoriteItemAlreadyExists);
             }
             FavoritePodcast favoritePodcast = new FavoritePodcast
             {
@@ -69,7 +69,7 @@ namespace Weblog.Infrastructure.Services
             FavoritePodcast favoritePodcast = await _favoritePodcastRepo.GetFavoritePodcastByIdAsync(podcastId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteItemNotFound);
             if (appUser.Id != favoritePodcast.UserId)
             {
-                throw new ConflictException(FavoriteErrorCodes.FavoriteAlreadyExists);
+                throw new ConflictException(FavoriteErrorCodes.FavoriteItemAlreadyExists);
             }
 
             await _favoritePodcastRepo.DeletePodcastFromFavoriteAsync(favoritePodcast);

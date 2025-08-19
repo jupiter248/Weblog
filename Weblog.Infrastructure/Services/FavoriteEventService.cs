@@ -47,7 +47,7 @@ namespace Weblog.Infrastructure.Services
             bool eventAdded = await _favoriteEventRepo.EventAddedToFavoriteAsync(new FavoriteEvent { EventId = addFavoriteEventDto.EventId, UserId = userId });
             if(eventAdded == true)
             {
-                throw new ConflictException(FavoriteErrorCodes.FavoriteAlreadyExists);
+                throw new ConflictException(FavoriteErrorCodes.FavoriteItemAlreadyExists);
             }
             FavoriteEvent favoriteEvent = new FavoriteEvent
             {
