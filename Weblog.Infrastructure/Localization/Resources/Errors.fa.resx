@@ -1,6 +1,5 @@
-  <?xml version="1.0" encoding="utf-8"?>
-  <root>
-    <data name="GENRE_NOT_FOUND" xml:space="preserve">
-      <value>ژانر پیدا نشد</value>
+<root>
+    <data name="ARTICLE_NOT_FOUND" xml:space="preserve">
+    <value>مقاله پیدا نشد</value>
     </data>
-  </root>
+</root>

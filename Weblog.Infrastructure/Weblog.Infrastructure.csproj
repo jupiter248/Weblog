@@ -18,11 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="./Resources/Errors.resx" />
-  <EmbeddedResource Include="./Resources/Errors.fa.resx">
-    <WithCulture>true</WithCulture>
-  </EmbeddedResource>
-    </ItemGroup>
+    <EmbeddedResource Update="./Localization/Resources/Errors.resx" />
+    <EmbeddedResource Update="./Localization/Resources/Errors.fa.resx" />
+  </ItemGroup>
   
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>

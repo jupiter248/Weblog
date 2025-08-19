@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- <ProjectReference Include="..\Weblog.Application\Weblog.Application.csproj" /> -->
     <ProjectReference Include="..\Weblog.Infrastructure\Weblog.Infrastructure.csproj" />
     <ProjectReference Include="..\Weblog.Persistence\Weblog.Persistence.csproj" />
   </ItemGroup>

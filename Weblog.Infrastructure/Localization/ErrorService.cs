@@ -16,7 +16,7 @@ namespace Weblog.Infrastructure.Localization
         {
             // Load the resource file "Errors"
             _resourceManager = new ResourceManager(
-                "Weblog.Infrastructure.Resources.Errors",
+                "Weblog.Infrastructure.Localization.Resources.Errors",
                 typeof(ErrorService).Assembly
             );
         }

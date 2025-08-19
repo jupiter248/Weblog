@@ -1,7 +1,12 @@
 
+using System.IO;
 using System.Text.Json.Serialization;
 using DotNetEnv;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Weblog.API.Middleware;
 using Weblog.Application;
 using Weblog.Application.Extensions;

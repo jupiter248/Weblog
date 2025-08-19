@@ -18,7 +18,7 @@ namespace Weblog.Infrastructure.Extension
         {
 
             //Services
-            services.AddScoped<IErrorService, ErrorService>();
+            services.AddSingleton<IErrorService, ErrorService>();
             
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ICategoryService, CategoryService>();
