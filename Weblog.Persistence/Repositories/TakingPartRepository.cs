@@ -43,7 +43,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<TakingPart?> GetTakingPartByIdAsync(int id)
         {
-            TakingPart? takingPart = await _context.TakingParts.FirstOrDefaultAsync(t => t.Id == id);
+            TakingPart? takingPart = await _context.TakingParts.Include(t => t.Event).FirstOrDefaultAsync(t => t.Id == id);
             if (takingPart == null)
             {
                 return null;
@@ -53,6 +53,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task TakePartAsync(TakingPart takingPart)
         {
+            
             await _context.TakingParts.AddAsync(takingPart);
             await _context.SaveChangesAsync();
         }

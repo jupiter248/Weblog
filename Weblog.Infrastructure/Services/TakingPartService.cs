@@ -38,14 +38,26 @@ namespace Weblog.Infrastructure.Services
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
-
+            
             TakingPart takingPart = await _takingPartRepo.GetTakingPartByUserIdAndEventIdAsync(userId, eventId) ?? throw new NotFoundException(ParticipantErrorCodes.ParticipantNotFound);
             await _takingPartRepo.CancelTakingPartAsync(takingPart);
         }
 
         public async Task UpdateTakingPartAsync(int id, bool isConfirmed)
         {
-            TakingPart takingPart = await _takingPartRepo.GetTakingPartByIdAsync(id) ?? throw new NotFoundException(ParticipantErrorCodes.ParticipantNotFound);
+            TakingPart? takingPart = await _takingPartRepo.GetTakingPartByIdAsync(id) ?? throw new NotFoundException(ParticipantErrorCodes.ParticipantNotFound);
+            if (takingPart.IsConfirmed == false && isConfirmed == true)
+            {
+                int? capacity = await _eventRepo.DecreaseCapacity(takingPart.Event);
+                if (capacity == null)
+                {
+                    throw new BadRequestException(EventErrorCodes.EventCapacityIsFull);
+                }
+            }
+            else if (takingPart.IsConfirmed == true && isConfirmed == false)
+            {
+                await _eventRepo.IncreaseCapacity(takingPart.Event);
+            }
             takingPart.IsConfirmed = isConfirmed;
             await _takingPartRepo.UpdateTakingPartAsync(takingPart);
         }
@@ -80,7 +92,7 @@ namespace Weblog.Infrastructure.Services
             bool IsUserParticipant = await _takingPartRepo.IsUserParticipant(takingPart);
             if (IsUserParticipant)
             {
-                throw new ConflictException("You already took part");
+                throw new ConflictException(ParticipantErrorCodes.AlreadyTookPart);
             }
             await _takingPartRepo.TakePartAsync(takingPart);
         }

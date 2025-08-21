@@ -8,5 +8,7 @@ namespace Weblog.Domain.Errors.Participant
     public class ParticipantErrorCodes
     {
         public const string ParticipantNotFound = "PARTICIPANT_NOT_FOUND";
+        public const string AlreadyTookPart = "ALREADY_TOOK_PART";
+
     }
 }

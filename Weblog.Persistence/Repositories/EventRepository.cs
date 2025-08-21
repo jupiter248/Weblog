@@ -39,6 +39,20 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<int?> DecreaseCapacity(Event eventModel)
+        {
+            if (eventModel.Capacity >= 1)
+            {
+                eventModel.Capacity--;
+                await _context.SaveChangesAsync();
+                return eventModel.Capacity;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public async Task DeleteContributorAsync(Event eventModel, Contributor contributor)
         {
             eventModel.Contributors.Remove(contributor);
@@ -137,6 +151,12 @@ namespace Weblog.Persistence.Repositories
                         .Take(10);
 
             return await query.Skip(skipNumber).Take(paginationParams.PageSize).ToListAsync();
+        }
+
+        public async Task IncreaseCapacity(Event eventModel)
+        {
+            eventModel.Capacity++;
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Event>> SearchByTitleAsync(string keyword)
