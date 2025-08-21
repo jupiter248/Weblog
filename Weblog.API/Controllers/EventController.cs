@@ -108,9 +108,9 @@ namespace Weblog.API.Controllers
             return NoContent();
         }
         [HttpGet("{id:int}/participants")]
-        public async Task<IActionResult> GetAllParticipantsByEventId(int id)
+        public async Task<IActionResult> GetAllParticipantsByEventId(int id , [FromQuery] ParticipantFilteringParams participantFilteringParams)
         {
-            List<ParticipantDto> participantDtos = await _takingPartService.GetAllParticipantsAsync(id);
+            List<ParticipantDto> participantDtos = await _takingPartService.GetAllParticipantsAsync(id , participantFilteringParams);
             return Ok(participantDtos);
         }
         [HttpPut("{id:int}/taking-part")]

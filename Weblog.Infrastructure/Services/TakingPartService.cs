@@ -9,6 +9,7 @@ using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Errors.Event;
 using Weblog.Domain.Errors.Participant;
 using Weblog.Domain.Errors.User;
@@ -49,9 +50,9 @@ namespace Weblog.Infrastructure.Services
             await _takingPartRepo.UpdateTakingPartAsync(takingPart);
         }
 
-        public async Task<List<ParticipantDto>> GetAllParticipantsAsync(int eventId)
+        public async Task<List<ParticipantDto>> GetAllParticipantsAsync(int eventId , ParticipantFilteringParams participantFilteringParams)
         {
-            List<TakingPart> takingParts = await _takingPartRepo.GetAllTakingPartsByEventIdAsync(eventId);
+            List<TakingPart> takingParts = await _takingPartRepo.GetAllTakingPartsByEventIdAsync(eventId , participantFilteringParams);
             List<ParticipantDto> participantDtos = takingParts.Select(s => new ParticipantDto()
             {
                 Id = s.Id,

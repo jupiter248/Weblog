@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblog.Application.Dtos.EventDtos;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Models;
 
 namespace Weblog.Application.Interfaces.Services
 {
     public interface ITakingPartService
     {
-        Task<List<ParticipantDto>> GetAllParticipantsAsync(int eventId);
+        Task<List<ParticipantDto>> GetAllParticipantsAsync(int eventId , ParticipantFilteringParams participantFilteringParams);
         Task<List<EventSummaryDto>> GetAllTookPartEventsAsync(string userId , int? categoryId);
         Task TakePartAsync(int eventId , string userId);
         Task CancelTakingPartAsync(int eventId , string userId);
