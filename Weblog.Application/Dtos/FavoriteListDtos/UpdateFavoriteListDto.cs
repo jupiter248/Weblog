@@ -8,9 +8,7 @@ namespace Weblog.Application.Dtos.FavoriteListDtos
 {
     public class UpdateFavoriteListDto
     {
-        [MaxLength(15 , ErrorMessage = "Name can not be more than 15 char")]
         public required string Name { get; set; }
-        [MaxLength(50 , ErrorMessage = "Description can not be more than 15 char")]
         public required string Description { get; set; }
     }
 }

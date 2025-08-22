@@ -8,7 +8,6 @@ namespace Weblog.Application.Dtos.TagDtos
 {
     public class AddTagDto
     {
-        [MaxLength(25 , ErrorMessage = "Title can not be more than 25 char")]
         public required string Title { get; set; }
     }
 }

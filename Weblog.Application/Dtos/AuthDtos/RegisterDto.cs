@@ -9,7 +9,6 @@ namespace Weblog.Application.Dtos.AuthDtos
 {
     public class RegisterDto
     {
-        [Phone]
         public required string PhoneNumber { get; set; }
         public required string Username { get; set; }
         public required string FirstName { get; set; }

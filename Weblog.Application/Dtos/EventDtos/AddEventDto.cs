@@ -9,11 +9,8 @@ namespace Weblog.Application.Dtos.EventDtos
     public class AddEventDto
     {
         public required int CategoryId { get; set; }
-        [MaxLength(50 , ErrorMessage = "Title can not be more than 50 char")]
         public required string Title { get; set; }
-        [MinLength(50 , ErrorMessage = "Context can not be less than 50 char")]
         public required string Context { get; set; }
-        [MinLength(25 , ErrorMessage = "Description can not be less than 25 char")]
         public required string Description { get; set; }
         public required string Place {get;set;}
         public int Capacity { get; set; }

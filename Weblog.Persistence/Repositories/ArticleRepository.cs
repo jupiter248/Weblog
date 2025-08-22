@@ -148,6 +148,7 @@ namespace Weblog.Persistence.Repositories
         {
             currentArticle.Title = newArticle.Title;
             currentArticle.Slug = newArticle.Slug;
+            currentArticle.Description = newArticle.Description;
             currentArticle.Context = newArticle.Context;
             currentArticle.IsPublished = newArticle.IsPublished;
             currentArticle.CategoryId = newArticle.CategoryId;

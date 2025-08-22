@@ -8,7 +8,6 @@ namespace Weblog.Application.Dtos.SmsDtos
 {
     public class AddConsentSmsDto
     {
-        [Phone]
         public required string Mobile { get; set; }
         public required  string Purpose { get; set; } // login or register
     }
