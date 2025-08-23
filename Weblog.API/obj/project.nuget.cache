@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "mns3FXA959KBC8uRTXF1Sv9S15GR03PF7nx6K762eaiEbYCafz2MsE8TFyvPEE+2JeYrI4bnEA623zZs/4JHgQ==",
+  "dgSpecHash": "+YObx9AIOLCuLFwzgb2vwzkTyaBehFqmV2I5dO0AjFR9op40kWA8s38j9yK/h7Q1HBVBqT4ZB86062KgLEeCtw==",
   "success": true,
   "projectFilePath": "/home/mohammad/Programming/Weblog/Weblog.API/Weblog.API.csproj",
   "expectedPackageFiles": [
     "/home/mohammad/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/home/mohammad/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "/home/mohammad/.nuget/packages/dotnetenv/3.1.1/dotnetenv.3.1.1.nupkg.sha512",
+    "/home/mohammad/.nuget/packages/fluentvalidation/12.0.0/fluentvalidation.12.0.0.nupkg.sha512",
     "/home/mohammad/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/mohammad/.nuget/packages/mediatr/12.5.0/mediatr.12.5.0.nupkg.sha512",
     "/home/mohammad/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",

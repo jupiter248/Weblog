@@ -8,6 +8,8 @@ using Weblog.Application.Dtos.CategoryDtos;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
+using Weblog.Application.Validations;
+using Weblog.Application.Validations.Category;
 using Weblog.Domain.Models;
 
 namespace Weblog.API.Controllers
@@ -38,6 +40,7 @@ namespace Weblog.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCategory([FromBody] AddCategoryDto addCategoryDto)
         {
+            Validator.ValidateAndThrow(addCategoryDto, new AddCategoryValidator());
             CategoryDto categoryDto = await _categoryService.AddCategoryAsync(addCategoryDto);
             return CreatedAtAction(nameof(GetCategoryById), new { id = categoryDto.Id }, categoryDto);
         }
@@ -45,6 +48,7 @@ namespace Weblog.API.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateCategory([FromRoute] int id, [FromBody] UpdateCategoryDto updateCategoryDto)
         {
+            Validator.ValidateAndThrow(updateCategoryDto, new UpdateCategoryValidator());
             await _categoryService.UpdateCategoryAsync(updateCategoryDto, id);
             return NoContent();
         }

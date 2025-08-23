@@ -12,6 +12,8 @@ using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
+using Weblog.Application.Validations;
+using Weblog.Application.Validations.Event;
 
 namespace Weblog.API.Controllers
 {
@@ -46,6 +48,7 @@ namespace Weblog.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddEvent([FromBody] AddEventDto addEventDto)
         {
+            Validator.ValidateAndThrow(addEventDto, new AddEventValidator());
             EventDto eventDto = await _eventService.AddEventAsync(addEventDto);
             return CreatedAtAction(nameof(GetEventById), new { id = eventDto.Id }, eventDto);
         }
@@ -53,6 +56,7 @@ namespace Weblog.API.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateEvent(int id, [FromBody] UpdateEventDto updateEventDto)
         {
+            Validator.ValidateAndThrow(updateEventDto, new UpdateEventValidator());
             await _eventService.UpdateEventAsync(updateEventDto, id);
             return NoContent();
         }

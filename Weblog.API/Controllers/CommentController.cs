@@ -10,6 +10,8 @@ using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
+using Weblog.Application.Validations;
+using Weblog.Application.Validations.Comment;
 
 namespace Weblog.API.Controllers
 {
@@ -41,6 +43,7 @@ namespace Weblog.API.Controllers
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
+            Validator.ValidateAndThrow(addCommentDto, new AddCommentValidator());
             CommentDto categoryDto = await _commentService.AddCommentAsync(addCommentDto,userId );
             return CreatedAtAction(nameof(GetCommentById), new { id = categoryDto.Id }, categoryDto);
         }
@@ -50,7 +53,8 @@ namespace Weblog.API.Controllers
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
-            await _commentService.UpdateCommentAsync(updateCommentDto, id , userId);
+            Validator.ValidateAndThrow(updateCommentDto, new UpdateCommentValidator());
+            await _commentService.UpdateCommentAsync(updateCommentDto, id, userId);
             return NoContent();
         }
         [Authorize]

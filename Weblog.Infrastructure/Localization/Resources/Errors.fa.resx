@@ -54,6 +54,9 @@
     <data name="EVENT_NOT_FOUND" xml:space="preserve">
         <value>رویداد پیدا نشد</value>
     </data>
+    <data name="EVENT_CAPACITY_IS_FULL" xml:space="preserve">
+        <value>ظرفیت رویداد پر است</value>
+    </data>
 
 
     => Favorite errors
@@ -98,6 +101,9 @@
     => Participant errors
     <data name="PARTICIPANT_NOT_FOUND" xml:space="preserve">
         <value>شرکت کننده پیدا نشد</value>
+    </data>
+    <data name="ALREADY_TOOK_PART" xml:space="preserve">
+        <value>شما قبلا در این رویداد شرکت کردید</value>
     </data>
 
 

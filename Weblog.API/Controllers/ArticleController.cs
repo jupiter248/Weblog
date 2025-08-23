@@ -11,6 +11,8 @@ using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
+using Weblog.Application.Validations;
+using Weblog.Application.Validations.Article;
 
 namespace Weblog.API.Controllers
 {
@@ -41,6 +43,7 @@ namespace Weblog.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddArticle([FromBody] AddArticleDto addArticleDto)
         {
+            Validator.ValidateAndThrow(addArticleDto, new AddArticleValidator());
             ArticleDto articleDto = await _articleService.AddArticleAsync(addArticleDto);
             return CreatedAtAction(nameof(GetArticleById), new { id = articleDto.Id }, articleDto);
         }
@@ -48,6 +51,7 @@ namespace Weblog.API.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateArticle(int id, [FromBody]UpdateArticleDto updateArticleDto)
         {
+            Validator.ValidateAndThrow(updateArticleDto, new UpdateArticleValidator());
             await _articleService.UpdateArticleAsync(updateArticleDto, id);
             return NoContent();
         }

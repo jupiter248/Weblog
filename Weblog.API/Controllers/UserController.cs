@@ -8,6 +8,8 @@ using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Dtos.UserDtos;
 using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Application.Validations;
+using Weblog.Application.Validations.User;
 
 namespace Weblog.API.Controllers
 {
@@ -49,6 +51,7 @@ namespace Weblog.API.Controllers
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(string userId,[FromBody] UpdateUserDto updateUserDto)
         {
+            Validator.ValidateAndThrow(updateUserDto, new UpdateUserValidator());
             await _userService.UpdateUserAsync(updateUserDto, userId);
             return Ok("User updated successfully");
         }

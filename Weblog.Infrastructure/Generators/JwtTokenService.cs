@@ -21,7 +21,6 @@ namespace Weblog.Infrastructure.Services.Generators
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
                 new Claim(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty)
-
             };
             foreach (var role in roles)
             {
@@ -34,7 +33,7 @@ namespace Weblog.Infrastructure.Services.Generators
                 Subject = new ClaimsIdentity(claims),
                 Issuer = Environment.GetEnvironmentVariable("JWT_Issuer"),
                 Audience = Environment.GetEnvironmentVariable("JWT_Audience"),
-                Expires = DateTime.Now.AddHours(1),
+                Expires = DateTime.Now.AddDays(15),
                 SigningCredentials = creds,
             };
             var tokenHandler = new JwtSecurityTokenHandler();

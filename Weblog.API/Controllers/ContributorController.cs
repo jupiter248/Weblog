@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.ContributorDtos;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Application.Validations;
+using Weblog.Application.Validations.Contributor;
 
 namespace Weblog.API.Controllers
 {
@@ -34,6 +36,7 @@ namespace Weblog.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddContributor([FromBody] AddContributorDto addContributorDto)
         {
+            Validator.ValidateAndThrow(addContributorDto, new AddContributorValidator());
             ContributorDto contributorDto = await _contributorService.AddContributorAsync(addContributorDto);
             return CreatedAtAction(nameof(GetContributorById), new { id = contributorDto.Id }, contributorDto);
         }
@@ -41,6 +44,7 @@ namespace Weblog.API.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateContributor( int id, [FromBody] UpdateContributorDto updateContributorDto)
         {
+            Validator.ValidateAndThrow(updateContributorDto, new UpdateContributorValidator());
             await _contributorService.UpdateContributorAsync(updateContributorDto, id);
             return NoContent();
         } 

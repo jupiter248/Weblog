@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.MediaDtos;
 using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Application.Validations;
+using Weblog.Application.Validations.Medium;
 
 namespace Weblog.API.Controllers
 {
@@ -39,6 +41,7 @@ namespace Weblog.API.Controllers
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
+            Validator.ValidateAndThrow(uploadMediumDto, new UploadMediumValidator());
             MediumDto mediumDto = await _mediumService.StoreMediumAsync(uploadMediumDto , userId);
             return CreatedAtAction(nameof(GetMediumById), new { id = mediumDto.Id }, mediumDto);
         }
@@ -46,6 +49,7 @@ namespace Weblog.API.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateMedium([FromBody] UpdateMediumDto updateMediumDto, int id)
         {
+            Validator.ValidateAndThrow(updateMediumDto, new UpdateMediumValidator());
             await _mediumService.UpdateMediumAsync(updateMediumDto, id);
             return NoContent();
         }

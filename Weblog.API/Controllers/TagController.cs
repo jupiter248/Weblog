@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.TagDtos;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Application.Validations;
+using Weblog.Application.Validations.Tag;
 using Weblog.Infrastructure.Services;
 
 namespace Weblog.API.Controllers
@@ -37,6 +39,7 @@ namespace Weblog.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTag([FromBody] AddTagDto addTagDto)
         {
+            Validator.ValidateAndThrow(addTagDto, new AddTagValidator());
             TagDto tagDto = await _tagService.AddTagAsync(addTagDto);
             return CreatedAtAction(nameof(GetTagById), new { id = tagDto.Id }, tagDto);
         }
@@ -44,6 +47,7 @@ namespace Weblog.API.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateTag([FromBody] UpdateTagDto updateTagDto, [FromRoute] int id)
         {
+            Validator.ValidateAndThrow(updateTagDto, new UpdateTagValidator());
             await _tagService.UpdateTagAsync(updateTagDto, id);
             return NoContent();
         }

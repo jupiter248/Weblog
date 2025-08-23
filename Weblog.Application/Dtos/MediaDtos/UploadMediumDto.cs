@@ -17,10 +17,6 @@ namespace Weblog.Application.Dtos.MediaDtos
         public required string AltText { get; set; }
         public bool IsOnPoster { get; set; }
 
-        // public int? ArticleId { get; set; }
-        // public int? EventId { get; set; }
-        // public int? PodcastId  { get; set; }
-        // public int? ContributorId { get; set; }
 
     }
 }

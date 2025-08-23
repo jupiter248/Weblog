@@ -11,6 +11,8 @@ using Weblog.Application.Dtos.FavoriteListDtos;
 using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Application.Validations;
+using Weblog.Application.Validations.FavoriteList;
 using Weblog.Domain.JoinModels;
 
 namespace Weblog.API.Controllers
@@ -50,8 +52,10 @@ namespace Weblog.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFavoriteList([FromBody] AddFavoriteListDto addFavoriteListDto)
         {
+
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
+            Validator.ValidateAndThrow(addFavoriteListDto, new AddFavoriteListValidator());
             FavoriteListDto favoriteListDto = await _favoriteListService.AddFavoriteListAsync(userId, addFavoriteListDto);
             return CreatedAtAction(nameof(GetFavoriteListById), new { id = favoriteListDto.Id }, favoriteListDto);
         }
@@ -61,6 +65,7 @@ namespace Weblog.API.Controllers
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
+            Validator.ValidateAndThrow(updateFavoriteListDto, new UpdateFavoriteListValidator());
             await _favoriteListService.UpdateFavoriteListAsync(userId, updateFavoriteListDto, id);
             return NoContent();
         }

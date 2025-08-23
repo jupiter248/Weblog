@@ -12,6 +12,8 @@ using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
+using Weblog.Application.Validations;
+using Weblog.Application.Validations.Podcast;
 
 namespace Weblog.API.Controllers
 {
@@ -43,6 +45,7 @@ namespace Weblog.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPodcast([FromBody] AddPodcastDto addPodcastDto)
         {
+            Validator.ValidateAndThrow(addPodcastDto, new AddPodcastValidator());
             PodcastDto podcastDto = await _podcastService.AddPodcastAsync(addPodcastDto);
             return CreatedAtAction(nameof(GetPodcastById), new { id = podcastDto.Id }, podcastDto);
         }
@@ -50,6 +53,7 @@ namespace Weblog.API.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdatePodcast(int id,[FromBody] UpdatePodcastDto updatePodcastDto)
         {
+            Validator.ValidateAndThrow(updatePodcastDto, new UpdatePodcastValidator());
             await _podcastService.UpdatePodcastAsync(updatePodcastDto, id);
             return NoContent();
         }

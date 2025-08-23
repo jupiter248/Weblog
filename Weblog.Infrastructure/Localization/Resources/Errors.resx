@@ -54,6 +54,9 @@
     <data name="EVENT_NOT_FOUND" xml:space="preserve">
         <value>Event not found.</value>
     </data>
+    <data name="EVENT_CAPACITY_IS_FULL" xml:space="preserve">
+        <va lue>the capacity of event is full</value>
+    </data>
 
 
     => Favorite errors
@@ -98,6 +101,9 @@
     => Participant errors
     <data name="PARTICIPANT_NOT_FOUND" xml:space="preserve">
         <value>Participant not found</value>
+    </data>
+    <data name="ALREADY_TOOK_PART" xml:space="preserve">
+        <value>You already took part .</value>
     </data>
 
 
