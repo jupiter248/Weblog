@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Weblog.Application.Dtos.EventDtos;
+using Weblog.Domain.Errors.Event;
 
 namespace Weblog.Application.Validations.Event
 {
@@ -11,20 +12,20 @@ namespace Weblog.Application.Validations.Event
     {
         public UpdateEventValidator()
         {
-          RuleFor(t => t.Title)
-                .NotEmpty().WithMessage("")
-                .MaximumLength(150).WithMessage("");
+            RuleFor(t => t.Title)
+                .NotEmpty().WithMessage(EventErrorCodes.EventNotFound)
+                .MaximumLength(150).WithMessage(EventErrorCodes.EventTitleMaxLength);
 
             RuleFor(d => d.Description)
-                .Empty().WithMessage("")
-                .MaximumLength(600).WithMessage("");
+                .Empty().WithMessage(EventErrorCodes.EventDescriptionRequired)
+                .MaximumLength(600).WithMessage(EventErrorCodes.EventDescriptionMaxLength);
 
             RuleFor(c => c.Context)
-                .Empty().WithMessage("");
+                .Empty().WithMessage(EventErrorCodes.EventContextRequired);
 
             RuleFor(p => p.Place)
-                .Empty().WithMessage("")
-                .MaximumLength(100).WithMessage("");
+                .Empty().WithMessage(EventErrorCodes.EventPlaceRequired)
+                .MaximumLength(100).WithMessage(EventErrorCodes.EventPlaceMaxLength);
         }
     }
 }

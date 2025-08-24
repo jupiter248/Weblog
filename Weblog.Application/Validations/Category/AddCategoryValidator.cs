@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Weblog.Application.Dtos.CategoryDtos;
+using Weblog.Domain.Errors.Category;
 
 namespace Weblog.Application.Validations.Category
 {
@@ -12,15 +13,16 @@ namespace Weblog.Application.Validations.Category
         public AddCategoryValidator()
         {
             RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("")
-                .MaximumLength(100).WithMessage("");
+                .NotEmpty().WithMessage(CategoryErrorCodes.CategoryNameRequired)
+                .MaximumLength(100).WithMessage(CategoryErrorCodes.CategoryNameMaxLength);
 
             RuleFor(x => x.Description)
-                .NotEmpty().WithMessage("")
-                .MaximumLength(500).WithMessage("");
+                .NotEmpty().WithMessage(CategoryErrorCodes.CategoryDescriptionRequired)
+                .MaximumLength(500).WithMessage(CategoryErrorCodes.CategoryDescriptionMaxLength);
 
             RuleFor(x => x.EntityType)
-                .IsInEnum().WithMessage("");
+                .NotNull().WithMessage(CategoryErrorCodes.CategoryEntityTypeRequired)
+                .IsInEnum().WithMessage(CategoryErrorCodes.CategoryInvalidEntityType);
         }
-    }
+    }   
 }

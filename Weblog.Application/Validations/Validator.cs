@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
+using Weblog.Application.CustomExceptions;
 using Weblog.Domain.Errors.Common;
 
 namespace Weblog.Application.Validations
@@ -19,7 +20,6 @@ namespace Weblog.Application.Validations
             {
                 // Group errors by property and get localized error messages
                 var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
-
                 throw new CustomExceptions.ValidationException("VALIDATION_ERROR", CommonErrorCodes.ValidationError, errors);
             }
         }

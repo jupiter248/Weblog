@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Weblog.Application.Dtos.ArticleDtos;
+using Weblog.Domain.Errors;
 
 namespace Weblog.Application.Validations.Article
 {
@@ -12,15 +13,15 @@ namespace Weblog.Application.Validations.Article
         public AddArticleValidator()
         {
             RuleFor(t => t.Title)
-                .NotEmpty().WithMessage("")
-                .MaximumLength(150).WithMessage("");
+                .NotEmpty().WithMessage(ArticleErrorCodes.ArticleTitleRequired)
+                .MaximumLength(150).WithMessage(ArticleErrorCodes.ArticleTitleMaxLength);
 
             RuleFor(d => d.Description)
-                .Empty().WithMessage("")
-                .MaximumLength(600).WithMessage("");
+                .Empty().WithMessage(ArticleErrorCodes.ArticleDescriptionRequired)
+                .MaximumLength(600).WithMessage(ArticleErrorCodes.ArticleDescriptionMaxLength);
 
             RuleFor(c => c.Context)
-                .Empty().WithMessage("");
+                .Empty().WithMessage(ArticleErrorCodes.ArticleTextRequired);
         }
     }
 }

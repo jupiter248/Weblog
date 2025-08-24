@@ -27,6 +27,21 @@
     <data name="CATEGORY_NOT_FOUND" xml:space="preserve">
         <value>Category not found.</value>
     </data>
+    <data name="CATEGORY_NAME_REQUIRED" xml:space="preserve">
+        <value>Category name is required.</value>
+    </data>
+    <data name="CATEGORY_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>Category name can not be more than 100.</value>
+    </data>
+    <data name="CATEGORY_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>Category description is required.</value>
+    </data>
+    <data name="CATEGORY_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>Category description can not be more than 500.</value>
+    </data>
+    <data name="CATEGORY_INVALID_ENTITY_TYPE" xml:space="preserve">
+        <value>Category parent entity type is invalid.</value>
+    </data>
 
 
     => Comment errors  
@@ -55,7 +70,7 @@
         <value>Event not found.</value>
     </data>
     <data name="EVENT_CAPACITY_IS_FULL" xml:space="preserve">
-        <va lue>the capacity of event is full</value>
+        <value> lue>the capacity of event is full</value>
     </data>
 
 

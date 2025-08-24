@@ -12,8 +12,5 @@ namespace Weblog.Domain.Errors.Common
         public const string Unauthorized = "UNAUTHORIZED";
         public const string InternalServer = "INTERNAL_SERVER";
         public const string ContentNotFound = "CONTENT_NOT_FOUND";
-
-
-
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Weblog.Application.Dtos.MediaDtos;
+using Weblog.Domain.Errors.Medium;
 
 namespace Weblog.Application.Validations.Medium
 {
@@ -12,20 +13,18 @@ namespace Weblog.Application.Validations.Medium
         public UploadMediumValidator()
         {
             RuleFor(x => x.UploadedFile)
-                .NotNull().WithMessage("")
-                .Must(f => f.Length > 0).WithMessage("")
-                .Must(f => f.Length <= 5 * 1024 * 1024).WithMessage("");
+                .NotNull().WithMessage(MediumErrorCodes.MediumFileRequired)
+                .Must(f => f.Length <= 5 * 1024 * 1024).WithMessage(MediumErrorCodes.MediumFileSizes);
 
             RuleFor(x => x.AltText)
-                .NotEmpty().WithMessage("")
-                .MaximumLength(200).WithMessage("");
+                .NotEmpty().WithMessage(MediumErrorCodes.MediumAltTextRequired)
+                .MaximumLength(200).WithMessage(MediumErrorCodes.MediumAltTextMaxLength);
 
             RuleFor(x => x.EntityType)
-                .IsInEnum().WithMessage("");
+                .IsInEnum().WithMessage(MediumErrorCodes.MediumEntityTypeInvalid);
 
             RuleFor(x => x.MediumType)
-                .IsInEnum().WithMessage("");
-
+                .IsInEnum().WithMessage(MediumErrorCodes.MediumTypeInvalid);
         }
     }
 }

@@ -13,6 +13,6 @@ namespace Weblog.Application.Dtos.CategoryDtos
         public required string Name { get; set; }
         public required string Description { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public required EntityType EntityType { get; set; }
+        public EntityType? EntityType { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Weblog.Application.Dtos.TagDtos;
+using Weblog.Domain.Errors.Tag;
 
 namespace Weblog.Application.Validations.Tag
 {
@@ -12,8 +13,8 @@ namespace Weblog.Application.Validations.Tag
         public UpdateTagValidator()
         {
             RuleFor(x => x.Title)
-                .NotEmpty().WithMessage("")
-                .MaximumLength(80).WithMessage("");
+                .NotEmpty().WithMessage(TagErrorCodes.TagTitleRequired)
+                .MaximumLength(80).WithMessage(TagErrorCodes.TagTitleMaxLength);
         }
     }
 }

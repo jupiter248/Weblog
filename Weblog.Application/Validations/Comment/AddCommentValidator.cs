@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Weblog.Application.Dtos.CommentDtos;
+using Weblog.Domain.Errors.Comment;
 
 namespace Weblog.Application.Validations.Comment
 {
@@ -12,11 +13,12 @@ namespace Weblog.Application.Validations.Comment
         public AddCommentValidator()
         {
             RuleFor(x => x.Text)
-                .NotEmpty().WithMessage("")
-                .MaximumLength(1000).WithMessage("");
+                .NotEmpty().WithMessage(CommentErrorCodes.CommentTextRequired)
+                .MaximumLength(1000).WithMessage(CommentErrorCodes.CommentTextMaxLength);
 
             RuleFor(x => x.EntityType)
-                .IsInEnum().WithMessage("");
+                .NotNull().WithMessage(CommentErrorCodes.CommentEntityTypeRequired)
+                .IsInEnum().WithMessage(CommentErrorCodes.CommentEntityTypeInvalid);
         }
     }
 }

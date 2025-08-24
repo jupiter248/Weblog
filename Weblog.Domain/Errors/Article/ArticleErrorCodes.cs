@@ -8,8 +8,8 @@ namespace Weblog.Domain.Errors
     public class ArticleErrorCodes
     {
         public const string ArticleNotFound = "ARTICLE_NOT_FOUND";
-        public const string ArticleNameRequired = "ARTICLE_NAME_REQUIRED";
-        public const string ArticleNameMaxLength = "ARTICLE_NAME_MAX_LENGTH";
+        public const string ArticleTitleRequired = "ARTICLE_TITLE_REQUIRED";
+        public const string ArticleTitleMaxLength = "ARTICLE_TITLE_MAX_LENGTH";
         public const string ArticleDescriptionMaxLength = "ARTICLE_DESCRIPTION_MAX_LENGTH";
         public const string ArticleDescriptionRequired = "ARTICLE_DESCRIPTION_REQUIRED";
         public const string ArticleTextRequired = "ARTICLE_TEXT_REQUIRED";

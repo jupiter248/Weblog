@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
-using Weblog.Application.Dtos.UserDtos;
+using Weblog.Application.Dtos.AuthDtos;
 using Weblog.Domain.Errors.User;
 
 namespace Weblog.Application.Validations.User
 {
-    public class UpdateUserValidator : AbstractValidator<UpdateUserDto>
+    public class RegisterValidator : AbstractValidator<RegisterDto>
     {
-        public UpdateUserValidator()
+        public RegisterValidator()
         {
             RuleFor(x => x.Username)
                 .NotEmpty().WithMessage(UserErrorCodes.UsernameRequired)
@@ -28,11 +28,7 @@ namespace Weblog.Application.Validations.User
                 .NotEmpty().WithMessage(UserErrorCodes.UserLastNameRequired)
                 .Length(2, 100).WithMessage(UserErrorCodes.UserLastNameMaxLength);
 
-            RuleFor(x => x.OldPassword)
-                .NotEmpty().WithMessage(UserErrorCodes.PasswordRequired)
-                .Length(8, 100).WithMessage(UserErrorCodes.PasswordLength);
-
-            RuleFor(x => x.NewPassword)
+            RuleFor(x => x.Password)
                 .NotEmpty().WithMessage(UserErrorCodes.PasswordRequired)
                 .Length(8, 100).WithMessage(UserErrorCodes.PasswordLength);
         }
