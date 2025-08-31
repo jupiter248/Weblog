@@ -16,7 +16,7 @@ namespace Weblog.Application.Dtos.EventDtos
         public int Capacity { get; set; }
         public bool IsDisplayed { get; set; }
         public bool IsFinished { get; set; }
-        public DateTimeOffset? StartedAt { get; set; }
-        public DateTimeOffset? FinishedAt { get; set; }
+        public DateTimeOffset StartedAt { get; set; }
+        public DateTimeOffset FinishedAt { get; set; }
     }
 }

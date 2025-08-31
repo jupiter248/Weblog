@@ -137,12 +137,14 @@ namespace Weblog.Infrastructure.Services
             eventModel.Title = updateEventDto.Title;
             eventModel.Capacity = updateEventDto.Capacity;
             eventModel.CategoryId = updateEventDto.CategoryId;
+            eventModel.Description = updateEventDto.Description;
             eventModel.Category = category;
             eventModel.Context = updateEventDto.Context;
             eventModel.Place = updateEventDto.Place;
             eventModel.IsDisplayed = updateEventDto.IsDisplayed;
             eventModel.IsFinished = updateEventDto.IsFinished;
             eventModel.Slug = updateEventDto.Title.Slugify();
+            eventModel.StartedAt = updateEventDto.StartedAt;
 
             if (eventModel.IsDisplayed == true)
             {
@@ -174,6 +176,7 @@ namespace Weblog.Infrastructure.Services
                 }
             }
             eventModel.UpdatedAt = DateTimeOffset.Now;
+            eventModel.FinishedAt = updateEventDto.FinishedAt;
             await _eventRepo.UpdateEventAsync(eventModel);
         }
     }

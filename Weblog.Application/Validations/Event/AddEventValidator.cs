@@ -17,14 +17,14 @@ namespace Weblog.Application.Validations.Event
                 .MaximumLength(150).WithMessage(EventErrorCodes.EventTitleMaxLength);
 
             RuleFor(d => d.Description)
-                .Empty().WithMessage(EventErrorCodes.EventDescriptionRequired)
+                .NotEmpty().WithMessage(EventErrorCodes.EventDescriptionRequired)
                 .MaximumLength(600).WithMessage(EventErrorCodes.EventDescriptionMaxLength);
 
             RuleFor(c => c.Context)
-                .Empty().WithMessage(EventErrorCodes.EventContextRequired);
+                .NotEmpty().WithMessage(EventErrorCodes.EventContextRequired);
 
             RuleFor(p => p.Place)
-                .Empty().WithMessage(EventErrorCodes.EventPlaceRequired)
+                .NotEmpty().WithMessage(EventErrorCodes.EventPlaceRequired)
                 .MaximumLength(100).WithMessage(EventErrorCodes.EventPlaceMaxLength);
         }
     }
