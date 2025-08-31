@@ -21,7 +21,21 @@
     <data name="ARTICLE_NOT_FOUND" xml:space="preserve">
         <value>Article not found.</value>
     </data>
-
+    <data name="ARTICLE_TITLE_REQUIRED" xml:space="preserve">
+        <value>Title of article must have value.</value>
+    </data>
+    <data name="ARTICLE_TITLE_MAX_LENGTH" xml:space="preserve">
+        <value>Title of article can not be more than 150.</value>
+    </data>
+    <data name="ARTICLE_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>Description of article can not be more than 600.</value>
+    </data>
+    <data name="ARTICLE_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>Description of article must have value.</value>
+    </data>
+    <data name="ARTICLE_TEXT_REQUIRED" xml:space="preserve">
+        <value>Text of article must have value.</value>
+    </data>
 
     => Category errors
     <data name="CATEGORY_NOT_FOUND" xml:space="preserve">
@@ -50,12 +64,25 @@
     </data>
     <data name="COMMENT_PARENT_ID_INVALID" xml:space="preserve">
         <value>Parent id of comment is invalid.</value>
-    </data> 
+    </data>     
     <data name="COMMENT_DELETE_FORBIDDEN" xml:space="preserve">
         <value>You do not have access to delete this comment</value>
     </data> 
     <data name="COMMENT_UPDATE_FORBIDDEN" xml:space="preserve">
         <value>You do not have access to update this comment.</value>
+    </data> 
+    <data name="COMMENT_TEXT_REQUIRED" xml:space="preserve">
+        <value>Text of comment must have value.</value>
+    </data>
+    <data name="COMMENT_TEXT_MAX_LENGTH" xml:space="preserve">
+        <value>Text of comment can not be more than 1000</value>
+    </data>     
+    <data name="COMMENT_ENTITY_TYPE_REQUIRED" xml:space="preserve">
+        <value>Entity type of comment must have value.</value>
+    </data> 
+    <data name="COMMENT_ENTITY_TYPE_INVALID" xml:space="preserve">
+        <value>Entity type of com1
+         is invalid.</value>
     </data> 
 
 
@@ -63,15 +90,55 @@
     <data name="CONTRIBUTOR_NOT_FOUND" xml:space="preserve">
         <value>Contributor not found.</value>
     </data> 
+    <data name="CONTRIBUTOR_FIRST_NAME_REQUIRED" xml:space="preserve">
+        <value>Contributor name must have value</value>
+    </data> 
+    <data name="CONTRIBUTOR_LAST_NAME_REQUIRED" xml:space="preserve">
+        <value>Contributor last name must have value</value>
+    </data> 
+    <data name="CONTRIBUTOR_FIRST_NAME_LENGTH" xml:space="preserve">
+        <value>Contributor first name must be between 2 and 100/value>
+    </data> 
+    <data name="CONTRIBUTOR_LAST_NAME_LENGTH" xml:space="preserve">
+        <value>Contributor last name must be between 2 and 100</value>
+    </data> 
+    <data name="CONTRIBUTOR_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>Contributor description must have value</value>
+    </data> 
+    <data name="CONTRIBUTOR_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>Contributor description can not be more than 800</value>
+    </data> 
 
 
     => Event errors
     <data name="EVENT_NOT_FOUND" xml:space="preserve">
         <value>Event not found.</value>
     </data>
-    <data name="EVENT_CAPACITY_IS_FULL" xml:space="preserve">
-        <value> lue>the capacity of event is full</value>
+    <data name="EVENT_TITLE_REQUIRED" xml:space="preserve">
+        <value>Event Title must have value.</value>
     </data>
+    <data name="EVENT_TITLE_MAX_LENGTH" xml:space="preserve">
+        <value>Event Title can not be more than 150.</value>
+    </data>
+    <data name="EVENT_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>Event description must have value.</value>
+    </data>
+    <data name="EVENT_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>Event description can not be more than 600</value>
+    </data>
+    <data name="EVENT_CONTEXT_REQUIRED" xml:space="preserve">
+        <value>Event Text must have value.</value>
+    </data>
+    <data name="EVENT_PLACE_REQUIRED" xml:space="preserve">
+        <value>Event place must have value.</value>
+    </data>
+    <data name="EVENT_PLACE_MAX_LENGTH" xml:space="preserve">
+        <value>Event place ca not be more than 100/value>
+    </data>
+    <data name="EVENT_CAPACITY_IS_FULL" xml:space="preserve">
+        <value>the capacity of event is full</value>
+    </data>
+  
 
 
     => Favorite errors
@@ -89,6 +156,18 @@
     </data>
     <data name="FAVORITE_UPDATE_FORBIDDEN" xml:space="preserve">
         <value>You do not have access to update this favorite list</value>
+    </data>
+    <data name="FAVORITE_LIST_NAME_REQUIRED" xml:space="preserve">
+        <value>Favorite list name must have value</value>
+    </data>
+    <data name="FAVORITE_LIST_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>Favorite list description must have value</value>
+    </data>
+    <data name="FAVORITE_LIST_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>Favorite list name can not be more than 100.</value>
+    </data>
+    <data name="FAVORITE_LIST_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>Favorite list description can not be more than 400.</value>
     </data>
 
 
@@ -111,6 +190,36 @@
     <data name="MEDIUM_DELETE_FORBIDDEN" xml:space="preserve">
         <value>You do not have access to delete this medium</value>
     </data>
+    <data name="MEDIUM_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>Medium name can not be more than 80.</value>
+    </data>
+    <data name="MEDIUM_NAME_REQUIRED" xml:space="preserve">
+        <value>Medium name must have value.</value>
+    </data>
+    <data name="MEDIUM_PATH_LENGTH" xml:space="preserve">
+        <value>Medium path can not be more than 100.</value>
+    </data>
+    <data name="MEDIUM_PATH_REQUIRED" xml:space="preserve">
+        <value>Medium path must have value.</value>
+    </data>
+    <data name="MEDIUM_ALT_TEXT_LENGTH" xml:space="preserve">
+        <value>Medium alt text can not be more than 200</value>
+    </data>
+    <data name="MEDIUM_ALT_TEXT_REQUIRED" xml:space="preserve">
+        <value>Medium alt text must have value.</value>
+    </data>
+    <data name="MEDIUM_FILE_REQUIRED" xml:space="preserve">
+        <value>Medium file must have value.</value>
+    </data>
+    <data name="MEDIUM_FILE_SIZE" xml:space="preserve">
+        <value>Medium file size can not be more than 5MB.</value>
+    </data>
+    <data name="MEDIUM_ENTITY_TYPE_INVALID" xml:space="preserve">
+        <value>Medium entity type is invalid.</value>
+    </data>
+    <data name="MEDIUM_TYPE_INVALID" xml:space="preserve">
+        <value>Medium type is invalid.</value>
+    </data>
 
 
     => Participant errors
@@ -126,11 +235,37 @@
     <data name="PODCAST_NOT_FOUND" xml:space="preserve">
         <value>Podcast not found.</value>
     </data>
-
+    <data name="PODCAST_NAME_REQUIRED" xml:space="preserve">
+        <value>Podcast name must have value.</value>
+    </data>
+    <data name="PODCAST_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>Podcast name can not be more than 100.</value>
+    </data>
+    <data name="PODCAST_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>Podcast description must have value4.</value>
+    </data>
+    <data name="PODCAST_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>Podcast description can not be more than 800.</value>
+    </data>
+    <data name="PODCAST_LINK_REQUIRED" xml:space="preserve">
+        <value>Podcast link must have value.</value>
+    </data>
+    <data name="PODCAST_LINK_MAX_LENGTH" xml:space="preserve">
+        <value>Podcast link can not be more than 300.</value>
+    </data>
+    <data name="PODCAST_LINK_INVALID" xml:space="preserve">
+        <value>Podcast link is invalid.</value>
+    </data>
 
     => Tag errors
     <data name="TAG_NOT_FOUND" xml:space="preserve">
         <value>Tag not found.</value>
+    </data>
+    <data name="TAG_TITLE_REQUIRED" xml:space="preserve">
+        <value>Tag title must have value.</value>
+    </data>
+    <data name="TAG_TITLE_MAX_LENGTH" xml:space="preserve">
+        <value>Tag title can not be more than 80.</value>
     </data>
 
 
@@ -152,5 +287,35 @@
     </data>
     <data name="PASSWORD_CHANGE_FAILED" xml:space="preserve">
         <value>Password could not be changed</value>
+    </data>
+    <data name="USERNAME_REQUIRED" xml:space="preserve">
+        <value>Username must have value.</value>
+    </data>
+    <data name="USERNAME_MAX_LENGTH" xml:space="preserve">
+        <value>Username can not be more than 40.</value>
+    </data>
+    <data name="USER_FIRST_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>User first name must be between 2 and 50. </value>
+    </data>
+    <data name="USER_FIRST_NAME_REQUIRED" xml:space="preserve">
+        <value>User first name must have value.</value>
+    </data>
+    <data name="USER_LAST_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>Username last name must be between 2 and 100.</value>
+    </data>
+    <data name="USER_LAST_NAME_REQUIRED" xml:space="preserve">
+        <value>User last name must have value.</value>
+    </data>
+    <data name="PHONE_REQUIRED" xml:space="preserve">
+        <value>Phone must have value.</value>
+    </data>
+    <data name="INVALID_PHONE" xml:space="preserve">
+        <value>Phone is invalid.</value>
+    </data>
+    <data name="PASSWORD_REQUIRED" xml:space="preserve">
+        <value>Password must have value.</value>
+    </data>
+    <data name="PASSWORD_LENGTH" xml:space="preserve">
+        <value>Password must be between 8 and 100.</value>
     </data>
 </root>

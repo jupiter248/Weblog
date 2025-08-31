@@ -22,8 +22,5 @@ namespace Weblog.Domain.Errors.Medium
         public const string MediumEntityTypeInvalid = "MEDIUM_ENTITY_TYPE_INVALID";
         public const string MediumTypeInvalid = "MEDIUM_TYPE_INVALID";
 
-
-
-
     }
 }

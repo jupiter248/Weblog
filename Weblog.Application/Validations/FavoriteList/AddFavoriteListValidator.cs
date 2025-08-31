@@ -14,7 +14,7 @@ namespace Weblog.Application.Validations.FavoriteList
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage(FavoriteErrorCodes.FavoriteListNameRequired)
-                .Length(2, 100).WithMessage(FavoriteErrorCodes.FavoriteListNameMaxLength);
+                .MaximumLength(100).WithMessage(FavoriteErrorCodes.FavoriteListNameMaxLength);
 
             RuleFor(x => x.Description)
                 .NotEmpty().WithMessage(FavoriteErrorCodes.FavoriteListDescriptionRequired)

@@ -19,61 +19,154 @@
 
     => Article errors
     <data name="ARTICLE_NOT_FOUND" xml:space="preserve">
-        <value>مقاله پیدا نشد</value>
+        <value>مقاله پیدا نشد.</value>
+    </data>
+    <data name="ARTICLE_TITLE_REQUIRED" xml:space="preserve">
+        <value>عنوان مقاله الزامی است.</value>
+    </data>
+    <data name="ARTICLE_TITLE_MAX_LENGTH" xml:space="preserve">
+        <value>عنوان مقاله نمی‌تواند بیش از ۱۵۰ کاراکتر باشد.</value>
+    </data>
+    <data name="ARTICLE_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>توضیحات مقاله نمی‌تواند بیش از ۶۰۰ کاراکتر باشد.</value>
+    </data>
+    <data name="ARTICLE_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>توضیحات مقاله الزامی است.</value>
+    </data>
+    <data name="ARTICLE_TEXT_REQUIRED" xml:space="preserve">
+        <value>متن مقاله الزامی است.</value>
     </data>
 
 
     => Category errors
     <data name="CATEGORY_NOT_FOUND" xml:space="preserve">
-        <value>دسته بندی پیدا نشد</value>
+        <value>دسته‌بندی پیدا نشد.</value>
+    </data>
+    <data name="CATEGORY_NAME_REQUIRED" xml:space="preserve">
+        <value>نام دسته‌بندی الزامی است.</value>
+    </data>
+    <data name="CATEGORY_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>نام دسته‌بندی نمی‌تواند بیش از ۱۰۰ کاراکتر باشد.</value>
+    </data>
+    <data name="CATEGORY_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>توضیحات دسته‌بندی الزامی است.</value>
+    </data>
+    <data name="CATEGORY_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>توضیحات دسته‌بندی نمی‌تواند بیش از ۵۰۰ کاراکتر باشد.</value>
+    </data>
+    <data name="CATEGORY_INVALID_ENTITY_TYPE" xml:space="preserve">
+        <value>نوع موجودیت والد دسته‌بندی نامعتبر است.</value>
     </data>
 
 
     => Comment errors  
-    <data name="Comment_NOT_FOUND" xml:space="preserve">
-        <value>کامنت پیدا نشد</value>
+    <data name="COMMENT_NOT_FOUND" xml:space="preserve">
+        <value>نظر پیدا نشد.</value>
     </data>
     <data name="COMMENT_PARENT_ID_INVALID" xml:space="preserve">
-        <value>آی دی وارد شده صحیح نمی باشد</value>
-    </data> 
+        <value>شناسه والد نظر نامعتبر است.</value>
+    </data>
     <data name="COMMENT_DELETE_FORBIDDEN" xml:space="preserve">
-        <value>شما دسترسی برای پاک کردن این پیام را ندارید </value>
-    </data> 
+        <value>شما دسترسی حذف این نظر را ندارید.</value>
+    </data>
     <data name="COMMENT_UPDATE_FORBIDDEN" xml:space="preserve">
-        <value>شما دسترسی برای بروزرسانی کردن این پیام را ندارید</value>
-    </data> 
+        <value>شما دسترسی ویرایش این نظر را ندارید.</value>
+    </data>
+    <data name="COMMENT_TEXT_REQUIRED" xml:space="preserve">
+        <value>متن نظر الزامی است.</value>
+    </data>
+    <data name="COMMENT_TEXT_MAX_LENGTH" xml:space="preserve">
+        <value>متن نظر نمی‌تواند بیش از ۱۰۰۰ کاراکتر باشد.</value>
+    </data>
+    <data name="COMMENT_ENTITY_TYPE_REQUIRED" xml:space="preserve">
+        <value>نوع موجودیت نظر الزامی است.</value>
+    </data>
+    <data name="COMMENT_ENTITY_TYPE_INVALID" xml:space="preserve">
+        <value>نوع موجودیت نظر نامعتبر است.</value>
+    </data>
 
 
     => Contributor errors
     <data name="CONTRIBUTOR_NOT_FOUND" xml:space="preserve">
-        <value>ناشر یا گوینده  پیدا نشد</value>
+        <value>مشارکت‌کننده پیدا نشد.</value>
+    </data> 
+    <data name="CONTRIBUTOR_FIRST_NAME_REQUIRED" xml:space="preserve">
+        <value>نام مشارکت‌کننده الزامی است.</value>
+    </data> 
+    <data name="CONTRIBUTOR_LAST_NAME_REQUIRED" xml:space="preserve">
+        <value>نام خانوادگی مشارکت‌کننده الزامی است.</value>
+    </data> 
+    <data name="CONTRIBUTOR_FIRST_NAME_LENGTH" xml:space="preserve">
+        <value>نام مشارکت‌کننده باید بین ۲ تا ۱۰۰ کاراکتر باشد.</value>
+    </data> 
+    <data name="CONTRIBUTOR_LAST_NAME_LENGTH" xml:space="preserve">
+        <value>نام خانوادگی مشارکت‌کننده باید بین ۲ تا ۱۰۰ کاراکتر باشد.</value>
+    </data> 
+    <data name="CONTRIBUTOR_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>توضیحات مشارکت‌کننده الزامی است.</value>
+    </data> 
+    <data name="CONTRIBUTOR_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>توضیحات مشارکت‌کننده نمی‌تواند بیش از ۸۰۰ کاراکتر باشد.</value>
     </data> 
 
 
     => Event errors
     <data name="EVENT_NOT_FOUND" xml:space="preserve">
-        <value>رویداد پیدا نشد</value>
+        <value>رویداد پیدا نشد.</value>
+    </data>
+    <data name="EVENT_TITLE_REQUIRED" xml:space="preserve">
+        <value>عنوان رویداد الزامی است.</value>
+    </data>
+    <data name="EVENT_TITLE_MAX_LENGTH" xml:space="preserve">
+        <value>عنوان رویداد نمی‌تواند بیش از ۱۵۰ کاراکتر باشد.</value>
+    </data>
+    <data name="EVENT_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>توضیحات رویداد الزامی است.</value>
+    </data>
+    <data name="EVENT_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>توضیحات رویداد نمی‌تواند بیش از ۶۰۰ کاراکتر باشد.</value>
+    </data>
+    <data name="EVENT_CONTEXT_REQUIRED" xml:space="preserve">
+        <value>متن رویداد الزامی است.</value>
+    </data>
+    <data name="EVENT_PLACE_REQUIRED" xml:space="preserve">
+        <value>محل برگزاری رویداد الزامی است.</value>
+    </data>
+    <data name="EVENT_PLACE_MAX_LENGTH" xml:space="preserve">
+        <value>محل برگزاری رویداد نمی‌تواند بیش از ۱۰۰ کاراکتر باشد.</value>
     </data>
     <data name="EVENT_CAPACITY_IS_FULL" xml:space="preserve">
-        <value>ظرفیت رویداد پر است</value>
+        <value>ظرفیت رویداد تکمیل شده است.</value>
     </data>
 
 
     => Favorite errors
     <data name="FAVORITE_ITEM_ALREADY_EXISTS" xml:space="preserve">
-        <value>شما قبلا این مورد رو به لیست مورد علاقه اضافه کردید</value>
+        <value>این مورد قبلاً به لیست علاقه‌مندی‌ها اضافه شده است.</value>
     </data>
     <data name="FAVORITE_LIST_NOT_FOUND" xml:space="preserve">
-        <value>لیست مورد علاقه پیدا نشد</value>
+        <value>لیست علاقه‌مندی‌ها پیدا نشد.</value>
     </data>
     <data name="FAVORITE_ITEM_NOT_FOUND" xml:space="preserve">
-        <value>ایتم مورد نظر در لیست علاقه مندی ها پیدا نشد</value>
+        <value>مورد علاقه‌مندی پیدا نشد.</value>
     </data>
     <data name="FAVORITE_DELETE_FORBIDDEN" xml:space="preserve">
-        <value>شما دسترسی برای پاک کردن این لیست علاقه مندی ها را ندارید</value>
+        <value>شما دسترسی حذف این لیست علاقه‌مندی را ندارید.</value>
     </data>
     <data name="FAVORITE_UPDATE_FORBIDDEN" xml:space="preserve">
-        <value>شما دسترسی برای بروزرسانی کردن این لیست علاقه مندی ها را ندارید</value>
+        <value>شما دسترسی ویرایش این لیست علاقه‌مندی را ندارید.</value>
+    </data>
+    <data name="FAVORITE_LIST_NAME_REQUIRED" xml:space="preserve">
+        <value>نام لیست علاقه‌مندی الزامی است.</value>
+    </data>
+    <data name="FAVORITE_LIST_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>توضیحات لیست علاقه‌مندی الزامی است.</value>
+    </data>
+    <data name="FAVORITE_LIST_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>نام لیست علاقه‌مندی نمی‌تواند بیش از ۱۰۰ کاراکتر باشد.</value>
+    </data>
+    <data name="FAVORITE_LIST_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>توضیحات لیست علاقه‌مندی نمی‌تواند بیش از ۴۰۰ کاراکتر باشد.</value>
     </data>
 
 
@@ -85,16 +178,46 @@
 
     => Medium errors
     <data name="MEDIUM_NOT_FOUND" xml:space="preserve">
-        <value>فایل مورد نظر پیدا نشد</value>
+        <value>رسانه پیدا نشد.</value>
     </data>
     <data name="MEDIUM_PARENT_ID_INVALID" xml:space="preserve">
-        <value>آی دی وارد شده صحیح نمی باشد</value>
+        <value>شناسه والد رسانه نامعتبر است.</value>
     </data>
     <data name="MEDIUM_FILE_INVALID" xml:space="preserve">
-        <value>فایل صحیح نمی باشد</value>
+        <value>فایل رسانه نامعتبر است.</value>
     </data>
     <data name="MEDIUM_DELETE_FORBIDDEN" xml:space="preserve">
-        <value>شما دسترسی برای پاک کردن این فایل را ندارید</value>
+        <value>شما دسترسی حذف این رسانه را ندارید.</value>
+    </data>
+    <data name="MEDIUM_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>نام رسانه نمی‌تواند بیش از ۸۰ کاراکتر باشد.</value>
+    </data>
+    <data name="MEDIUM_NAME_REQUIRED" xml:space="preserve">
+        <value>نام رسانه الزامی است.</value>
+    </data>
+    <data name="MEDIUM_PATH_LENGTH" xml:space="preserve">
+        <value>مسیر رسانه نمی‌تواند بیش از ۱۰۰ کاراکتر باشد.</value>
+    </data>
+    <data name="MEDIUM_PATH_REQUIRED" xml:space="preserve">
+        <value>مسیر رسانه الزامی است.</value>
+    </data>
+    <data name="MEDIUM_ALT_TEXT_LENGTH" xml:space="preserve">
+        <value>متن جایگزین رسانه نمی‌تواند بیش از ۲۰۰ کاراکتر باشد.</value>
+    </data>
+    <data name="MEDIUM_ALT_TEXT_REQUIRED" xml:space="preserve">
+        <value>متن جایگزین رسانه الزامی است.</value>
+    </data>
+    <data name="MEDIUM_FILE_REQUIRED" xml:space="preserve">
+        <value>فایل رسانه الزامی است.</value>
+    </data>
+    <data name="MEDIUM_FILE_SIZE" xml:space="preserve">
+        <value>حجم فایل رسانه نمی‌تواند بیش از ۵ مگابایت باشد.</value>
+    </data>
+    <data name="MEDIUM_ENTITY_TYPE_INVALID" xml:space="preserve">
+        <value>نوع موجودیت رسانه نامعتبر است.</value>
+    </data>
+    <data name="MEDIUM_TYPE_INVALID" xml:space="preserve">
+        <value>نوع رسانه نامعتبر است.</value>
     </data>
 
 
@@ -109,33 +232,90 @@
 
     => Podcast errors
     <data name="PODCAST_NOT_FOUND" xml:space="preserve">
-        <value>پادکست پیدا نشد</value>
+        <value>پادکست پیدا نشد.</value>
+    </data>
+    <data name="PODCAST_NAME_REQUIRED" xml:space="preserve">
+        <value>نام پادکست الزامی است.</value>
+    </data>
+    <data name="PODCAST_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>نام پادکست نمی‌تواند بیش از ۱۰۰ کاراکتر باشد.</value>
+    </data>
+    <data name="PODCAST_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>توضیحات پادکست الزامی است.</value>
+    </data>
+    <data name="PODCAST_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>توضیحات پادکست نمی‌تواند بیش از ۸۰۰ کاراکتر باشد.</value>
+    </data>
+    <data name="PODCAST_LINK_REQUIRED" xml:space="preserve">
+        <value>لینک پادکست الزامی است.</value>
+    </data>
+    <data name="PODCAST_LINK_MAX_LENGTH" xml:space="preserve">
+        <value>لینک پادکست نمی‌تواند بیش از ۳۰۰ کاراکتر باشد.</value>
+    </data>
+    <data name="PODCAST_LINK_INVALID" xml:space="preserve">
+        <value>لینک پادکست نامعتبر است.</value>
     </data>
 
 
     => Tag errors
     <data name="TAG_NOT_FOUND" xml:space="preserve">
-        <value>تگ پیدا نشد</value>
+        <value>تگ پیدا نشد.</value>
+    </data>
+    <data name="TAG_TITLE_REQUIRED" xml:space="preserve">
+        <value>عنوان تگ الزامی است.</value>
+    </data>
+    <data name="TAG_TITLE_MAX_LENGTH" xml:space="preserve">
+        <value>عنوان تگ نمی‌تواند بیش از ۸۰ کاراکتر باشد.</value>
     </data>
 
 
     => User errors
     <data name="USER_NOT_FOUND" xml:space="preserve">
-        <value>حساب کاربری پیدا نشد</value>
+        <value>کاربر پیدا نشد.</value>
     </data>
     <data name="INVALID_USERNAME" xml:space="preserve">
-        <value>نام کاربری وارد شده صحیح نمی باشد</value>
+        <value>نام کاربری نامعتبر است.</value>
     </data>
     <data name="INCORRECT_PASSWORD" xml:space="preserve">
-        <value>رمز صحیح نمی باشد</value>
+        <value>رمز عبور صحیح نیست.</value>
     </data>
     <data name="ROLE_ASSIGN_FAILED" xml:space="preserve">
-        <value>نقش حساب کاربری اضافه نشد</value>
+        <value>نقش کاربر قابل اختصاص نیست.</value>
     </data>
     <data name="USER_CREATE_FAILED" xml:space="preserve">
-        <value>حساب کاربری ساخته نشد</value>
+        <value>کاربر قابل ایجاد نیست.</value>
     </data>
     <data name="PASSWORD_CHANGE_FAILED" xml:space="preserve">
-        <value>رمز تغییر نکرد </value>
+        <value>رمز عبور قابل تغییر نیست.</value>
+    </data>
+    <data name="USERNAME_REQUIRED" xml:space="preserve">
+        <value>نام کاربری الزامی است.</value>
+    </data>
+    <data name="USERNAME_MAX_LENGTH" xml:space="preserve">
+        <value>نام کاربری نمی‌تواند بیش از ۴۰ کاراکتر باشد.</value>
+    </data>
+    <data name="USER_FIRST_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>نام کاربر باید بین ۲ تا ۵۰ کاراکتر باشد.</value>
+    </data>
+    <data name="USER_FIRST_NAME_REQUIRED" xml:space="preserve">
+        <value>نام کاربر الزامی است.</value>
+    </data>
+    <data name="USER_LAST_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>نام خانوادگی کاربر باید بین ۲ تا ۱۰۰ کاراکتر باشد.</value>
+    </data>
+    <data name="USER_LAST_NAME_REQUIRED" xml:space="preserve">
+        <value>نام خانوادگی کاربر الزامی است.</value>
+    </data>
+    <data name="PHONE_REQUIRED" xml:space="preserve">
+        <value>شماره تلفن الزامی است.</value>
+    </data>
+    <data name="INVALID_PHONE" xml:space="preserve">
+        <value>شماره تلفن نامعتبر است.</value>
+    </data>
+    <data name="PASSWORD_REQUIRED" xml:space="preserve">
+        <value>رمز عبور الزامی است.</value>
+    </data>
+    <data name="PASSWORD_LENGTH" xml:space="preserve">
+        <value>رمز عبور باید بین ۸ تا ۱۰۰ کاراکتر باشد.</value>
     </data>
 </root>

@@ -14,9 +14,5 @@ namespace Weblog.Domain.Errors.Contributor
         public const string ContributorLastNameLength = "CONTRIBUTOR_LAST_NAME_LENGTH";
         public const string ContributorDescriptionRequired = "CONTRIBUTOR_DESCRIPTION_REQUIRED";
         public const string ContributorDescriptionMaxLength = "CONTRIBUTOR_DESCRIPTION_MAX_LENGTH";
-
-
-
-
     }
 }
