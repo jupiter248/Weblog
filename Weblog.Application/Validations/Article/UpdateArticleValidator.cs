@@ -17,11 +17,11 @@ namespace Weblog.Application.Validations.Article
                 .MaximumLength(150).WithMessage(ArticleErrorCodes.ArticleTitleMaxLength);
 
             RuleFor(d => d.Description)
-                .Empty().WithMessage(ArticleErrorCodes.ArticleDescriptionRequired)
+                .NotEmpty().WithMessage(ArticleErrorCodes.ArticleDescriptionRequired)
                 .MaximumLength(600).WithMessage(ArticleErrorCodes.ArticleDescriptionMaxLength);
 
             RuleFor(c => c.Context)
-                .Empty().WithMessage(ArticleErrorCodes.ArticleTextRequired);
+                .NotEmpty().WithMessage(ArticleErrorCodes.ArticleTextRequired);
         }        
     }
 }

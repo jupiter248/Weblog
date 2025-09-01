@@ -97,7 +97,7 @@
         <value>Contributor last name must have value</value>
     </data> 
     <data name="CONTRIBUTOR_FIRST_NAME_LENGTH" xml:space="preserve">
-        <value>Contributor first name must be between 2 and 100/value>
+        <value>Contributor first name must be between 2 and 100</value>
     </data> 
     <data name="CONTRIBUTOR_LAST_NAME_LENGTH" xml:space="preserve">
         <value>Contributor last name must be between 2 and 100</value>
@@ -133,7 +133,7 @@
         <value>Event place must have value.</value>
     </data>
     <data name="EVENT_PLACE_MAX_LENGTH" xml:space="preserve">
-        <value>Event place ca not be more than 100/value>
+        <value>Event place ca not be more than 100</value>
     </data>
     <data name="EVENT_CAPACITY_IS_FULL" xml:space="preserve">
         <value>the capacity of event is full</value>

@@ -48,7 +48,6 @@ namespace Weblog.Infrastructure.Services
         {
             Tag? tag = await _tagRepo.GetTagByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.TagNotFound);
             return _mapper.Map<TagDto>(tag);
-
         }
 
         public async Task UpdateTagAsync(UpdateTagDto updateTagDto, int currentTagId)

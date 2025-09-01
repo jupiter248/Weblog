@@ -21,16 +21,14 @@ namespace Weblog.API.Controllers
         {
             _tagService = tagService;
         }
-        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllTags()
         {
             List<TagDto> tagDtos = await _tagService.GetAllTagsAsync();
             return Ok(tagDtos);
         }
-        [Authorize(Roles = "Admin")]
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetTagById( int id)
+        public async Task<IActionResult> GetTagById(int id)
         {
             TagDto tagDto = await _tagService.GetTagByIdAsync(id);
             return Ok(tagDto);

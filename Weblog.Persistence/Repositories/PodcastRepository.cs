@@ -60,6 +60,11 @@ namespace Weblog.Persistence.Repositories
         {
             var podcastQuery = _context.Podcasts.Include(c => c.Category).Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
 
+            if (podcastFilteringParams.TagId.HasValue)
+            {
+                podcastQuery = podcastQuery.Where(t => t.Tags.Any(t => t.Id == podcastFilteringParams.TagId));
+            }
+
             if (podcastFilteringParams.CategoryId.HasValue)
             {
                 podcastQuery = podcastQuery.Where(a => a.CategoryId == podcastFilteringParams.CategoryId);

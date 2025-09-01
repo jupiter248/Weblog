@@ -85,6 +85,11 @@ namespace Weblog.Persistence.Repositories
         {
             var eventQuery = _context.Events.Include(c => c.Contributors).Include(c => c.Category).Include(t => t.Tags).AsQueryable();
 
+            if (eventFilteringParams.TagId.HasValue)
+            {
+                eventQuery = eventQuery.Where(t => t.Tags.Any(t => t.Id == eventFilteringParams.TagId));
+            }
+
             if (eventFilteringParams.CategoryId.HasValue)
             {
                 eventQuery = eventQuery.Where(a => a.CategoryId == eventFilteringParams.CategoryId);
