@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.AuthDtos;
 using Weblog.Application.Dtos.SmsDtos;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Application.Validations;
+using Weblog.Application.Validations.User;
 using Weblog.Domain.Enums;
 
 namespace Weblog.API.Controllers
@@ -26,6 +28,7 @@ namespace Weblog.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
+            Validator.ValidateAndThrow(registerDto, new RegisterValidator());
             AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto , UserType.User);
             return Ok(authResponseDto);
         }
@@ -33,12 +36,14 @@ namespace Weblog.API.Controllers
         [HttpPost("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterDto registerDto)
         {
+            Validator.ValidateAndThrow(registerDto, new RegisterValidator());
             AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto , UserType.Admin);
             return Ok(authResponseDto);
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
+            Validator.ValidateAndThrow(loginDto, new LoginValidator());
             AuthResponseDto authResponseDto = await _authService.LoginAsync(loginDto);
             return Ok(authResponseDto);
         }
