@@ -55,8 +55,10 @@ namespace Weblog.Infrastructure.Services
             {
                 newEvent.Category = category;
             }
-            newEvent.Category = category;
-
+            else
+            {
+                throw new ConflictException(CategoryErrorCodes.CategoryEntityTypeMatchFailed);
+            }
             newEvent.Slug = newEvent.Title.Slugify();
 
             if (newEvent.IsDisplayed)

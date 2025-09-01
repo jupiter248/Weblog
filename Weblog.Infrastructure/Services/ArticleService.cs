@@ -17,6 +17,7 @@ using Weblog.Domain.Errors;
 using Weblog.Infrastructure.Extension;
 using Weblog.Domain.Errors.Category;
 using Weblog.Domain.Errors.Contributor;
+using Weblog.Domain.Errors.Common;
 
 namespace Weblog.Infrastructure.Services
 {
@@ -50,6 +51,10 @@ namespace Weblog.Infrastructure.Services
             if (category.EntityType == CategoryType.Article)
             {
                 newArticle.Category = category;
+            }
+            else
+            {
+                throw new ConflictException(CategoryErrorCodes.CategoryEntityTypeMatchFailed);
             }
             newArticle.Slug = newArticle.Title.Slugify();
 

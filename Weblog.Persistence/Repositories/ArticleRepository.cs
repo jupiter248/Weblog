@@ -70,7 +70,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Article>> GetAllArticlesAsync(PaginationParams paginationParams, ArticleFilteringParams articleFilteringParams)
         {
-            var articleQuery = _context.Articles.Include(c => c.Category).Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
+            var articleQuery = _context.Articles.Include(c => c.Category).Include(t => t.Tags).Include(c => c.Contributors).ThenInclude(i => i.Media).AsQueryable();
             
             if (articleFilteringParams.TagId.HasValue)
             {
@@ -114,7 +114,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<Article?> GetArticleByIdAsync(int articleId)
         {
-            Article? article = await _context.Articles.Include(t => t.Tags).Include(c => c.Contributors).FirstOrDefaultAsync(a => a.Id == articleId);
+            Article? article = await _context.Articles.Include(c => c.Category).Include(t => t.Tags).Include(c => c.Contributors).ThenInclude(c => c.Media).FirstOrDefaultAsync(a => a.Id == articleId);
             if (article == null)
             {
                 return null;
@@ -138,8 +138,8 @@ namespace Weblog.Persistence.Repositories
                         a.Contributors.Any(c => contributorIds.Contains(c.Id)) || a.Contributors.Any(c => contributorIds.Contains(c.Id)))))
                         .OrderByDescending(a => a.PublishedAt)
                         .Take(10);
-
-            return await query.Skip(skipNumber).Take(paginationParams.PageSize).ToListAsync();
+            List<Article> articles = await query.Include(m => m.Media).Include(c => c.Category).Include(c => c.Contributors).ThenInclude(c => c.Media).ToListAsync();
+            return articles.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
         }
 
         public async Task<List<Article>> SearchByTitleAsync(string keyword)

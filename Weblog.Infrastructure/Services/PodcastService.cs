@@ -53,8 +53,10 @@ namespace Weblog.Infrastructure.Services
             {
                 newPodcast.Category = category;
             }
-            newPodcast.Category = category;
-            newPodcast.CreatedAt = DateTimeOffset.Now;
+            else
+            {
+                throw new ConflictException(CategoryErrorCodes.CategoryEntityTypeMatchFailed);
+            }   
             newPodcast.Slug = newPodcast.Name.Slugify();
 
             if (newPodcast.IsDisplayed)

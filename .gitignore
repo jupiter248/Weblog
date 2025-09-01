@@ -69,6 +69,7 @@ artifacts/
 *.svclog
 *.scc
 *.env
+token.txt
 
 # Chutzpah Test files
 _Chutzpah*

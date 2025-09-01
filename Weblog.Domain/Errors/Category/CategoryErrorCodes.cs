@@ -14,6 +14,8 @@ namespace Weblog.Domain.Errors.Category
         public const string CategoryDescriptionMaxLength = "CATEGORY_DESCRIPTION_MAX_LENGTH";
         public const string CategoryInvalidEntityType = "CATEGORY_INVALID_ENTITY_TYPE";
         public const string CategoryEntityTypeRequired = "CATEGORY_ENTITY_TYPE_REQUIRED";
+        public const string CategoryEntityTypeMatchFailed = "CATEGORY_ENTITY_TYPE_MATCH_FAILED";
+
 
 
     }

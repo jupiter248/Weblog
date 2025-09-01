@@ -83,7 +83,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Event>> GetAllEventsAsync(EventFilteringParams eventFilteringParams, PaginationParams paginationParams)
         {
-            var eventQuery = _context.Events.Include(c => c.Contributors).Include(c => c.Category).Include(t => t.Tags).AsQueryable();
+            var eventQuery = _context.Events.Include(c => c.Contributors).ThenInclude(m => m.Media).Include(c => c.Category).Include(t => t.Tags).AsQueryable();
 
             if (eventFilteringParams.TagId.HasValue)
             {
@@ -130,7 +130,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<Event?> GetEventByIdAsync(int eventId)
         {
-            Event? eventModel = await _context.Events.Include(t => t.Tags).Include(c => c.Contributors).FirstOrDefaultAsync(e => e.Id == eventId);
+            Event? eventModel = await _context.Events.Include(c=> c.Category).Include(t => t.Tags).Include(c => c.Contributors).ThenInclude(m => m.Media).FirstOrDefaultAsync(e => e.Id == eventId);
             if (eventModel == null)
             {
                 return null;
@@ -154,8 +154,8 @@ namespace Weblog.Persistence.Repositories
                         a.Contributors.Any(c => contributorIds.Contains(c.Id)) || a.Contributors.Any(c => contributorIds.Contains(c.Id)))))
                         .OrderByDescending(a => a.DisplayedAt)
                         .Take(10);
-
-            return await query.Skip(skipNumber).Take(paginationParams.PageSize).ToListAsync();
+            List<Event> eventModels = await query.Include(m => m.Media).Include(c => c.Category).Include(c => c.Contributors).ThenInclude(m => m.Media).ToListAsync();
+            return  eventModels.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
         }
 
         public async Task IncreaseCapacity(Event eventModel)

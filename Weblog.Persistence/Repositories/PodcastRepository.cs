@@ -58,7 +58,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<List<Podcast>> GetAllPodcastsAsync(PodcastFilteringParams podcastFilteringParams, PaginationParams paginationParams)
         {
-            var podcastQuery = _context.Podcasts.Include(c => c.Category).Include(t => t.Tags).Include(c => c.Contributors).AsQueryable();
+            var podcastQuery = _context.Podcasts.Include(c => c.Category).Include(t => t.Tags).Include(c => c.Contributors).ThenInclude(m => m.Media).AsQueryable();
 
             if (podcastFilteringParams.TagId.HasValue)
             {
@@ -101,7 +101,7 @@ namespace Weblog.Persistence.Repositories
 
         public async Task<Podcast?> GetPodcastByIdAsync(int podcastId)
         {
-            Podcast? podcast = await _context.Podcasts.Include(c => c.Contributors).Include(t => t.Tags).FirstOrDefaultAsync(p => p.Id == podcastId);
+            Podcast? podcast = await _context.Podcasts.Include(c => c.Category).Include(c => c.Contributors).ThenInclude(c => c.Media).Include(t => t.Tags).FirstOrDefaultAsync(p => p.Id == podcastId);
             if (podcast == null)
             {
                 return null;
@@ -125,8 +125,9 @@ namespace Weblog.Persistence.Repositories
                         a.Contributors.Any(c => contributorIds.Contains(c.Id)) || a.Contributors.Any(c => contributorIds.Contains(c.Id)))))
                         .OrderByDescending(a => a.DisplayedAt)
                         .Take(10);
-
-            return await query.Skip(skipNumber).Take(paginationParams.PageSize).ToListAsync();        }
+            List<Podcast> podcasts = await query.Include(m => m.Media).Include(c => c.Category).Include(c => c.Contributors).ThenInclude(m => m.Media).ToListAsync();
+            return podcasts.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
+            }
 
         public async Task<bool> PodcastExistsAsync(int podcastId)
         {

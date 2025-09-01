@@ -15,7 +15,7 @@ namespace Weblog.Application.Dtos.ContributorDtos
         public required string FullName { get; set; }
         public required string Description { get; set; }
         public List<MediumDto>? MediumDtos { get; set; }
-        public DateTimeOffset CreatedOn { get; set; }
+        public string? CreatedOn { get; set; }
 
         
     }

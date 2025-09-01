@@ -56,7 +56,9 @@
     <data name="CATEGORY_INVALID_ENTITY_TYPE" xml:space="preserve">
         <value>Category parent entity type is invalid.</value>
     </data>
-
+    <data name="CATEGORY_ENTITY_TYPE_MATCH_FAILED" xml:space="preserve">
+        <value>Category entity type does not match with the content.</value>
+    </data>
 
     => Comment errors  
     <data name="Comment_NOT_FOUND" xml:space="preserve">
