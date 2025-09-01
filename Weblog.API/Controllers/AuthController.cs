@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.AuthDtos;
 using Weblog.Application.Dtos.SmsDtos;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Domain.Enums;
 
 namespace Weblog.API.Controllers
 {
@@ -21,10 +23,17 @@ namespace Weblog.API.Controllers
             _authService = authService;
             _smsService = smsService;
         }
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto);
+            AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto , UserType.User);
+            return Ok(authResponseDto);
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost("register-admin")]
+        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterDto registerDto)
+        {
+            AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto , UserType.Admin);
             return Ok(authResponseDto);
         }
         [HttpPost("login")]
@@ -33,11 +42,5 @@ namespace Weblog.API.Controllers
             AuthResponseDto authResponseDto = await _authService.LoginAsync(loginDto);
             return Ok(authResponseDto);
         }
-        // [HttpPost("consent-code")]
-        // public async Task<IActionResult> SendConsentCode([FromBody] AddConsentSmsDto addConsentSmsDto)
-        // {
-        //     await _smsService.SendConsentSmsAsync(addConsentSmsDto);
-        //     return Ok();
-        // }
     }
 }
