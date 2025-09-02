@@ -15,8 +15,8 @@ namespace Weblog.Domain.JoinModels.Favorites
         public required string Name { get; set; }
         public required string Description { get; set; }
         public required FavoriteListType EntityType { get; set; }
-        public required DateTimeOffset CreatedAt { get; set; }
-        public required DateTimeOffset UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
         public required string UserId { get; set; }
         public AppUser? appUser { get; set; }
         public List<Article> Articles { get; set; } = new List<Article>();

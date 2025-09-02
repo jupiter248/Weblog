@@ -9,6 +9,8 @@ using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Dtos.FavoritesDtos.EventFavoriteDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Errors.Event;
 using Weblog.Domain.Errors.Favorite;
 using Weblog.Domain.Errors.User;
@@ -72,15 +74,11 @@ namespace Weblog.Infrastructure.Services
             await _favoriteEventRepo.DeleteEventFromFavoriteAsync(favoriteEvent);
         }
 
-        public async Task<List<EventDto>> GetAllFavoriteEventsAsync(string userId , int? favoriteListId)
+        public async Task<List<EventSummaryDto>> GetAllFavoriteEventsAsync(string userId , FavoriteFilteringParams favoriteFilteringParams , PaginationParams paginationParams)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            List<FavoriteEvent> favoriteEvents = await _favoriteEventRepo.GetAllFavoriteEventsAsync(userId);
-            if (favoriteListId.HasValue)
-            {
-               favoriteEvents = favoriteEvents.Where(f => f.FavoriteListId == favoriteListId).ToList();
-            }
-            List<EventDto> eventDtos = _mapper.Map<List<EventDto>>(favoriteEvents.Select(f => f.Event));
+            List<FavoriteEvent> favoriteEvents = await _favoriteEventRepo.GetAllFavoriteEventsAsync(userId , favoriteFilteringParams , paginationParams);
+            List<EventSummaryDto> eventDtos = _mapper.Map<List<EventSummaryDto>>(favoriteEvents.Select(f => f.Event));
             return eventDtos;
         }
     }

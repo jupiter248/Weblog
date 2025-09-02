@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Weblog.Persistence.Data;
 
@@ -10,9 +11,11 @@ using Weblog.Persistence.Data;
 namespace Weblog.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250902060426_UpdatedFavoriteTable")]
+    partial class UpdatedFavoriteTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,9 +246,6 @@ namespace Weblog.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset>("AddedAt")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("AppUserId")
                         .HasColumnType("varchar(255)");
 
@@ -274,9 +274,6 @@ namespace Weblog.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset>("AddedAt")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("AppUserId")
                         .HasColumnType("varchar(255)");
 
@@ -304,9 +301,6 @@ namespace Weblog.Persistence.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<DateTimeOffset>("AddedAt")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("AppUserId")
                         .HasColumnType("varchar(255)");

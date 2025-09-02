@@ -75,15 +75,11 @@ namespace Weblog.Infrastructure.Services
             await _favoritePodcastRepo.DeletePodcastFromFavoriteAsync(favoritePodcast);
         }
 
-        public async Task<List<PodcastDto>> GetAllFavoritePodcastsAsync(string userId,int? favoriteListId)
+        public async Task<List<PodcastSummaryDto>> GetAllFavoritePodcastsAsync(string userId, FavoriteFilteringParams favoriteFilteringParams , PaginationParams paginationParams)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            List<FavoritePodcast> favoritePodcasts = await _favoritePodcastRepo.GetAllFavoritePodcastsAsync(userId);
-            if (favoriteListId.HasValue)
-            {
-               favoritePodcasts = favoritePodcasts.Where(f => f.FavoriteListId == favoriteListId).ToList();
-            }
-            List<PodcastDto> podcastDtos = _mapper.Map<List<PodcastDto>>(favoritePodcasts.Select(f => f.Podcast));
+            List<FavoritePodcast> favoritePodcasts = await _favoritePodcastRepo.GetAllFavoritePodcastsAsync(userId , favoriteFilteringParams , paginationParams);
+            List<PodcastSummaryDto> podcastDtos = _mapper.Map<List<PodcastSummaryDto>>(favoritePodcasts.Select(f => f.Podcast));
             return podcastDtos;
         }
     }

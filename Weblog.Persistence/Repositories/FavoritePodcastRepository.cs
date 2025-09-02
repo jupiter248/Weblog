@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblog.Application.Interfaces.Repositories;
+using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.JoinModels;
 using Weblog.Persistence.Data;
 
@@ -38,10 +40,27 @@ namespace Weblog.Persistence.Repositories
             return true;
         }
 
-        public async Task<List<FavoritePodcast>> GetAllFavoritePodcastsAsync(string userId)
+        public async Task<List<FavoritePodcast>> GetAllFavoritePodcastsAsync(string userId ,  FavoriteFilteringParams favoriteFilteringParams, PaginationParams paginationParams)
         {
-            return await _context.FavoritePodcasts.Include(a => a.Podcast).Where(a => a.UserId == userId).ToListAsync();
-        }
+            var favoritePodcastQuery = _context.FavoritePodcasts.Include(a => a.Podcast).ThenInclude(m => m.Media).Where(a => a.UserId == userId).AsQueryable();
+            if (favoriteFilteringParams.favoriteListId.HasValue)
+            {
+                favoritePodcastQuery = favoritePodcastQuery.Where(f => f.FavoriteListId == favoriteFilteringParams.favoriteListId);
+            }
+
+            if (favoriteFilteringParams.NewestArrivals == true)
+            {
+                favoritePodcastQuery = favoritePodcastQuery.OrderByDescending(a => a.AddedAt);
+            }
+            else
+            {
+                favoritePodcastQuery = favoritePodcastQuery.OrderBy(a => a.AddedAt);
+            }
+
+            List<FavoritePodcast> favoritePodcasts = await favoritePodcastQuery.ToListAsync();
+            var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
+
+            return favoritePodcastQuery.Skip(skipNumber).Take(paginationParams.PageSize).ToList();         }
 
         public async Task<FavoritePodcast?> GetFavoritePodcastByIdAsync(int id)
         {

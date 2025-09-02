@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Dtos.EventDtos;
@@ -11,6 +10,8 @@ using Weblog.Application.Dtos.FavoriteListDtos;
 using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Application.Validations;
 using Weblog.Application.Validations.FavoriteList;
 using Weblog.Domain.JoinModels;
@@ -80,29 +81,29 @@ namespace Weblog.API.Controllers
         }
         [Authorize]
         [HttpGet("event")]
-        public async Task<IActionResult> GetAllFavoriteEvents([FromBody] int? favoriteListId)
+        public async Task<IActionResult> GetAllFavoriteEvents([FromQuery] FavoriteFilteringParams favoriteFilteringParams , [FromQuery] PaginationParams paginationParams)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
-            List<EventDto> eventDtos = await _favoriteEventService.GetAllFavoriteEventsAsync(userId , favoriteListId);
+            List<EventSummaryDto> eventDtos = await _favoriteEventService.GetAllFavoriteEventsAsync(userId , favoriteFilteringParams , paginationParams);
             return Ok(eventDtos);
         }
         [Authorize]
         [HttpGet("podcast")]
-        public async Task<IActionResult> GetAllFavoritePodcasts([FromQuery] int? favoriteListId)
+        public async Task<IActionResult> GetAllFavoritePodcasts([FromQuery] FavoriteFilteringParams favoriteFilteringParams , [FromQuery] PaginationParams paginationParams )
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
-            List<PodcastDto> podcastDtos = await _favoritePodcastService.GetAllFavoritePodcastsAsync(userId , favoriteListId);
+            List<PodcastSummaryDto> podcastDtos = await _favoritePodcastService.GetAllFavoritePodcastsAsync(userId , favoriteFilteringParams , paginationParams);
             return Ok(podcastDtos);
         }
         [Authorize]
         [HttpGet("article")]
-        public async Task<IActionResult> GetAllFavoriteArticles([FromQuery] int? favoriteListId)
+        public async Task<IActionResult> GetAllFavoriteArticles([FromQuery] FavoriteFilteringParams favoriteFilteringParams , [FromQuery] PaginationParams paginationParams)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
-            List<ArticleDto> articleDtos = await _favoriteArticleService.GetAllFavoriteArticlesAsync(userId ,favoriteListId);
+            List<ArticleSummaryDto> articleDtos = await _favoriteArticleService.GetAllFavoriteArticlesAsync(userId ,favoriteFilteringParams , paginationParams);
             return Ok(articleDtos);
         }
     }

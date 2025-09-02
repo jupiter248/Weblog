@@ -75,7 +75,7 @@ namespace Weblog.Infrastructure.Services
             }
             favoriteList.Name = updateFavoriteListDto.Name;
             favoriteList.Description = updateFavoriteListDto.Description;
-            favoriteList.UpdatedAt = DateTimeOffset.UtcNow;
+            favoriteList.UpdatedAt = DateTimeOffset.Now;
             await _favoriteListRepo.UpdateFavoriteListAsync(favoriteList);
         }
     }

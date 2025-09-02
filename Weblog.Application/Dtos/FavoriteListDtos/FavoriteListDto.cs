@@ -17,10 +17,8 @@ namespace Weblog.Application.Dtos.FavoriteListDtos
         public required string Name { get; set; }
         public required string Description { get; set; }
         public required FavoriteListType EntityType { get; set; }
-        public required DateTimeOffset CreatedAt { get; set; }
-        public required DateTimeOffset UpdatedAt { get; set; }
-        public List<ArticleSummaryDto>? Articles { get; set; }
-        public List<EventSummaryDto>? Events { get; set; }
-        public List<PodcastSummaryDto>? Podcasts { get; set; }
+        public string? CreatedAt { get; set; }
+        public string? UpdatedAt { get; set; }
+        
     }
 }

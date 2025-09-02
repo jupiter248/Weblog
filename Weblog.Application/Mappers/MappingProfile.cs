@@ -108,9 +108,8 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.ToShamsi())); 
             //Favorite List
             CreateMap<FavoriteList, FavoriteListDto>()
-                .ForMember(dest => dest.Articles, opt => opt.MapFrom(src => src.Articles))
-                .ForMember(dest => dest.Events, opt => opt.MapFrom(src => src.Events))
-                .ForMember(dest => dest.Podcasts, opt => opt.MapFrom(src => src.Podcasts));
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.ToShamsi())); 
             CreateMap<AddFavoriteListDto, FavoriteList>();
             CreateMap<UpdateFavoriteListDto, FavoriteList>();
 

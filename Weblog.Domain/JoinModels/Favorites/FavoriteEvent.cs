@@ -14,5 +14,7 @@ namespace Weblog.Domain.JoinModels
         public required string UserId { get; set; }
         public AppUser? AppUser { get; set; }
         public int? FavoriteListId { get; set; }
+        public DateTimeOffset AddedAt { get; set; } = DateTimeOffset.Now;
+
     }
 }

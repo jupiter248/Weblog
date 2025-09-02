@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblog.Application.Interfaces.Repositories;
+using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.JoinModels;
 using Weblog.Domain.Models;
 using Weblog.Persistence.Data;
@@ -38,10 +40,28 @@ namespace Weblog.Persistence.Repositories
         {
             _context.FavoriteArticles.Remove(favoriteArticle);
             await _context.SaveChangesAsync();
-        } 
-        public async Task<List<FavoriteArticle>> GetAllFavoriteArticlesAsync(string userId)
+        }
+        public async Task<List<FavoriteArticle>> GetAllFavoriteArticlesAsync(string userId, FavoriteFilteringParams favoriteFilteringParams, PaginationParams paginationParams)
         {
-            return await _context.FavoriteArticles.Include(a => a.Article).Where(a => a.UserId == userId).ToListAsync();
+            var favoriteArticleQuery = _context.FavoriteArticles.Include(a => a.Article).ThenInclude(m => m.Media).Where(a => a.UserId == userId).AsQueryable();
+            if (favoriteFilteringParams.favoriteListId.HasValue)
+            {
+                favoriteArticleQuery = favoriteArticleQuery.Where(f => f.FavoriteListId == favoriteFilteringParams.favoriteListId);
+            }
+
+            if (favoriteFilteringParams.NewestArrivals == true)
+            {
+                favoriteArticleQuery = favoriteArticleQuery.OrderByDescending(a => a.AddedAt);
+            }
+            else
+            {
+                favoriteArticleQuery = favoriteArticleQuery.OrderBy(a => a.AddedAt);
+            }
+
+            List<FavoriteArticle> favoriteArticles = await favoriteArticleQuery.ToListAsync();
+            var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
+
+            return favoriteArticles.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
         }
 
         public async Task<FavoriteArticle?> GetFavoriteArticleByIdAsync(int id)

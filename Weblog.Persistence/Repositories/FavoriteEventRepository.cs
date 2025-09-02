@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblog.Application.Interfaces.Repositories;
+using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.JoinModels;
 using Weblog.Domain.Models;
 using Weblog.Persistence.Data;
@@ -39,10 +41,28 @@ namespace Weblog.Persistence.Repositories
             return true;
         }
 
-        public async Task<List<FavoriteEvent>> GetAllFavoriteEventsAsync(string userId)
+        public async Task<List<FavoriteEvent>> GetAllFavoriteEventsAsync(string userId, FavoriteFilteringParams favoriteFilteringParams, PaginationParams paginationParams)
         {
-            return await _context.FavoriteEvents.Include(a => a.Event).Where(a => a.UserId == userId).ToListAsync();
-        }
+            var favoriteEventQuery = _context.FavoriteEvents.Include(a => a.Event).ThenInclude(m => m.Media).Where(a => a.UserId == userId).AsQueryable();
+            if (favoriteFilteringParams.favoriteListId.HasValue)
+            {
+                favoriteEventQuery = favoriteEventQuery.Where(f => f.FavoriteListId == favoriteFilteringParams.favoriteListId);
+            }
+
+            if (favoriteFilteringParams.NewestArrivals == true)
+            {
+                favoriteEventQuery = favoriteEventQuery.OrderByDescending(a => a.AddedAt);
+            }
+            else
+            {
+                favoriteEventQuery = favoriteEventQuery.OrderBy(a => a.AddedAt);
+            }
+
+            List<FavoriteEvent> favoriteEvents = await favoriteEventQuery.ToListAsync();
+            var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
+
+            return favoriteEventQuery.Skip(skipNumber).Take(paginationParams.PageSize).ToList(); 
+       }
 
         public async Task<FavoriteEvent?> GetFavoriteEventByIdAsync(int id)
         {

@@ -10,6 +10,8 @@ using Weblog.Application.Dtos.ArticleDtos;
 using Weblog.Application.Dtos.FavoritesDtos.ArticleFavoriteDto;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
+using Weblog.Application.Queries;
+using Weblog.Application.Queries.FilteringParams;
 using Weblog.Domain.Enums;
 using Weblog.Domain.Errors;
 using Weblog.Domain.Errors.Favorite;
@@ -75,15 +77,11 @@ namespace Weblog.Infrastructure.Services
             await _favoriteArticleRepo.DeleteArticleFromFavoriteAsync(favoriteArticle);
         }
 
-        public async Task<List<ArticleDto>> GetAllFavoriteArticlesAsync(string userId , int? favoriteListId)
+        public async Task<List<ArticleSummaryDto>> GetAllFavoriteArticlesAsync(string userId , FavoriteFilteringParams favoriteFilteringParams , PaginationParams paginationParams)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            List<FavoriteArticle> favoriteArticles = await _favoriteArticleRepo.GetAllFavoriteArticlesAsync(userId);
-            if (favoriteListId.HasValue)
-            {
-                favoriteArticles = favoriteArticles = favoriteArticles.Where(f => f.FavoriteListId == favoriteListId).ToList();
-            }
-            List<ArticleDto> articleDtos = _mapper.Map<List<ArticleDto>>(favoriteArticles.Select(f => f.Article));
+            List<FavoriteArticle> favoriteArticles = await _favoriteArticleRepo.GetAllFavoriteArticlesAsync(userId ,favoriteFilteringParams ,paginationParams);
+            List<ArticleSummaryDto> articleDtos = _mapper.Map<List<ArticleSummaryDto>>(favoriteArticles.Select(f => f.Article));
             return articleDtos;
         }
     }
