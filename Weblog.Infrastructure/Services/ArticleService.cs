@@ -83,6 +83,23 @@ namespace Weblog.Infrastructure.Services
                 item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Article);
             }
 
+            if (articleFilteringParams.MostLikes == true)
+            {
+                articleSummaryDtos = articleSummaryDtos.OrderByDescending(l => l.LikeCount).ToList();
+            }
+            else if (articleFilteringParams.MostLikes == false)
+            {
+                articleSummaryDtos = articleSummaryDtos.OrderBy(l => l.LikeCount).ToList();
+            }
+
+            if (articleFilteringParams.MostViews == true)
+            {
+                articleSummaryDtos = articleSummaryDtos.OrderByDescending(l => l.ViewCount).ToList();
+            }
+            else if (articleFilteringParams.MostViews == false)
+            {
+                articleSummaryDtos = articleSummaryDtos.OrderBy(l => l.ViewCount).ToList();
+            }
             return articleSummaryDtos;
         }
 

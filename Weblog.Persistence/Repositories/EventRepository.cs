@@ -90,6 +90,15 @@ namespace Weblog.Persistence.Repositories
                 eventQuery = eventQuery.Where(t => t.Tags.Any(t => t.Id == eventFilteringParams.TagId));
             }
 
+            if (eventFilteringParams.IsFinished == true)
+            {
+                eventQuery = eventQuery.Where(f => f.IsFinished == true);
+            }
+            else if (eventFilteringParams.IsFinished == false)
+            {
+                eventQuery = eventQuery.Where(f => f.IsFinished == false);
+            }
+
             if (eventFilteringParams.CategoryId.HasValue)
             {
                 eventQuery = eventQuery.Where(a => a.CategoryId == eventFilteringParams.CategoryId);

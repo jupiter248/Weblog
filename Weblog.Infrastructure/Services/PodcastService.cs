@@ -103,6 +103,23 @@ namespace Weblog.Infrastructure.Services
                 item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Podcast);
                 item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Podcast);
             }
+            if (podcastFilteringParams.MostLikes == true)
+            {
+                podcastSummaryDtos = podcastSummaryDtos.OrderByDescending(l => l.LikeCount).ToList();
+            }
+            else if (podcastFilteringParams.MostLikes == false)
+            {
+                podcastSummaryDtos = podcastSummaryDtos.OrderBy(l => l.LikeCount).ToList();
+            }
+
+            if (podcastFilteringParams.MostViews == true)
+            {
+                podcastSummaryDtos = podcastSummaryDtos.OrderByDescending(l => l.ViewCount).ToList();
+            }
+            else if (podcastFilteringParams.MostViews == false)
+            {
+                podcastSummaryDtos = podcastSummaryDtos.OrderBy(l => l.ViewCount).ToList();
+            }
             return podcastSummaryDtos;
         }
 

@@ -99,7 +99,6 @@ namespace Weblog.Persistence.Repositories
             {
                 articleQuery = articleQuery.Where(a => a.IsPublished == false);
             }
-
             var articles = await articleQuery.ToListAsync();
             foreach (var article in articles)
             {

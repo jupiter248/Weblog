@@ -11,6 +11,9 @@ namespace Weblog.Application.Queries.FilteringParams
         public string? Place { get; set; }
         public bool NewestArrivals { get; set; } = false;
         public bool? IsPublished { get; set; }
+        public bool? IsFinished { get; set; }
+        public bool? MostLikes { get; set; } 
+        public bool? MostViews { get; set; } 
         public int? TagId { get; set; }
 
     }

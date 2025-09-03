@@ -40,7 +40,7 @@ namespace Weblog.Persistence.Repositories
             return true;
         }
 
-        public async Task<List<FavoritePodcast>> GetAllFavoritePodcastsAsync(string userId ,  FavoriteFilteringParams favoriteFilteringParams, PaginationParams paginationParams)
+        public async Task<List<FavoritePodcast>> GetAllFavoritePodcastsAsync(string userId, FavoriteFilteringParams favoriteFilteringParams, PaginationParams paginationParams)
         {
             var favoritePodcastQuery = _context.FavoritePodcasts.Include(a => a.Podcast).ThenInclude(m => m.Media).Where(a => a.UserId == userId).AsQueryable();
             if (favoriteFilteringParams.favoriteListId.HasValue)
@@ -60,7 +60,8 @@ namespace Weblog.Persistence.Repositories
             List<FavoritePodcast> favoritePodcasts = await favoritePodcastQuery.ToListAsync();
             var skipNumber = (paginationParams.PageNumber - 1) * paginationParams.PageSize;
 
-            return favoritePodcastQuery.Skip(skipNumber).Take(paginationParams.PageSize).ToList();         }
+            return favoritePodcastQuery.Skip(skipNumber).Take(paginationParams.PageSize).ToList(); 
+        }
 
         public async Task<FavoritePodcast?> GetFavoritePodcastByIdAsync(int id)
         {

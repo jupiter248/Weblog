@@ -107,6 +107,24 @@ namespace Weblog.Infrastructure.Services
                 item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Event);
                 item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Event);
             }
+
+            if (eventFilteringParams.MostLikes == true)
+            {
+                eventSummaryDtos = eventSummaryDtos.OrderByDescending(l => l.LikeCount).ToList();
+            }
+            else if (eventFilteringParams.MostLikes == false)
+            {
+                eventSummaryDtos = eventSummaryDtos.OrderBy(l => l.LikeCount).ToList();
+            }
+
+            if (eventFilteringParams.MostViews == true)
+            {
+                eventSummaryDtos = eventSummaryDtos.OrderByDescending(l => l.ViewCount).ToList();
+            }
+            else if (eventFilteringParams.MostViews == false)
+            {
+                eventSummaryDtos = eventSummaryDtos.OrderBy(l => l.ViewCount).ToList();
+            }
             return eventSummaryDtos;
         }
 
