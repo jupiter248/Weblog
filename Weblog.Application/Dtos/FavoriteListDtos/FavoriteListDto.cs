@@ -16,7 +16,6 @@ namespace Weblog.Application.Dtos.FavoriteListDtos
         public int Id { get; set; }
         public required string Name { get; set; }
         public required string Description { get; set; }
-        public required FavoriteListType EntityType { get; set; }
         public string? CreatedAt { get; set; }
         public string? UpdatedAt { get; set; }
         

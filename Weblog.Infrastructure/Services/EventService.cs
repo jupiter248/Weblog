@@ -45,7 +45,7 @@ namespace Weblog.Infrastructure.Services
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
             Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             await _eventRepo.AddContributorAsync(eventModel, contributor); 
-       }
+        }
 
         public async Task<EventDto> AddEventAsync(AddEventDto addEventDto)
         {
