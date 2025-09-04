@@ -116,11 +116,32 @@ namespace Weblog.Infrastructure.Services
         {
             Article currentArticle = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.ArticleNotFound);
             Category category = await _categoryRepo.GetCategoryByIdAsync(updateArticleDto.CategoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
-            Article newArticle = _mapper.Map<Article>(updateArticleDto);
-            newArticle.Category = category;
-            newArticle.CategoryId = category.Id;
-            newArticle.Slug = updateArticleDto.Title.Slugify();
-            await _articleRepo.UpdateArticleAsync(currentArticle, newArticle);
+            if (category.EntityType == CategoryType.Article)
+            {
+                currentArticle.Category = category;
+            }
+            else
+            {
+                throw new ConflictException(CategoryErrorCodes.CategoryEntityTypeMatchFailed);
+            }
+            currentArticle = _mapper.Map(updateArticleDto, currentArticle);
+            currentArticle.Slug = updateArticleDto.Title.Slugify();
+
+            if (currentArticle.IsPublished == true)
+            {
+                if (currentArticle.PublishedAt == DateTimeOffset.MinValue)
+                {
+                    currentArticle.PublishedAt = DateTimeOffset.Now;
+                }
+            }
+            else
+            {
+                if (currentArticle.PublishedAt != DateTimeOffset.MinValue)
+                {
+                    currentArticle.PublishedAt = DateTimeOffset.MinValue;
+                }
+            }
+            await _articleRepo.UpdateArticleAsync(currentArticle);
         }
         public async Task AddTagAsync(int articleId, int tagId)
         {

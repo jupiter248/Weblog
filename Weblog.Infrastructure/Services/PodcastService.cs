@@ -149,15 +149,17 @@ namespace Weblog.Infrastructure.Services
         {
             Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
             Category category = await _categoryRepo.GetCategoryByIdAsync(updatePodcastDto.CategoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
-
-            podcast.Category = category;
-            podcast.CategoryId = updatePodcastDto.CategoryId;
-            podcast.Description = updatePodcastDto.Description;
-            podcast.IsDisplayed = updatePodcastDto.IsDisplayed;
-            podcast.Link = updatePodcastDto.Link;
-            podcast.Name = updatePodcastDto.Name;
+            if (category.EntityType == CategoryType.Podcast)
+            {
+                podcast.Category = category;
+            }
+            else
+            {
+                throw new ConflictException(CategoryErrorCodes.CategoryEntityTypeMatchFailed);
+            }
+            podcast = _mapper.Map(updatePodcastDto, podcast);
+            podcast.UpdatedAt = DateTimeOffset.Now;
             podcast.Slug = podcast.Name.Slugify();
-            
             if (podcast.IsDisplayed == true)
             {
                 if (podcast.DisplayedAt == DateTimeOffset.MinValue)
@@ -172,7 +174,6 @@ namespace Weblog.Infrastructure.Services
                     podcast.DisplayedAt = DateTimeOffset.MinValue;
                 }
             }
-            podcast.UpdatedAt = DateTimeOffset.Now;
             await _podcastRepo.UpdatePodcastAsync(podcast);
         }
     }

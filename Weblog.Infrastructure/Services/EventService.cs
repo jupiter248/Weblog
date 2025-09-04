@@ -154,18 +154,17 @@ namespace Weblog.Infrastructure.Services
         {
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
             Category category = await _categoryRepo.GetCategoryByIdAsync(updateEventDto.CategoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
-            eventModel.Title = updateEventDto.Title;
-            eventModel.Capacity = updateEventDto.Capacity;
-            eventModel.CategoryId = updateEventDto.CategoryId;
-            eventModel.Description = updateEventDto.Description;
-            eventModel.Category = category;
-            eventModel.Context = updateEventDto.Context;
-            eventModel.Place = updateEventDto.Place;
-            eventModel.IsDisplayed = updateEventDto.IsDisplayed;
-            eventModel.IsFinished = updateEventDto.IsFinished;
+            if (category.EntityType == CategoryType.Event)
+            {
+                eventModel.Category = category;
+            }
+            else
+            {
+                throw new ConflictException(CategoryErrorCodes.CategoryEntityTypeMatchFailed);
+            }
+            eventModel = _mapper.Map(updateEventDto, eventModel);
+            eventModel.UpdatedAt = DateTimeOffset.Now;
             eventModel.Slug = updateEventDto.Title.Slugify();
-            eventModel.StartedAt = updateEventDto.StartedAt;
-
             if (eventModel.IsDisplayed == true)
             {
                 if (eventModel.DisplayedAt == DateTimeOffset.MinValue)
@@ -195,8 +194,6 @@ namespace Weblog.Infrastructure.Services
                     eventModel.FinishedAt = DateTimeOffset.MinValue;
                 }
             }
-            eventModel.UpdatedAt = DateTimeOffset.Now;
-            eventModel.FinishedAt = updateEventDto.FinishedAt;
             await _eventRepo.UpdateEventAsync(eventModel);
         }
     }

@@ -148,31 +148,9 @@ namespace Weblog.Persistence.Repositories
             .ToListAsync();
         }
 
-        public async Task UpdateArticleAsync(Article currentArticle, Article newArticle)
+        public async Task UpdateArticleAsync(Article currentArticle)
         {
-            currentArticle.Title = newArticle.Title;
-            currentArticle.Slug = newArticle.Slug;
-            currentArticle.Description = newArticle.Description;
-            currentArticle.Context = newArticle.Context;
-            currentArticle.IsPublished = newArticle.IsPublished;
-            currentArticle.CategoryId = newArticle.CategoryId;
-            currentArticle.Category = newArticle.Category;
-            currentArticle.UpdatedAt = newArticle.UpdatedAt;
-            if (newArticle.IsPublished == true)
-            {
-                if (currentArticle.PublishedAt == DateTimeOffset.MinValue)
-                {
-                    currentArticle.PublishedAt = DateTimeOffset.Now;
-                }
-            }
-            else
-            {
-                if (currentArticle.PublishedAt != DateTimeOffset.MinValue)
-                {
-                    currentArticle.PublishedAt = DateTimeOffset.MinValue;
-                }
-            }
-            
+            _context.Update(currentArticle);
             await _context.SaveChangesAsync();
         }
     }
