@@ -2,7 +2,7 @@ namespace Weblog.Domain.Enums
 {
     public enum MediumType
     {
-        image = 0,
+        Image = 0,
         Video = 1,
         Audio = 2
     }

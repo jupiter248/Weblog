@@ -34,7 +34,7 @@ namespace Weblog.Infrastructure.Services
             FavoriteList favoriteList = _mapper.Map<FavoriteList>(addFavoriteListDto);
             favoriteList.CreatedAt = DateTimeOffset.UtcNow;
             favoriteList.UserId = appUser.Id;
-            favoriteList.appUser = appUser;
+            favoriteList.AppUser = appUser;
             FavoriteList addedFavoriteList = await _favoriteListRepo.AddFavoriteListAsync(favoriteList);
             return _mapper.Map<FavoriteListDto>(addedFavoriteList);
 
