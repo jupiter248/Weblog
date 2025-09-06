@@ -20,7 +20,7 @@ namespace Weblog.API.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<IActionResult> Search([FromQuery] string searchText , [FromBody] EntityType? type)
+        public async Task<IActionResult> Search([FromQuery] string searchText , [FromQuery] SearchType? type)
         {
             List<SearchResultDto> searchResultDtos = await _mediator.Send(new SearchContentQuery(searchText , type));
             return Ok(searchResultDtos);

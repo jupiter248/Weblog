@@ -40,11 +40,11 @@ namespace Weblog.Infrastructure.Services
             _favoriteListRepo = favoriteListRepo;
         }
 
-        public async Task AddArticleToFavoriteAsync(string userId,AddFavoriteArticleDto addFavoriteArticleDto)
+        public async Task AddArticleToFavoriteAsync(string userId , AddFavoriteArticleDto addFavoriteArticleDto)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             Article article = await _articleRepo.GetArticleByIdAsync(addFavoriteArticleDto.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.ArticleNotFound);
-            if (addFavoriteArticleDto.favoriteListId.HasValue)
+            if (addFavoriteArticleDto.FavoriteListId.HasValue)
             {
                 FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoriteArticleDto.ArticleId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound); 
             }
@@ -60,7 +60,7 @@ namespace Weblog.Infrastructure.Services
                 AppUser = appUser,
                 ArticleId = article.Id,
                 Article = article,
-                FavoriteListId = addFavoriteArticleDto.favoriteListId
+                FavoriteListId = addFavoriteArticleDto.FavoriteListId
             };
             await _favoriteArticleRepo.AddArticleToFavoriteAsync(favoriteArticle);
         }

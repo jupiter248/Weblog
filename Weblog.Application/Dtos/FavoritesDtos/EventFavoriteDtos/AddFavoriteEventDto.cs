@@ -8,6 +8,6 @@ namespace Weblog.Application.Dtos.FavoritesDtos.EventFavoriteDtos
     public class AddFavoriteEventDto
     {
         public int EventId { get; set; }
-        public int? favoriteListId { get; set; }
+        public int? FavoriteListId { get; set; }
     }
 }

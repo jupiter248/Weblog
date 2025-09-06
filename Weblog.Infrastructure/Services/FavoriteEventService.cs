@@ -42,9 +42,9 @@ namespace Weblog.Infrastructure.Services
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             Event eventModel = await _eventRepo.GetEventByIdAsync(addFavoriteEventDto.EventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
-            if (addFavoriteEventDto.favoriteListId.HasValue)
+            if (addFavoriteEventDto.FavoriteListId.HasValue)
             {
-                FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoriteEventDto.favoriteListId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound);   
+                FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoriteEventDto.FavoriteListId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound);   
             }
             bool eventAdded = await _favoriteEventRepo.EventAddedToFavoriteAsync(new FavoriteEvent { EventId = addFavoriteEventDto.EventId, UserId = userId });
             if(eventAdded == true)
@@ -57,7 +57,7 @@ namespace Weblog.Infrastructure.Services
                 AppUser = appUser,
                 EventId = eventModel.Id,
                 Event = eventModel,
-                FavoriteListId = addFavoriteEventDto.favoriteListId
+                FavoriteListId = addFavoriteEventDto.FavoriteListId
             };
             await _favoriteEventRepo.AddEventToFavoriteAsync(favoriteEvent);
         }

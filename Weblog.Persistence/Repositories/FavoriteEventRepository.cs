@@ -44,9 +44,9 @@ namespace Weblog.Persistence.Repositories
         public async Task<List<FavoriteEvent>> GetAllFavoriteEventsAsync(string userId, FavoriteFilteringParams favoriteFilteringParams, PaginationParams paginationParams)
         {
             var favoriteEventQuery = _context.FavoriteEvents.Include(a => a.Event).ThenInclude(m => m.Media).Where(a => a.UserId == userId).AsQueryable();
-            if (favoriteFilteringParams.favoriteListId.HasValue)
+            if (favoriteFilteringParams.FavoriteListId.HasValue)
             {
-                favoriteEventQuery = favoriteEventQuery.Where(f => f.FavoriteListId == favoriteFilteringParams.favoriteListId);
+                favoriteEventQuery = favoriteEventQuery.Where(f => f.FavoriteListId == favoriteFilteringParams.FavoriteListId);
             }
 
             if (favoriteFilteringParams.NewestArrivals == true)

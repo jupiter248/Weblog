@@ -34,48 +34,48 @@ namespace Weblog.Application.Queries.SearchContent
 
             var results = new List<SearchResultDto>();
 
-            if (request.EntityType == null || request.EntityType == EntityType.Article)
+            if (request.EntityType == null || request.EntityType == SearchType.Article)
             {
                 var articleResults = await _articleRepo.SearchByTitleAsync(keyword);
                 results.AddRange(articleResults.Select(a => new SearchResultDto
                 {
-                    EntityType = EntityType.Article,
+                    EntityType = SearchType.Article,
                     ParentId = a.Id,
                     Title = a.Title,
                     Description = a.Description,
                 }));
             }
 
-            if (request.EntityType == null || request.EntityType == EntityType.Podcast)
+            if (request.EntityType == null || request.EntityType == SearchType.Podcast)
             {
                 var podcastResults = await _podcastRepo.SearchByTitleAsync(keyword);
                 results.AddRange(podcastResults.Select(a => new SearchResultDto
                 {
-                    EntityType = EntityType.Podcast,
+                    EntityType = SearchType.Podcast,
                     ParentId = a.Id,
                     Title = a.Name,
                     Description = a.Description,
                 }));
             }
 
-            if (request.EntityType == null || request.EntityType == EntityType.Event)
+            if (request.EntityType == null || request.EntityType == SearchType.Event)
             {
                 var eventResults = await _eventRepo.SearchByTitleAsync(keyword);
                 results.AddRange(eventResults.Select(a => new SearchResultDto
                 {
-                    EntityType = EntityType.Event,
+                    EntityType = SearchType.Event,
                     ParentId = a.Id,
                     Title = a.Title,
                     Description = a.Description,
                 }));
             }
 
-            if (request.EntityType == null || request.EntityType == EntityType.Contributor)
+            if (request.EntityType == null || request.EntityType == SearchType.Contributor)
             {
                 var eventResults = await _contributorRepo.SearchByNameAsync(keyword);
                 results.AddRange(eventResults.Select(a => new SearchResultDto
                 {
-                    EntityType = EntityType.Event,
+                    EntityType = SearchType.Event,
                     ParentId = a.Id,
                     Title = a.FullName,
                 }));

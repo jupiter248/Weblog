@@ -43,9 +43,9 @@ namespace Weblog.Persistence.Repositories
         public async Task<List<FavoritePodcast>> GetAllFavoritePodcastsAsync(string userId, FavoriteFilteringParams favoriteFilteringParams, PaginationParams paginationParams)
         {
             var favoritePodcastQuery = _context.FavoritePodcasts.Include(a => a.Podcast).ThenInclude(m => m.Media).Where(a => a.UserId == userId).AsQueryable();
-            if (favoriteFilteringParams.favoriteListId.HasValue)
+            if (favoriteFilteringParams.FavoriteListId.HasValue)
             {
-                favoritePodcastQuery = favoritePodcastQuery.Where(f => f.FavoriteListId == favoriteFilteringParams.favoriteListId);
+                favoritePodcastQuery = favoritePodcastQuery.Where(f => f.FavoriteListId == favoriteFilteringParams.FavoriteListId);
             }
 
             if (favoriteFilteringParams.NewestArrivals == true)

@@ -42,9 +42,9 @@ namespace Weblog.Infrastructure.Services
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(addFavoritePodcastDto.PodcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
-            if (addFavoritePodcastDto.favoriteListId.HasValue)
+            if (addFavoritePodcastDto.FavoriteListId.HasValue)
             {
-                FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoritePodcastDto.favoriteListId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound);
+                FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoritePodcastDto.FavoriteListId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound);
             }
 
             bool podcastAdded = await _favoritePodcastRepo.PodcastAddedToFavoriteAsync(new FavoritePodcast { PodcastId = addFavoritePodcastDto.PodcastId, UserId = userId });
@@ -58,7 +58,7 @@ namespace Weblog.Infrastructure.Services
                 AppUser = appUser,
                 PodcastId = podcast.Id,
                 Podcast = podcast,
-                FavoriteListId = addFavoritePodcastDto.favoriteListId
+                FavoriteListId = addFavoritePodcastDto.FavoriteListId
             };
             await _favoritePodcastRepo.AddPodcastToFavoriteAsync(favoritePodcast);
         }

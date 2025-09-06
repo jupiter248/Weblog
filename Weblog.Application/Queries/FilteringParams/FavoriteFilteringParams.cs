@@ -7,7 +7,7 @@ namespace Weblog.Application.Queries.FilteringParams
 {
     public class FavoriteFilteringParams
     {
-        public int? favoriteListId { get; set; }
+        public int? FavoriteListId { get; set; }
         public bool NewestArrivals { get; set; } = false;
     }
 }

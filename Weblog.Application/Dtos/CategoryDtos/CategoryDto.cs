@@ -11,6 +11,6 @@ namespace Weblog.Application.Dtos.CategoryDtos
         public int Id { get; set;   }
         public required string Name { get; set; }
         public required string Description { get; set; }
-        public required EntityType EntityType { get; set; }
+        public required CategoryType EntityType { get; set; }
     }
 }
