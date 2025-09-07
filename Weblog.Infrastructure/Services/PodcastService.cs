@@ -27,8 +27,7 @@ namespace Weblog.Infrastructure.Services
         private readonly ITagRepository _tagRepo;
         private readonly IContributorRepository _contributorRepo;
         private readonly ILikeContentRepository _likeContentRepo;
-        private readonly IViewContentRepository _viewContentRepo;
-        public PodcastService(IViewContentRepository viewContentRepo, ILikeContentRepository likeContentRepo,   IPodcastRepository podcastRepo, IMapper mapper, ICategoryRepository categoryRepo, ITagRepository tagRepo, IContributorRepository contributorRepo)
+        public PodcastService( ILikeContentRepository likeContentRepo,   IPodcastRepository podcastRepo, IMapper mapper, ICategoryRepository categoryRepo, ITagRepository tagRepo, IContributorRepository contributorRepo)
         {
             _podcastRepo = podcastRepo;
             _mapper = mapper;
@@ -36,7 +35,6 @@ namespace Weblog.Infrastructure.Services
             _tagRepo = tagRepo;
             _contributorRepo = contributorRepo;
             _likeContentRepo = likeContentRepo;
-            _viewContentRepo = viewContentRepo;
         }
         public async Task AddContributorAsync(int podcastId, int contributorId)
         {
@@ -101,7 +99,6 @@ namespace Weblog.Infrastructure.Services
             foreach (var item in podcastSummaryDtos)
             {
                 item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Podcast);
-                item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Podcast);
             }
             if (podcastFilteringParams.MostLikes == true)
             {
@@ -128,7 +125,6 @@ namespace Weblog.Infrastructure.Services
             Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
             PodcastDto podcastDto = _mapper.Map<PodcastDto>(podcast);
             podcastDto.LikeCount = await _likeContentRepo.GetLikeCountAsync(podcastDto.Id, LikeAndViewType.Podcast);
-            podcastDto.ViewCount = await _viewContentRepo.GetViewCountAsync(podcastDto.Id, LikeAndViewType.Podcast);
             return podcastDto;
         }
 
@@ -140,10 +136,16 @@ namespace Weblog.Infrastructure.Services
             foreach (var item in podcastSummaryDtos)
             {
                 item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Event);
-                item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Event);
             }
             return podcastSummaryDtos;  
        }
+
+        public async Task<int> IncrementPodcastViewAsync(int podcastId)
+        {
+            Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
+            await _podcastRepo.IncrementEventViewAsync(podcast);
+            return podcast.ViewCount;
+        }
 
         public async Task UpdatePodcastAsync(UpdatePodcastDto updatePodcastDto, int podcastId)
         {

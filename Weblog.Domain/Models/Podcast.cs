@@ -19,6 +19,7 @@ namespace Weblog.Domain.Models
         public required Category Category { get; set; }
         public required string Link { get; set; }
         public required bool IsDisplayed { get; set; } = false;
+        public required int ViewCount { get; set; } = 0;
         public ContributorType ContributorType { get; set; }
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset DisplayedAt { get; set; }
@@ -29,6 +30,5 @@ namespace Weblog.Domain.Models
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<FavoritePodcast> FavoritePodcasts { get; set; } = new List<FavoritePodcast>();
         public List<LikeContent> LikeContents { get; set; } = new List<LikeContent>();
-        public List<ViewContent> ViewContents { get; set; } = new List<ViewContent>();
     }
 }

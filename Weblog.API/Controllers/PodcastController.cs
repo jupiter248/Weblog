@@ -57,6 +57,15 @@ namespace Weblog.API.Controllers
             await _podcastService.UpdatePodcastAsync(updatePodcastDto, id);
             return NoContent();
         }
+        [HttpPut("{podcastId:int}/view")]
+        public async Task<IActionResult> IncrementPodcastView(int podcastId)
+        {
+            int podcastCount = await _podcastService.IncrementPodcastViewAsync(podcastId);
+            return Ok(new
+            {
+                podcastCount = podcastCount
+            });
+        }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeletePodcast(int id)

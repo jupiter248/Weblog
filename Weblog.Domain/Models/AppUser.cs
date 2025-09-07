@@ -22,7 +22,7 @@ namespace Weblog.Domain.Models
         public List<FavoritePodcast> FavoritePodcasts { get; set; } = new List<FavoritePodcast>();
         public List<TakingPart> TakingParts { get; set; } = new List<TakingPart>();
         public List<LikeContent> LikeContents { get; set; } = new List<LikeContent>();
-        public List<ViewContent> ViewContents { get; set; } = new List<ViewContent>();
+        // public List<ViewContent> ViewContents { get; set; } = new List<ViewContent>();
 
     }
 }

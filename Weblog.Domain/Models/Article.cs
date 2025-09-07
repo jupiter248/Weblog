@@ -20,6 +20,7 @@ namespace Weblog.Domain.Models
         public int CategoryId { get; set; }
         public required Category Category { get; set; }
         public bool IsPublished { get; set; } = false;
+        public required int ViewCount { get; set; } = 0;
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset UpdatedAt { get; set; }
         public DateTimeOffset PublishedAt { get; set; }
@@ -29,7 +30,6 @@ namespace Weblog.Domain.Models
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<FavoriteArticle> FavoriteArticles { get; set; } = new List<FavoriteArticle>();
         public List<LikeContent> LikeContents { get; set; } = new List<LikeContent>();
-        public List<ViewContent> ViewContents { get; set; } = new List<ViewContent>();
 
 
     }

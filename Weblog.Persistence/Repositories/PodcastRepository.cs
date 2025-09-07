@@ -129,6 +129,12 @@ namespace Weblog.Persistence.Repositories
             return podcasts.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
             }
 
+        public async Task IncrementEventViewAsync(Podcast podcast)
+        {
+            podcast.ViewCount++;
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<bool> PodcastExistsAsync(int podcastId)
         {
             Podcast? podcast = await _context.Podcasts.FirstOrDefaultAsync(a => a.Id == podcastId);

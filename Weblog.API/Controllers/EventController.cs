@@ -60,6 +60,15 @@ namespace Weblog.API.Controllers
             await _eventService.UpdateEventAsync(updateEventDto, id);
             return NoContent();
         }
+        [HttpPut("{eventId:int}/view")]
+        public async Task<IActionResult> IncrementArticleView(int eventId)
+        {
+            int eventCount = await _eventService.IncrementEventViewAsync(eventId);
+            return Ok(new
+            {
+                eventCount = eventCount
+            });
+        }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteEvent(int id)

@@ -37,7 +37,7 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFavoriteListService, FavoriteListService>();
             services.AddScoped<ILikeContentService, LikeContentService>();
-            services.AddScoped<IViewContentService, ViewContentService>();
+            // services.AddScoped<IViewContentService, ViewContentService>();
             services.AddScoped<IContentExistenceService, ContentExistenceService>();
 
         }

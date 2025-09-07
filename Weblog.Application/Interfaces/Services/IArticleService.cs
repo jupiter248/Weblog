@@ -15,7 +15,8 @@ namespace Weblog.Application.Interfaces.Services
         Task<List<ArticleSummaryDto>> GetAllArticlesAsync(PaginationParams paginationParams, ArticleFilteringParams articleFilteringParams);
         Task<ArticleDto> GetArticleByIdAsync(int articleId);
         Task<ArticleDto> AddArticleAsync(AddArticleDto addArticleDto);
-        Task UpdateArticleAsync(UpdateArticleDto updateArticleDto, int articleId);
+        Task<ArticleDto> UpdateArticleAsync(UpdateArticleDto updateArticleDto, int articleId);
+        Task<int> IncrementArticleViewAsync(int articleId);
         Task DeleteArticleAsync(int articleId);
         Task AddTagAsync(int articleId, int tagId);
         Task DeleteTagAsync(int articleId, int tagId);

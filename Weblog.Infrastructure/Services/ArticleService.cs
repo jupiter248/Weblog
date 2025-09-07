@@ -29,12 +29,10 @@ namespace Weblog.Infrastructure.Services
         private readonly ITagRepository _tagRepo;
         private readonly IContributorRepository _contributorRepo;
         private readonly ILikeContentRepository _likeContentRepo;
-        private readonly IViewContentRepository _viewContentRepo;
 
 
 
-
-        public ArticleService(IViewContentRepository viewContentRepo, ILikeContentRepository likeContentRepo, IArticleRepository articleRepo, IMapper mapper, IContributorRepository contributorRepo, ICategoryRepository categoryRepo, ITagRepository tagRepo)
+        public ArticleService(ILikeContentRepository likeContentRepo, IArticleRepository articleRepo, IMapper mapper, IContributorRepository contributorRepo, ICategoryRepository categoryRepo, ITagRepository tagRepo)
         {
             _articleRepo = articleRepo;
             _mapper = mapper;
@@ -42,7 +40,6 @@ namespace Weblog.Infrastructure.Services
             _tagRepo = tagRepo;
             _contributorRepo = contributorRepo;
             _likeContentRepo = likeContentRepo;
-            _viewContentRepo = viewContentRepo;
         }
         public async Task<ArticleDto> AddArticleAsync(AddArticleDto addArticleDto)
         {
@@ -63,8 +60,8 @@ namespace Weblog.Infrastructure.Services
                 newArticle.PublishedAt = DateTimeOffset.Now;
             }
 
-            Article addedArticle = await _articleRepo.AddArticleAsync(newArticle);
-            return _mapper.Map<ArticleDto>(addedArticle);
+            await _articleRepo.AddArticleAsync(newArticle);
+            return _mapper.Map<ArticleDto>(newArticle);
         }
 
         public async Task DeleteArticleAsync(int articleId)
@@ -80,7 +77,6 @@ namespace Weblog.Infrastructure.Services
             foreach (var item in articleSummaryDtos)
             {
                 item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Article);
-                item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Article);
             }
 
             if (articleFilteringParams.MostLikes == true)
@@ -108,11 +104,10 @@ namespace Weblog.Infrastructure.Services
             Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.ArticleNotFound);
             ArticleDto articleDto = _mapper.Map<ArticleDto>(article);
             articleDto.LikeCount = await _likeContentRepo.GetLikeCountAsync(articleDto.Id, LikeAndViewType.Article);
-            articleDto.ViewCount = await _viewContentRepo.GetViewCountAsync(articleDto.Id, LikeAndViewType.Article);
             return articleDto;
         }
 
-        public async Task UpdateArticleAsync(UpdateArticleDto updateArticleDto, int articleId)
+        public async Task<ArticleDto> UpdateArticleAsync(UpdateArticleDto updateArticleDto, int articleId)
         {
             Article currentArticle = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.ArticleNotFound);
             Category category = await _categoryRepo.GetCategoryByIdAsync(updateArticleDto.CategoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
@@ -142,6 +137,7 @@ namespace Weblog.Infrastructure.Services
                 }
             }
             await _articleRepo.UpdateArticleAsync(currentArticle);
+            return _mapper.Map<ArticleDto>(currentArticle);
         }
         public async Task AddTagAsync(int articleId, int tagId)
         {
@@ -179,9 +175,15 @@ namespace Weblog.Infrastructure.Services
             foreach (var item in articleSummaryDto)
             {
                 item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Article);
-                item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Article);
             }
             return articleSummaryDto;
+        }
+
+        public async Task<int> IncrementArticleViewAsync(int articleId)
+        {
+            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.ArticleNotFound);
+            await _articleRepo.IncrementArticleViewAsync(article);
+            return article.ViewCount;
         }
     }
 }

@@ -28,8 +28,7 @@ namespace Weblog.Infrastructure.Services
         private readonly IContributorRepository _contributorRepo;
 
         private readonly ILikeContentRepository _likeContentRepo;
-        private readonly IViewContentRepository _viewContentRepo;
-        public EventService(IViewContentRepository viewContentRepo, ILikeContentRepository likeContentRepo,IContributorRepository contributorRepo, IEventRepository eventRepo, ITagRepository tagRepo, IMapper mapper, ICategoryRepository categoryRepo)
+        public EventService( ILikeContentRepository likeContentRepo,IContributorRepository contributorRepo, IEventRepository eventRepo, ITagRepository tagRepo, IMapper mapper, ICategoryRepository categoryRepo)
         {
             _categoryRepo = categoryRepo;
             _eventRepo = eventRepo;
@@ -37,7 +36,6 @@ namespace Weblog.Infrastructure.Services
             _tagRepo = tagRepo;
             _contributorRepo = contributorRepo;
             _likeContentRepo = likeContentRepo;
-            _viewContentRepo = viewContentRepo;
         }
 
         public async Task AddContributorAsync(int eventId, int contributorId)
@@ -105,7 +103,6 @@ namespace Weblog.Infrastructure.Services
             foreach (var item in eventSummaryDtos)
             {
                 item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Event);
-                item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Event);
             }
 
             if (eventFilteringParams.MostLikes == true)
@@ -133,7 +130,6 @@ namespace Weblog.Infrastructure.Services
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
             EventDto eventDto = _mapper.Map<EventDto>(eventModel);
             eventDto.LikeCount = await _likeContentRepo.GetLikeCountAsync(eventDto.Id, LikeAndViewType.Event);
-            eventDto.ViewCount = await _viewContentRepo.GetViewCountAsync(eventDto.Id, LikeAndViewType.Event);
             return eventDto;
         }
 
@@ -145,10 +141,16 @@ namespace Weblog.Infrastructure.Services
             foreach (var item in eventSummaryDtos)
             {
                 item.LikeCount = await _likeContentRepo.GetLikeCountAsync(item.Id, LikeAndViewType.Event);
-                item.ViewCount = await _viewContentRepo.GetViewCountAsync(item.Id, LikeAndViewType.Event);
             }
             return eventSummaryDtos; 
        }
+
+        public async Task<int> IncrementEventViewAsync(int eventId)
+        {
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
+            await _eventRepo.IncrementEventViewAsync(eventModel);
+            return eventModel.ViewCount;
+        }
 
         public async Task UpdateEventAsync(UpdateEventDto updateEventDto, int eventId)
         {

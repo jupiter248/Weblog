@@ -173,6 +173,12 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task IncrementEventViewAsync(Event eventModel)
+        {
+            eventModel.ViewCount++;
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Event>> SearchByTitleAsync(string keyword)
         {
             return await _context.Events

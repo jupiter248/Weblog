@@ -52,8 +52,17 @@ namespace Weblog.API.Controllers
         public async Task<IActionResult> UpdateArticle(int id, [FromBody]UpdateArticleDto updateArticleDto)
         {
             Validator.ValidateAndThrow(updateArticleDto, new UpdateArticleValidator());
-            await _articleService.UpdateArticleAsync(updateArticleDto, id);
+            ArticleDto articleDto =  await _articleService.UpdateArticleAsync(updateArticleDto, id);
             return NoContent();
+        }
+        [HttpPut("{articleId:int}/view")]
+        public async Task<IActionResult> IncrementArticleView(int articleId)
+        {
+            int articleCount = await _articleService.IncrementArticleViewAsync(articleId);
+            return Ok(new
+            {
+                articleCount = articleCount
+            });
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]

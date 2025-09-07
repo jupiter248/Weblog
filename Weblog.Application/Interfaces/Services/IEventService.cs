@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Queries;
 using Weblog.Application.Queries.FilteringParams;
+using Weblog.Domain.Models;
 
 namespace Weblog.Application.Interfaces.Services
 {
@@ -13,6 +14,7 @@ namespace Weblog.Application.Interfaces.Services
         Task<List<EventSummaryDto>> GetAllEventsAsync(PaginationParams paginationParams, EventFilteringParams eventFilteringParams);
         Task<EventDto> GetEventByIdAsync(int eventId);
         Task<EventDto> AddEventAsync(AddEventDto addEventDto);
+        Task<int> IncrementEventViewAsync(int eventId);
         Task UpdateEventAsync(UpdateEventDto updateEventDto, int eventId);
         Task DeleteEventAsync(int eventId);
         Task AddTagAsync(int eventId, int tagId);

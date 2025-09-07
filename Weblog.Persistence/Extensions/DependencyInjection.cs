@@ -27,7 +27,7 @@ namespace Weblog.Persistence.Extensions
             services.AddScoped<ITakingPartRepository, TakingPartRepository>();
             services.AddScoped<IFavoriteListRepository, FavoriteListRepository>();
             services.AddScoped<ILikeContentRepository, LikeContentRepository>();
-            services.AddScoped<IViewContentRepository, ViewContentRepository>();
+            // services.AddScoped<IViewContentRepository, ViewContentRepository>();
         }
     }
 }

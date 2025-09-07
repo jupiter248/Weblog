@@ -12,8 +12,9 @@ namespace Weblog.Application.Interfaces.Repositories
     {
         Task<List<Article>> GetAllArticlesAsync(PaginationParams paginationParams, ArticleFilteringParams articleFilteringParams);
         Task<Article?> GetArticleByIdAsync(int articleId);
-        Task<Article> AddArticleAsync(Article article);
+        Task AddArticleAsync(Article article);
         Task UpdateArticleAsync(Article newArticle);
+        Task IncrementArticleViewAsync(Article article);
         Task DeleteArticleByIdAsync(Article article);
         Task<List<Article>> SearchByTitleAsync(string keyword);
         Task AddTagAsync(Article article, Tag tag);

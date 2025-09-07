@@ -14,6 +14,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<Event?> GetEventByIdAsync(int eventId);
         Task<Event> AddEventAsync(Event eventModel);
         Task UpdateEventAsync(Event eventModel);
+        Task IncrementEventViewAsync(Event eventModel);
         Task DeleteEventAsync(Event eventModel);
         Task<List<Event>> SearchByTitleAsync(string keyword);
         Task AddTagToEvent(Event eventModel, Tag tag);

@@ -21,11 +21,10 @@ namespace Weblog.Persistence.Repositories
         {
             _context = context;
         }
-        public async Task<Article> AddArticleAsync(Article article)
+        public async Task AddArticleAsync(Article article)
         {
             await _context.Articles.AddAsync(article);
             await _context.SaveChangesAsync();
-            return article;
         }
 
         public async Task AddContributorAsync(Article article, Contributor contributor)
@@ -139,6 +138,12 @@ namespace Weblog.Persistence.Repositories
                         .Take(10);
             List<Article> articles = await query.Include(m => m.Media).Include(c => c.Category).Include(c => c.Contributors).ThenInclude(c => c.Media).ToListAsync();
             return articles.Skip(skipNumber).Take(paginationParams.PageSize).ToList();
+        }
+
+        public async Task IncrementArticleViewAsync(Article article)
+        {
+            article.ViewCount++;
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Article>> SearchByTitleAsync(string keyword)

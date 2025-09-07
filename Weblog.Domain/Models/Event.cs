@@ -21,6 +21,7 @@ namespace Weblog.Domain.Models
         public required Category Category { get; set; }
         public bool IsDisplayed { get; set; } = false;
         public bool IsFinished { get; set; } = false;
+        public required int ViewCount { get; set; } = 0;
         public DateTimeOffset DisplayedAt { get; set; }
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset UpdatedAt { get; set; }
@@ -35,6 +36,5 @@ namespace Weblog.Domain.Models
         public List<FavoriteEvent> FavoriteEvents { get; set; } = new List<FavoriteEvent>();
         public List<TakingPart> TakingParts { get; set; } = new List<TakingPart>();  
         public List<LikeContent> LikeContents { get; set; } = new List<LikeContent>();
-        public List<ViewContent> ViewContents { get; set; } = new List<ViewContent>();
     }
 }
