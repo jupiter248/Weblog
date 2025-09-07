@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Weblog.Application.Dtos.LikeContentDtos;
 using Weblog.Application.Dtos.UserDtos;
 using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
@@ -34,20 +35,20 @@ namespace Weblog.API.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> LikeContent(int entityTypeId,[FromBody] LikeAndViewType entityType)
+        public async Task<IActionResult> LikeContent([FromQuery] LikeContentDto likeContentDto)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
-            await _likeContentService.LikeAsync(userId, entityTypeId, entityType);
+            await _likeContentService.LikeAsync(userId, likeContentDto);
             return NoContent();
         }
         [Authorize]
         [HttpDelete]
-        public async Task<IActionResult> UnlikeContent(int entityTypeId,[FromBody] LikeAndViewType entityType)
+        public async Task<IActionResult> UnlikeContent([FromQuery] UnLikeContentDto unLikeContentDto)
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
-            await _likeContentService.UnlikeAsync(userId, entityTypeId, entityType);
+            await _likeContentService.UnlikeAsync(userId, unLikeContentDto);
             return NoContent();
         }
     }
