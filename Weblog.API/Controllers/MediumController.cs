@@ -50,8 +50,8 @@ namespace Weblog.API.Controllers
         public async Task<IActionResult> UpdateMedium([FromBody] UpdateMediumDto updateMediumDto, int id)
         {
             Validator.ValidateAndThrow(updateMediumDto, new UpdateMediumValidator());
-            await _mediumService.UpdateMediumAsync(updateMediumDto, id);
-            return NoContent();
+            MediumDto mediumDto = await _mediumService.UpdateMediumAsync(updateMediumDto, id);
+            return Ok(mediumDto);
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]

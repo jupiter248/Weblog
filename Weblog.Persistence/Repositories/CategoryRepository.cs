@@ -51,11 +51,9 @@ namespace Weblog.Persistence.Repositories
             return category;
         }
 
-        public async Task UpdateCategoryAsync(Category currentCategory, Category newCategory)
+        public async Task UpdateCategoryAsync( Category newCategory)
         {
-            currentCategory.Name = newCategory.Name;
-            currentCategory.Description = newCategory.Description;
-            currentCategory.EntityType = newCategory.EntityType;
+            _context.Categories.Update(newCategory);
             await _context.SaveChangesAsync();
         }
     }

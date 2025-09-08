@@ -53,7 +53,7 @@ namespace Weblog.API.Controllers
         {
             Validator.ValidateAndThrow(updateArticleDto, new UpdateArticleValidator());
             ArticleDto articleDto =  await _articleService.UpdateArticleAsync(updateArticleDto, id);
-            return NoContent();
+            return Ok(articleDto);
         }
         [HttpPut("{articleId:int}/view")]
         public async Task<IActionResult> IncrementArticleView(int articleId)

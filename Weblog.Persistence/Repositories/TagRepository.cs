@@ -41,9 +41,9 @@ namespace Weblog.Persistence.Repositories
             return tag;
         }
 
-        public async Task UpdateTagAsync(Tag currentTag, Tag newTag)
+        public async Task UpdateTagAsync(Tag newTag)
         {
-            currentTag.Title = newTag.Title;
+            _context.Tags.Update(newTag);
             await _context.SaveChangesAsync();
         }
     }

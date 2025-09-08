@@ -12,7 +12,7 @@ namespace Weblog.Application.Interfaces.Services
         Task<List<TagDto>> GetAllTagsAsync();
         Task<TagDto> GetTagByIdAsync(int tagId);
         Task<TagDto> AddTagAsync(AddTagDto addTagDto);
-        Task UpdateTagAsync(UpdateTagDto updateTagDto, int currentTagId);
+        Task<TagDto> UpdateTagAsync(UpdateTagDto updateTagDto, int currentTagId);
         Task DeleteTagAsync(int tagId);
     }
 }

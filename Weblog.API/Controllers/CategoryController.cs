@@ -49,8 +49,8 @@ namespace Weblog.API.Controllers
         public async Task<IActionResult> UpdateCategory([FromRoute] int id, [FromBody] UpdateCategoryDto updateCategoryDto)
         {
             Validator.ValidateAndThrow(updateCategoryDto, new UpdateCategoryValidator());
-            await _categoryService.UpdateCategoryAsync(updateCategoryDto, id);
-            return NoContent();
+            CategoryDto categoryDto =  await _categoryService.UpdateCategoryAsync(updateCategoryDto, id);
+            return Ok(categoryDto);
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]

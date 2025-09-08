@@ -52,8 +52,12 @@ namespace Weblog.API.Controllers
         public async Task<IActionResult> UpdateUser(string userId,[FromBody] UpdateUserDto updateUserDto)
         {
             Validator.ValidateAndThrow(updateUserDto, new UpdateUserValidator());
-            await _userService.UpdateUserAsync(updateUserDto, userId);
-            return Ok("User updated successfully");
+            UserDto userDto = await _userService.UpdateUserAsync(updateUserDto, userId);
+            return Ok(new
+            {
+                message = "User updated successfully",
+                user = userDto
+            });
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{userId}")]

@@ -149,14 +149,12 @@ namespace Weblog.Infrastructure.Services
             return _mapper.Map<MediumDto>(medium);
         }
 
-        public async Task UpdateMediumAsync(UpdateMediumDto updateMediumDto, int mediaId)
+        public async Task<MediumDto> UpdateMediumAsync(UpdateMediumDto updateMediumDto, int mediaId)
         {
             Medium medium = await _mediumRepo.GetMediumByIdAsync(mediaId) ?? throw new NotFoundException(MediumErrorCodes.MediumNotFound);
-            medium.Name = updateMediumDto.Name;
-            medium.Path = updateMediumDto.Path;
-            medium.AltText = updateMediumDto.AltText;
-            medium.IsPrimary = updateMediumDto.IsPrimary;
+            medium = _mapper.Map(updateMediumDto, medium);
             await _mediumRepo.UpdateMediumAsync(medium);
+            return _mapper.Map<MediumDto>(medium);
         }
     }
 }

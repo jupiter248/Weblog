@@ -57,8 +57,8 @@ namespace Weblog.API.Controllers
         public async Task<IActionResult> UpdateEvent(int id, [FromBody] UpdateEventDto updateEventDto)
         {
             Validator.ValidateAndThrow(updateEventDto, new UpdateEventValidator());
-            await _eventService.UpdateEventAsync(updateEventDto, id);
-            return NoContent();
+            EventDto eventDto = await _eventService.UpdateEventAsync(updateEventDto, id);
+            return Ok(eventDto);
         }
         [HttpPut("{eventId:int}/view")]
         public async Task<IActionResult> IncrementArticleView(int eventId)

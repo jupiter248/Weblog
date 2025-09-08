@@ -13,7 +13,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<List<Comment>> GetAllCommentsAsync(CommentFilteringParams commentFilteringParams,PaginationParams paginationParams );
         Task<Comment> AddCommentAsync(Comment comment);
         Task<Comment?> GetCommentByIdAsync(int commentId);
-        Task UpdateCommentAsync(Comment currentComment, Comment newComment);
+        Task UpdateCommentAsync(Comment newComment);
         Task DeleteCommentAsync(Comment comment); 
     }
 }

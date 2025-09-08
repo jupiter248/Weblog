@@ -46,8 +46,8 @@ namespace Weblog.API.Controllers
         public async Task<IActionResult> UpdateTag([FromBody] UpdateTagDto updateTagDto, [FromRoute] int id)
         {
             Validator.ValidateAndThrow(updateTagDto, new UpdateTagValidator());
-            await _tagService.UpdateTagAsync(updateTagDto, id);
-            return NoContent();
+            TagDto tagDto = await _tagService.UpdateTagAsync(updateTagDto, id);
+            return Ok(tagDto);
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]

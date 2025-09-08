@@ -15,7 +15,7 @@ namespace Weblog.Application.Interfaces.Services
         Task<EventDto> GetEventByIdAsync(int eventId);
         Task<EventDto> AddEventAsync(AddEventDto addEventDto);
         Task<int> IncrementEventViewAsync(int eventId);
-        Task UpdateEventAsync(UpdateEventDto updateEventDto, int eventId);
+        Task<EventDto> UpdateEventAsync(UpdateEventDto updateEventDto, int eventId);
         Task DeleteEventAsync(int eventId);
         Task AddTagAsync(int eventId, int tagId);
         Task DeleteTagAsync(int eventId, int tagId);

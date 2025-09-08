@@ -147,7 +147,7 @@ namespace Weblog.Infrastructure.Services
             return podcast.ViewCount;
         }
 
-        public async Task UpdatePodcastAsync(UpdatePodcastDto updatePodcastDto, int podcastId)
+        public async Task<PodcastDto> UpdatePodcastAsync(UpdatePodcastDto updatePodcastDto, int podcastId)
         {
             Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
             Category category = await _categoryRepo.GetCategoryByIdAsync(updatePodcastDto.CategoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
@@ -177,6 +177,7 @@ namespace Weblog.Infrastructure.Services
                 }
             }
             await _podcastRepo.UpdatePodcastAsync(podcast);
+            return _mapper.Map<PodcastDto>(podcast);
         }
     }
 }

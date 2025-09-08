@@ -70,7 +70,7 @@ namespace Weblog.Infrastructure.Services
             return userDto;
         }
 
-        public async Task UpdateUserAsync(UpdateUserDto updateUserDto, string userId)
+        public async Task<UserDto> UpdateUserAsync(UpdateUserDto updateUserDto, string userId)
         {
 
             var currentUser = _httpContextAccessor.HttpContext?.User;
@@ -83,16 +83,17 @@ namespace Weblog.Infrastructure.Services
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
 
             appUser = _mapper.Map(updateUserDto, appUser);
-            var result = await _userManager.ChangePasswordAsync(appUser , updateUserDto.OldPassword , updateUserDto.NewPassword );
+            var result = await _userManager.ChangePasswordAsync(appUser, updateUserDto.OldPassword, updateUserDto.NewPassword);
             if (!result.Succeeded)
             {
-                throw new UnauthorizedException(UserErrorCodes.PasswordChangeFailed , []);
+                throw new UnauthorizedException(UserErrorCodes.PasswordChangeFailed, []);
             }
             appUser.UpdatedAt = DateTimeOffset.Now;
             appUser.FullName = $"{appUser.FirstName} {appUser.LastName}";
-            
+
 
             await _userManager.UpdateAsync(appUser);
+            return _mapper.Map<UserDto>(appUser);
         }
     }
 }

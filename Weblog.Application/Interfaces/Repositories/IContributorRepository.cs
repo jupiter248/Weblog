@@ -11,7 +11,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<List<Contributor>> GetAllContributorsAsync();
         Task<Contributor> AddContributorAsync(Contributor contributor);
         Task<Contributor?> GetContributorByIdAsync(int contributorId);
-        Task UpdateContributorAsync(Contributor currentContributor, Contributor newContributor);
+        Task UpdateContributorAsync(Contributor newContributor);
         Task DeleteContributorAsync(Contributor contributor);
         Task<List<Contributor>> SearchByNameAsync(string keyword);  
     }

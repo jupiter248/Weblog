@@ -65,18 +65,19 @@ namespace Weblog.Infrastructure.Services
             return _mapper.Map<FavoriteListDto>(favoriteList);
         }
 
-        public async Task UpdateFavoriteListAsync(string userId , UpdateFavoriteListDto updateFavoriteListDto, int favoriteListId)
+        public async Task<FavoriteListDto> UpdateFavoriteListAsync(string userId, UpdateFavoriteListDto updateFavoriteListDto, int favoriteListId)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             FavoriteList? favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound);
             if (favoriteList.UserId != appUser.Id)
             {
-                throw new ForbiddenException(FavoriteErrorCodes.FavoriteListDeleteForbidden , []);
+                throw new ForbiddenException(FavoriteErrorCodes.FavoriteListDeleteForbidden, []);
             }
             favoriteList.Name = updateFavoriteListDto.Name;
             favoriteList.Description = updateFavoriteListDto.Description;
             favoriteList.UpdatedAt = DateTimeOffset.Now;
             await _favoriteListRepo.UpdateFavoriteListAsync(favoriteList);
+            return _mapper.Map<FavoriteListDto>(favoriteList);
         }
     }
 }

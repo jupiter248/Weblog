@@ -54,8 +54,8 @@ namespace Weblog.API.Controllers
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
             Validator.ValidateAndThrow(updateCommentDto, new UpdateCommentValidator());
-            await _commentService.UpdateCommentAsync(updateCommentDto, id, userId);
-            return NoContent();
+            CommentDto commentDto = await _commentService.UpdateCommentAsync(updateCommentDto, id, userId);
+            return Ok(commentDto);
         }
         [Authorize]
         [HttpDelete("{id:int}")]

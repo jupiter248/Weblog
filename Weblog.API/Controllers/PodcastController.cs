@@ -54,8 +54,8 @@ namespace Weblog.API.Controllers
         public async Task<IActionResult> UpdatePodcast(int id,[FromBody] UpdatePodcastDto updatePodcastDto)
         {
             Validator.ValidateAndThrow(updatePodcastDto, new UpdatePodcastValidator());
-            await _podcastService.UpdatePodcastAsync(updatePodcastDto, id);
-            return NoContent();
+            PodcastDto podcastDto = await _podcastService.UpdatePodcastAsync(updatePodcastDto, id);
+            return Ok(podcastDto);
         }
         [HttpPut("{podcastId:int}/view")]
         public async Task<IActionResult> IncrementPodcastView(int podcastId)

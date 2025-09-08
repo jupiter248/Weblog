@@ -54,9 +54,9 @@ namespace Weblog.Persistence.Repositories
             return comment;
         }
 
-        public async Task UpdateCommentAsync(Comment currentComment, Comment newComment)
+        public async Task UpdateCommentAsync(Comment newComment)
         {
-            currentComment.Text = newComment.Text;
+            _context.Comments.Update(newComment);
             await _context.SaveChangesAsync();
         }
     }

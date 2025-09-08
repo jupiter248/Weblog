@@ -11,7 +11,7 @@ namespace Weblog.Application.Interfaces.Services
         Task<List<FavoriteListDto>> GetAllFavoriteListsAsync(string userId);
         Task<FavoriteListDto> GetFavoriteListByIdAsync(int favoriteListId);
         Task<FavoriteListDto> AddFavoriteListAsync(string userId ,AddFavoriteListDto addFavoriteListDto);
-        Task UpdateFavoriteListAsync( string userId,UpdateFavoriteListDto updateFavoriteListDto , int favoriteListId);
+        Task<FavoriteListDto> UpdateFavoriteListAsync( string userId,UpdateFavoriteListDto updateFavoriteListDto , int favoriteListId);
         Task DeleteFavoriteList(string userId,int favoriteListId);
 
 

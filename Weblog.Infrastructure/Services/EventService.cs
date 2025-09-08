@@ -152,7 +152,7 @@ namespace Weblog.Infrastructure.Services
             return eventModel.ViewCount;
         }
 
-        public async Task UpdateEventAsync(UpdateEventDto updateEventDto, int eventId)
+        public async Task<EventDto> UpdateEventAsync(UpdateEventDto updateEventDto, int eventId)
         {
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
             Category category = await _categoryRepo.GetCategoryByIdAsync(updateEventDto.CategoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
@@ -197,6 +197,7 @@ namespace Weblog.Infrastructure.Services
                 }
             }
             await _eventRepo.UpdateEventAsync(eventModel);
+            return _mapper.Map<EventDto>(eventModel);
         }
     }
 }

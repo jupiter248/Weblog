@@ -56,12 +56,9 @@ namespace Weblog.Persistence.Repositories
             return contributor;
         }
 
-        public async Task UpdateContributorAsync(Contributor currentContributor, Contributor newContributor)
+        public async Task UpdateContributorAsync(Contributor newContributor)
         {
-            currentContributor.FirstName = newContributor.FirstName;
-            currentContributor.FamilyName = newContributor.FamilyName;
-            currentContributor.Description = newContributor.Description;
-            currentContributor.FullName = $"{newContributor.FirstName} {newContributor.FamilyName}";
+            _context.Contributors.Update(newContributor);
             await _context.SaveChangesAsync();
         }
         public async Task<List<Contributor>> SearchByNameAsync(string keyword)

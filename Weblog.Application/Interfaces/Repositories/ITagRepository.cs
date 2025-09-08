@@ -11,7 +11,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<List<Tag>> GetAllTagsAsync();
         Task<Tag?> GetTagByIdAsync(int tagId);
         Task<Tag> AddTagAsync(Tag tag);
-        Task UpdateTagAsync(Tag currentTag, Tag newTag);
+        Task UpdateTagAsync(Tag newTag);
         Task DeleteTagAsync(Tag tag); 
     }
 }

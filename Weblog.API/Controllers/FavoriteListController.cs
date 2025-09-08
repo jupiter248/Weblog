@@ -67,8 +67,8 @@ namespace Weblog.API.Controllers
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
             Validator.ValidateAndThrow(updateFavoriteListDto, new UpdateFavoriteListValidator());
-            await _favoriteListService.UpdateFavoriteListAsync(userId, updateFavoriteListDto, id);
-            return NoContent();
+            FavoriteListDto favoriteListDto = await _favoriteListService.UpdateFavoriteListAsync(userId, updateFavoriteListDto, id);
+            return Ok(favoriteListDto);
         }
         [Authorize]
         [HttpDelete("{id:int}")]

@@ -94,17 +94,18 @@ namespace Weblog.Infrastructure.Services
             return _mapper.Map<CommentDto>(comment);
         }
 
-        public async Task UpdateCommentAsync(UpdateCommentDto updateCommentDto, int commentId, string userId)
+        public async Task<CommentDto> UpdateCommentAsync(UpdateCommentDto updateCommentDto, int commentId, string userId)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             Comment comment = await _commentRepository.GetCommentByIdAsync(commentId) ?? throw new NotFoundException(CommentErrorCodes.CommentNotFound);
             var userRoles = await _userManager.GetRolesAsync(appUser);
             if (comment.UserId != appUser.Id || !userRoles.Contains("Admin"))
             {
-                throw new ForbiddenException(CommentErrorCodes.CommentUpdateForbidden , []);
+                throw new ForbiddenException(CommentErrorCodes.CommentUpdateForbidden, []);
             }
-            Comment newComment = _mapper.Map<Comment>(updateCommentDto);
-            await _commentRepository.UpdateCommentAsync(comment ,newComment);
+            comment = _mapper.Map(updateCommentDto, comment);
+            await _commentRepository.UpdateCommentAsync(comment);
+            return _mapper.Map<CommentDto>(comment);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<List<Category>> GetAllCategoriesAsync(CategoryFilteringParams categoryFilteringParams);
         Task<Category> AddCategoryAsync(Category category);
         Task<Category?> GetCategoryByIdAsync(int categoryId);
-        Task UpdateCategoryAsync(Category currentCategory, Category newCategory);
+        Task UpdateCategoryAsync(Category newCategory);
         Task DeleteCategoryAsync(Category category);    
     }
 }

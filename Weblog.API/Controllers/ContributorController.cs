@@ -45,8 +45,8 @@ namespace Weblog.API.Controllers
         public async Task<IActionResult> UpdateContributor( int id, [FromBody] UpdateContributorDto updateContributorDto)
         {
             Validator.ValidateAndThrow(updateContributorDto, new UpdateContributorValidator());
-            await _contributorService.UpdateContributorAsync(updateContributorDto, id);
-            return NoContent();
+            ContributorDto contributorDto =  await _contributorService.UpdateContributorAsync(updateContributorDto, id);
+            return Ok(contributorDto);
         } 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]

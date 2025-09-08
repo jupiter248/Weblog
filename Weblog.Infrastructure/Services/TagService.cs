@@ -50,11 +50,12 @@ namespace Weblog.Infrastructure.Services
             return _mapper.Map<TagDto>(tag);
         }
 
-        public async Task UpdateTagAsync(UpdateTagDto updateTagDto, int currentTagId)
+        public async Task<TagDto> UpdateTagAsync(UpdateTagDto updateTagDto, int currentTagId)
         {
             Tag? currentTag = await _tagRepo.GetTagByIdAsync(currentTagId) ?? throw new NotFoundException(TagErrorCodes.TagNotFound);
-            Tag? newTag = _mapper.Map<Tag>(updateTagDto);
-            await _tagRepo.UpdateTagAsync(currentTag , newTag);
+            currentTag = _mapper.Map(updateTagDto, currentTag);
+            await _tagRepo.UpdateTagAsync(currentTag);
+            return _mapper.Map<TagDto>(currentTag);
         }
     }
 }

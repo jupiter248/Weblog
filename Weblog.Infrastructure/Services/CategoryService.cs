@@ -51,11 +51,12 @@ namespace Weblog.Infrastructure.Services
 
         }
 
-        public async Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto, int categoryId)
+        public async Task<CategoryDto> UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto, int categoryId)
         {
             Category? currentCategory = await _categoryRepo.GetCategoryByIdAsync(categoryId) ?? throw new NotFoundException(CategoryErrorCodes.CategoryNotFound);
-            Category newCategory = _mapper.Map<Category>(updateCategoryDto);
-            await _categoryRepo.UpdateCategoryAsync(currentCategory , newCategory);
+            currentCategory = _mapper.Map(updateCategoryDto, currentCategory);
+            await _categoryRepo.UpdateCategoryAsync(currentCategory);
+            return _mapper.Map<CategoryDto>(currentCategory);
         }
     }
 }

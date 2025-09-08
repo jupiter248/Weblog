@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using AutoMapper;
 using Weblog.Application.CustomExceptions;
+using Weblog.Application.Dtos.CommentDtos;
 using Weblog.Application.Dtos.ContributorDtos;
 using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
@@ -52,11 +53,13 @@ namespace Weblog.Infrastructure.Services
             return _mapper.Map<ContributorDto>(contributor);
         }
 
-        public async Task UpdateContributorAsync(UpdateContributorDto updateContributorDto, int contributorId)
+        public async Task<ContributorDto> UpdateContributorAsync(UpdateContributorDto updateContributorDto, int contributorId)
         {
             Contributor currentContributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
-            Contributor newContributor = _mapper.Map<Contributor>(updateContributorDto);
-            await _contributorRepo.UpdateContributorAsync(currentContributor ,newContributor);
+            currentContributor = _mapper.Map(updateContributorDto , currentContributor);
+            currentContributor.FullName = $"{updateContributorDto.FirstName} {updateContributorDto.FamilyName}";
+            await _contributorRepo.UpdateContributorAsync(currentContributor);
+            return _mapper.Map<ContributorDto>(currentContributor);
         }
     }
 }

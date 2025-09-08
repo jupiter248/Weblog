@@ -11,7 +11,7 @@ namespace Weblog.Application.Interfaces.Services
         Task<List<ContributorDto>> GetAllContributorsAsync();
         Task<ContributorDto> GetContributorByIdAsync(int contributorId);
         Task<ContributorDto> AddContributorAsync(AddContributorDto addContributorDto);
-        Task UpdateContributorAsync(UpdateContributorDto updateContributorDto , int contributorId);
+        Task<ContributorDto> UpdateContributorAsync(UpdateContributorDto updateContributorDto , int contributorId);
         Task DeleteContributorAsync(int contributorId);
 
     }

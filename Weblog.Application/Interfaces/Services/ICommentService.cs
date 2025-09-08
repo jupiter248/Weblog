@@ -13,7 +13,7 @@ namespace Weblog.Application.Interfaces.Services
         Task<List<CommentDto>> GetAllCommentsAsync(CommentFilteringParams commentFilteringParams ,PaginationParams paginationParams);
         Task<CommentDto> GetCommentByIdAsync(int commentId);
         Task<CommentDto> AddCommentAsync(AddCommentDto addCommentDto , string userId);
-        Task UpdateCommentAsync(UpdateCommentDto updateCommentDto , int commentId , string userId);
+        Task<CommentDto> UpdateCommentAsync(UpdateCommentDto updateCommentDto , int commentId , string userId);
         Task DeleteCommentAsync(int commentId , string userId);
     }
 }
