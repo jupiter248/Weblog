@@ -46,7 +46,7 @@ namespace Weblog.Infrastructure.Services
             {
                 FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoriteEventDto.FavoriteListId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound);   
             }
-            bool eventAdded = await _favoriteEventRepo.EventAddedToFavoriteAsync(new FavoriteEvent { EventId = addFavoriteEventDto.EventId, UserId = userId });
+            bool eventAdded = await _favoriteEventRepo.IsEventFavoriteAsync(new FavoriteEvent { EventId = addFavoriteEventDto.EventId, UserId = userId });
             if(eventAdded == true)
             {
                 throw new ConflictException(FavoriteErrorCodes.FavoriteItemAlreadyExists);
@@ -72,6 +72,14 @@ namespace Weblog.Infrastructure.Services
             }
 
             await _favoriteEventRepo.DeleteEventFromFavoriteAsync(favoriteEvent);
+        }
+
+        public async Task<bool> IsEventFavoriteAsync(string userId, int eventId)
+        {
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
+            bool isFavorite = await _favoriteEventRepo.IsEventFavoriteAsync(new FavoriteEvent { UserId = userId, EventId = eventId });
+            return isFavorite;
         }
 
         public async Task<List<EventSummaryDto>> GetAllFavoriteEventsAsync(string userId , FavoriteFilteringParams favoriteFilteringParams , PaginationParams paginationParams)

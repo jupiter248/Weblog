@@ -14,7 +14,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<List<FavoriteArticle>> GetAllFavoriteArticlesAsync(string userId , FavoriteFilteringParams favoriteFilteringParams , PaginationParams paginationParams);
         Task AddArticleToFavoriteAsync(FavoriteArticle favoriteArticle);
         Task DeleteArticleFromFavoriteAsync(FavoriteArticle favoriteArticle);
-        Task<bool> ArticleAddedToFavoriteAsync(FavoriteArticle favoriteArticle);
+        Task<bool> IsArticleFavoriteAsync(FavoriteArticle favoriteArticle);
         Task<FavoriteArticle?> GetFavoriteArticleByIdAsync(int id);
 
 

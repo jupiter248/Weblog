@@ -12,8 +12,9 @@ namespace Weblog.Application.Interfaces.Services
 {
     public interface IFavoriteArticleService
     {
-        Task<List<ArticleSummaryDto>> GetAllFavoriteArticlesAsync(string userId , FavoriteFilteringParams favoriteFilteringParams , PaginationParams paginationParams);
-        Task AddArticleToFavoriteAsync(string userId ,AddFavoriteArticleDto addFavoriteArticleDto);
-        Task DeleteArticleFromFavoriteAsync(int articleId , string userId);
+        Task<List<ArticleSummaryDto>> GetAllFavoriteArticlesAsync(string userId, FavoriteFilteringParams favoriteFilteringParams, PaginationParams paginationParams);
+        Task AddArticleToFavoriteAsync(string userId, AddFavoriteArticleDto addFavoriteArticleDto);
+        Task DeleteArticleFromFavoriteAsync(int articleId, string userId);
+        Task<bool> IsArticleFavoriteAsync(string userId , int articleId);
     }
 }

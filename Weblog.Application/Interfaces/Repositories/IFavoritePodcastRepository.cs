@@ -14,7 +14,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<List<FavoritePodcast>> GetAllFavoritePodcastsAsync(string userId , FavoriteFilteringParams favoriteFilteringParams , PaginationParams paginationParams);
         Task AddPodcastToFavoriteAsync(FavoritePodcast favoritePodcast);
         Task DeletePodcastFromFavoriteAsync(FavoritePodcast favoritePodcast);
-        Task<bool> PodcastAddedToFavoriteAsync(FavoritePodcast favoritePodcast);
+        Task<bool> IsPodcastFavoriteAsync(FavoritePodcast favoritePodcast);
         Task<FavoritePodcast?> GetFavoritePodcastByIdAsync(int id);
     }
 }

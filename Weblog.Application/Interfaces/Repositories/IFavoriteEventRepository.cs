@@ -14,7 +14,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<List<FavoriteEvent>> GetAllFavoriteEventsAsync(string userId , FavoriteFilteringParams favoriteFilteringParams , PaginationParams paginationParams);
         Task AddEventToFavoriteAsync(FavoriteEvent favoriteEvent);
         Task DeleteEventFromFavoriteAsync(FavoriteEvent favoriteEvent);
-        Task<bool> EventAddedToFavoriteAsync(FavoriteEvent favoriteArticle);
+        Task<bool> IsEventFavoriteAsync(FavoriteEvent favoriteArticle);
         Task<FavoriteEvent?> GetFavoriteEventByIdAsync(int id);
     }
 }

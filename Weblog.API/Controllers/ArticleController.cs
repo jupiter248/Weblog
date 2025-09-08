@@ -109,6 +109,19 @@ namespace Weblog.API.Controllers
             return NoContent();
         }
         [Authorize]
+        [HttpGet("{articleId:int}/favorite-status")]
+        public async Task<IActionResult> GetFavoriteStatus(int articleId)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
+            bool isFavorite = await _favoriteArticleService.IsArticleFavoriteAsync(userId, articleId);
+            return Ok(new
+            {
+                articleId = articleId,
+                isFavorite = isFavorite
+            });
+        }
+        [Authorize]
         [HttpDelete("{id:int}/favorite")]
         public async Task<IActionResult> DeleteArticleOfFavorite(int id)
         {

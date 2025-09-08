@@ -30,7 +30,7 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> PodcastAddedToFavoriteAsync(FavoritePodcast favoritePodcast)
+        public async Task<bool> IsPodcastFavoriteAsync(FavoritePodcast favoritePodcast)
         {
             FavoritePodcast? favoritePodcastExists = await _context.FavoritePodcasts.FirstOrDefaultAsync(f => f.UserId == favoritePodcast.UserId && f.PodcastId == favoritePodcast.PodcastId);
             if (favoritePodcastExists == null)

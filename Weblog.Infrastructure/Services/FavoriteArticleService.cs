@@ -49,7 +49,7 @@ namespace Weblog.Infrastructure.Services
                 FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoriteArticleDto.ArticleId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound); 
             }
            
-            bool articleAdded = await _favoriteArticleRepo.ArticleAddedToFavoriteAsync(new FavoriteArticle { ArticleId = addFavoriteArticleDto.ArticleId, UserId = userId });
+            bool articleAdded = await _favoriteArticleRepo.IsArticleFavoriteAsync(new FavoriteArticle { ArticleId = addFavoriteArticleDto.ArticleId, UserId = userId });
             if(articleAdded == true)
             {
                 throw new ConflictException(FavoriteErrorCodes.FavoriteItemAlreadyExists);
@@ -63,6 +63,14 @@ namespace Weblog.Infrastructure.Services
                 FavoriteListId = addFavoriteArticleDto.FavoriteListId
             };
             await _favoriteArticleRepo.AddArticleToFavoriteAsync(favoriteArticle);
+        }
+
+        public async Task<bool> IsArticleFavoriteAsync(string userId, int articleId)
+        {
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.ArticleNotFound);
+            bool isFavorite = await _favoriteArticleRepo.IsArticleFavoriteAsync(new FavoriteArticle { UserId = userId, ArticleId = articleId });
+            return isFavorite;
         }
 
         public async Task DeleteArticleFromFavoriteAsync(int favoriteArticleId, string userId)

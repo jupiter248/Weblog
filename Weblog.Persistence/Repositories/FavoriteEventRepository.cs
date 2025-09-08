@@ -31,7 +31,7 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> EventAddedToFavoriteAsync(FavoriteEvent favoriteEvent)
+        public async Task<bool> IsEventFavoriteAsync(FavoriteEvent favoriteEvent)
         {
             FavoriteEvent? favoriteEventExists = await _context.FavoriteEvents.FirstOrDefaultAsync(f => f.UserId == favoriteEvent.UserId && f.EventId == favoriteEvent.EventId);
             if (favoriteEventExists == null)

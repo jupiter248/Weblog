@@ -47,7 +47,7 @@ namespace Weblog.Infrastructure.Services
                 FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoritePodcastDto.FavoriteListId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound);
             }
 
-            bool podcastAdded = await _favoritePodcastRepo.PodcastAddedToFavoriteAsync(new FavoritePodcast { PodcastId = addFavoritePodcastDto.PodcastId, UserId = userId });
+            bool podcastAdded = await _favoritePodcastRepo.IsPodcastFavoriteAsync(new FavoritePodcast { PodcastId = addFavoritePodcastDto.PodcastId, UserId = userId });
             if(podcastAdded == true)
             {
                 throw new ConflictException(FavoriteErrorCodes.FavoriteItemAlreadyExists);
@@ -81,6 +81,14 @@ namespace Weblog.Infrastructure.Services
             List<FavoritePodcast> favoritePodcasts = await _favoritePodcastRepo.GetAllFavoritePodcastsAsync(userId , favoriteFilteringParams , paginationParams);
             List<PodcastSummaryDto> podcastDtos = _mapper.Map<List<PodcastSummaryDto>>(favoritePodcasts.Select(f => f.Podcast));
             return podcastDtos;
+        }
+
+        public async Task<bool> IsPodcastFavoriteAsync(string userId, int podcastId)
+        {
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            Podcast podcastModel = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
+            bool isFavorite = await _favoritePodcastRepo.IsPodcastFavoriteAsync(new FavoritePodcast { UserId = userId, PodcastId = podcastId });
+            return isFavorite; 
         }
     }
 }

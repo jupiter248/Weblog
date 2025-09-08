@@ -11,8 +11,10 @@ namespace Weblog.Application.Interfaces.Services
 {
     public interface IFavoritePodcastService
     {
-        Task<List<PodcastSummaryDto>> GetAllFavoritePodcastsAsync(string userId ,FavoriteFilteringParams favoriteFilteringParams , PaginationParams paginationParams);
-        Task AddPodcastToFavoriteAsync(string userId,AddFavoritePodcastDto addFavoritePodcastDto);
-        Task DeletePodcastFromFavoriteAsync(int podcastId , string userId);
+        Task<List<PodcastSummaryDto>> GetAllFavoritePodcastsAsync(string userId, FavoriteFilteringParams favoriteFilteringParams, PaginationParams paginationParams);
+        Task AddPodcastToFavoriteAsync(string userId, AddFavoritePodcastDto addFavoritePodcastDto);
+        Task DeletePodcastFromFavoriteAsync(int podcastId, string userId);
+        Task<bool> IsPodcastFavoriteAsync(string userId , int podcastId);
+
     }
 }

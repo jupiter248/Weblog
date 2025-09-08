@@ -103,7 +103,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize]
         [HttpPost("favorite")]
-        public async Task<IActionResult> AddArticleToFavorite([FromBody] AddFavoritePodcastDto addFavoritePodcastDto)
+        public async Task<IActionResult> AddPodcastToFavorite([FromBody] AddFavoritePodcastDto addFavoritePodcastDto)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
@@ -111,8 +111,21 @@ namespace Weblog.API.Controllers
             return NoContent();
         }
         [Authorize]
+        [HttpGet("{podcastId:int}/favorite-status")]
+        public async Task<IActionResult> GetFavoriteStatus(int podcastId)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
+            bool isFavorite = await _favoritePodcastService.IsPodcastFavoriteAsync(userId, podcastId);
+            return Ok(new
+            {
+                podcastId = podcastId,
+                isFavorite = isFavorite
+            });
+        }
+        [Authorize]
         [HttpDelete("{id:int}/favorite")]
-        public async Task<IActionResult> DeleteArticleOfFavorite(int id)
+        public async Task<IActionResult> DeletePodcastOfFavorite(int id)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");

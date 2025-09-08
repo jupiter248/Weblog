@@ -26,7 +26,7 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> ArticleAddedToFavoriteAsync(FavoriteArticle favoriteArticle)
+        public async Task<bool> IsArticleFavoriteAsync(FavoriteArticle favoriteArticle)
         {
             FavoriteArticle? favoriteArticleExists = await _context.FavoriteArticles.FirstOrDefaultAsync(f => f.UserId == favoriteArticle.UserId && f.ArticleId == favoriteArticle.ArticleId);
             if (favoriteArticleExists == null)
