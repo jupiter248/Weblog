@@ -64,9 +64,9 @@ namespace Weblog.Persistence.Repositories
             return favoriteEventQuery.Skip(skipNumber).Take(paginationParams.PageSize).ToList(); 
        }
 
-        public async Task<FavoriteEvent?> GetFavoriteEventByIdAsync(int id)
+        public async Task<FavoriteEvent?> GetFavoriteEventByIdAsync(int eventId)
         {
-            FavoriteEvent? favoriteEvent = await _context.FavoriteEvents.FirstOrDefaultAsync(f => f.Id == id);
+            FavoriteEvent? favoriteEvent = await _context.FavoriteEvents.Where(e => e.EventId == eventId).FirstOrDefaultAsync();
             if (favoriteEvent == null)
             {
                 return null;

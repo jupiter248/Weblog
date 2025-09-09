@@ -63,9 +63,9 @@ namespace Weblog.Persistence.Repositories
             return favoritePodcastQuery.Skip(skipNumber).Take(paginationParams.PageSize).ToList(); 
         }
 
-        public async Task<FavoritePodcast?> GetFavoritePodcastByIdAsync(int id)
+        public async Task<FavoritePodcast?> GetFavoritePodcastByIdAsync(int podcastId)
         {
-            FavoritePodcast? favoritePodcast = await _context.FavoritePodcasts.FirstOrDefaultAsync(f => f.Id == id);
+            FavoritePodcast? favoritePodcast = await _context.FavoritePodcasts.Where(e => e.PodcastId == podcastId).FirstOrDefaultAsync();
             if (favoritePodcast == null)
             {
                 return null;

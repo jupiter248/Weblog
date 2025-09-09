@@ -46,7 +46,7 @@ namespace Weblog.Infrastructure.Services
             Article article = await _articleRepo.GetArticleByIdAsync(addFavoriteArticleDto.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.ArticleNotFound);
             if (addFavoriteArticleDto.FavoriteListId.HasValue)
             {
-                FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoriteArticleDto.ArticleId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound); 
+                FavoriteList favoriteList = await _favoriteListRepo.GetFavoriteListByIdAsync(addFavoriteArticleDto.FavoriteListId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteListNotFound); 
             }
            
             bool articleAdded = await _favoriteArticleRepo.IsArticleFavoriteAsync(new FavoriteArticle { ArticleId = addFavoriteArticleDto.ArticleId, UserId = userId });
@@ -76,9 +76,9 @@ namespace Weblog.Infrastructure.Services
         public async Task DeleteArticleFromFavoriteAsync(int favoriteArticleId, string userId)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            FavoriteArticle favoriteArticle = await _favoriteArticleRepo.GetFavoriteArticleByIdAsync(favoriteArticleId) ?? throw new NotFoundException("Favorite article not found");
+            FavoriteArticle favoriteArticle = await _favoriteArticleRepo.GetFavoriteArticleByIdAsync(favoriteArticleId) ?? throw new NotFoundException(FavoriteErrorCodes.FavoriteItemNotFound);
             if (appUser.Id != favoriteArticle.UserId)
-            {
+            {   
                 throw new NotFoundException(FavoriteErrorCodes.FavoriteItemNotFound);
             }
 
