@@ -23,25 +23,28 @@ namespace Weblog.Infrastructure.Extension
   
             return new string(chars).Normalize(NormalizationForm.FormC);  
         }    
-        /// Turn a string into a slug by removing all accents,   
-        /// special characters, additional spaces, substituting   
-        /// spaces with hyphens & making it lower-case.  
-        public static string Slugify(this string phrase)  
-        {  
-            // Remove all accents and make the string lower case.  
-            string output = phrase.RemoveAccents().ToLower();  
-  
-            // Remove all special characters from the string.  
-            // output = Regex.Replace(output, @"[^A-Za-z0-9\s-]", "");  
-  
-            // Remove all additional spaces in favour of just one.  
-            output = Regex.Replace(output, @"\s+", " ").Trim();  
-  
-            // Replace all spaces with the hyphen.  
-            output = Regex.Replace(output, @"\s", "-");  
-  
-            // Return the slug.  
-            return output;  
+
+
+        public static string Slugify(this string phrase)
+        {
+            string output = phrase.RemoveAccents().ToLower();
+
+            // Keep Persian letters (آ-ی), English letters, numbers, spaces, and dashes
+            output = Regex.Replace(output, @"[^a-z0-9آ-ی\s-]", "");
+
+            // Normalize multiple spaces
+            output = Regex.Replace(output, @"\s+", " ").Trim();
+
+            // Replace spaces with hyphens
+            output = Regex.Replace(output, @"\s", "-");
+
+            // Collapse multiple hyphens into one
+            output = Regex.Replace(output, @"-+", "-");
+
+            // Trim hyphens from start and end
+            output = output.Trim('-');
+
+            return output;
         }  
     }
 }
