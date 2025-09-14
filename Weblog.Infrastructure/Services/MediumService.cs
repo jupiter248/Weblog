@@ -23,6 +23,7 @@ using Weblog.Domain.Errors.Medium;
 using Weblog.Domain.Errors.Podcast;
 using Weblog.Domain.Errors.User;
 using Weblog.Domain.Models;
+using Weblog.Infrastructure.Helpers;
 
 namespace Weblog.Infrastructure.Services
 {
@@ -35,11 +36,10 @@ namespace Weblog.Infrastructure.Services
         private readonly IPodcastService _podcastService; 
         private readonly IEventService _eventService; 
         private readonly IContributorService _contributorService;
-        private readonly UserManager<AppUser> _userManager;
         public MediumService(
             IMapper mapper, IMediumRepository mediumRepo, IWebHostEnvironment webHost,
             IArticleService articleService, IPodcastService podcastService, IEventService eventService,
-            IContributorService contributorService, UserManager<AppUser> userManager
+            IContributorService contributorService
             )
         {
             _mapper = mapper;
@@ -49,17 +49,11 @@ namespace Weblog.Infrastructure.Services
             _contributorService = contributorService;
             _eventService = eventService;
             _podcastService = podcastService;
-            _userManager = userManager;
         }
 
-        public async Task DeleteMediumAsync(int mediaId , string userId)
+        public async Task DeleteMediumAsync(int mediaId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             Medium medium = await _mediumRepo.GetMediumByIdAsync(mediaId) ?? throw new NotFoundException(MediumErrorCodes.MediumNotFound);
-            if (medium.UserId != appUser.Id)
-            {
-                throw new ForbiddenException(MediumErrorCodes.MediumDeleteForbidden, []);
-            }
             string filePath = Path.Combine(_webHost.WebRootPath, medium.Path);
             if (File.Exists(filePath))
             {
@@ -82,7 +76,7 @@ namespace Weblog.Infrastructure.Services
             return _mapper.Map<MediumDto>(medium);
         }
 
-        public async Task<MediumDto> StoreMediumAsync(UploadMediumDto uploadMediaDto , string userId)
+        public async Task<MediumDto> StoreMediumAsync(UploadMediumDto uploadMediaDto)
         {
             switch (uploadMediaDto.EntityType)
             {
@@ -98,41 +92,16 @@ namespace Weblog.Infrastructure.Services
                 case EntityType.Podcast:
                     PodcastDto podcastDto = await _podcastService.GetPodcastByIdAsync(uploadMediaDto.EntityId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
                     break;
-                case EntityType.User:
-                    var appUser = await _userManager.FindByIdAsync(userId ?? throw new NotFoundException(UserErrorCodes.UserNotFound));
-                    break;
-
                 default:
                     throw new BadRequestException(MediumErrorCodes.MediumParentIdInvalid);
             }
 
-
-            IFormFile mediumFile = uploadMediaDto.UploadedFile;
-            if (mediumFile == null || mediumFile.Length == 0)
+            string fileName = await Uploader.FileUploader(_webHost , new FileUploaderDto
             {
-                throw new BadRequestException(MediumErrorCodes.MediumFileInvalid);
-            }
+                UploadedFile = uploadMediaDto.UploadedFile,
+                MediumType = uploadMediaDto.MediumType
+            });
 
-            var uploadsFolder = Path.Combine(_webHost.WebRootPath, "uploads");
-
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-            if (!Directory.Exists(Path.Combine(_webHost.WebRootPath, $"uploads/{uploadMediaDto.MediumType}")))
-            {
-                Directory.CreateDirectory(Path.Combine(_webHost.WebRootPath, $"uploads/{uploadMediaDto.MediumType}"));
-            }
-
-            var fileName = $"{Guid.NewGuid()}-{Path.GetFileName(mediumFile.FileName)}";
-            var filePath = Path.Combine(_webHost.WebRootPath, $"uploads/{uploadMediaDto.MediumType}", fileName);
-            
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await mediumFile.CopyToAsync(stream);
-            }
-            
             Medium medium = new Medium
             {
                 Name = fileName,
@@ -141,7 +110,6 @@ namespace Weblog.Infrastructure.Services
                 MediumType = uploadMediaDto.MediumType,
                 EntityType = uploadMediaDto.EntityType,
                 EntityId = uploadMediaDto.EntityId,
-                UserId = userId,
                 AltText = uploadMediaDto.AltText
             };
 

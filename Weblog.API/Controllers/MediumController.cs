@@ -42,7 +42,7 @@ namespace Weblog.API.Controllers
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
             Validator.ValidateAndThrow(uploadMediumDto, new UploadMediumValidator());
-            MediumDto mediumDto = await _mediumService.StoreMediumAsync(uploadMediumDto , userId);
+            MediumDto mediumDto = await _mediumService.StoreMediumAsync(uploadMediumDto);
             return CreatedAtAction(nameof(GetMediumById), new { id = mediumDto.Id }, mediumDto);
         }
         [Authorize(Roles = "Admin")]
@@ -59,7 +59,7 @@ namespace Weblog.API.Controllers
         {
             string? userId = User.GetUserId();
             if (userId == null) return NotFound("User not found");
-            await _mediumService.DeleteMediumAsync(id , userId);
+            await _mediumService.DeleteMediumAsync(id);
             return NoContent();
         }
     }

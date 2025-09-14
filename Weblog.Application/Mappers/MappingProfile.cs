@@ -58,8 +58,7 @@ namespace Weblog.Application.Mappers
             CreateMap<AddContributorDto, Contributor>();
             CreateMap<UpdateContributorDto, Contributor>();
             //Medium
-            CreateMap<Medium, MediumDto>()
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
+            CreateMap<Medium, MediumDto>();
             CreateMap<UpdateMediumDto, Medium>();
             //Event
             CreateMap<Event, EventDto>()

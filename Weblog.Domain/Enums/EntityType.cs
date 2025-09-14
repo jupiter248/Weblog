@@ -6,6 +6,5 @@ namespace Weblog.Domain.Enums
         Event = 1,
         Podcast = 2,
         Contributor = 3,
-        User = 4
     }
 }

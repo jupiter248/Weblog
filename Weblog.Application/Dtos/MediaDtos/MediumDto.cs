@@ -17,7 +17,6 @@ namespace Weblog.Application.Dtos.MediaDtos
         public EntityType EntityType { get; set; }
         public int EntityId { get; set; }
         public bool IsOnPoster { get; set; } 
-        public required string UserId { get; set; } 
 
 
 
