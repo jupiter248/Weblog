@@ -14,6 +14,7 @@ using Weblog.Application.Dtos.MediaDtos;
 using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Dtos.TagDtos;
 using Weblog.Application.Dtos.UserDtos;
+using Weblog.Application.Dtos.UserProfileDtos;
 using Weblog.Application.Helpers;
 using Weblog.Domain.JoinModels;
 using Weblog.Domain.JoinModels.Favorites;
@@ -39,7 +40,7 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.ContributorDtos, opt => opt.MapFrom(src => src.Contributors))
                 .ForMember(dest => dest.MediumDtos, opt => opt.MapFrom(src => src.Media))
                 .ForMember(dest => dest.PublishedAt, opt => opt.MapFrom(src => src.PublishedAt.ToShamsi()));
-                
+
             CreateMap<AddArticleDto, Article>();
             CreateMap<UpdateArticleDto, Article>();
             // Category
@@ -104,13 +105,16 @@ namespace Weblog.Application.Mappers
             CreateMap<AppUser, UserDto>()
                 .ForMember(dest => dest.Profiles, opt => opt.MapFrom(src => src.UserProfiles))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
-                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.ToShamsi())); 
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.ToShamsi()));
             //Favorite List
             CreateMap<FavoriteList, FavoriteListDto>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
-                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.ToShamsi())); 
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.ToShamsi()));
             CreateMap<AddFavoriteListDto, FavoriteList>();
             CreateMap<UpdateFavoriteListDto, FavoriteList>();
+            //User Profile
+            CreateMap<UserProfile, UserProfileDto>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.AppUser.UserName));
 
         }
     }

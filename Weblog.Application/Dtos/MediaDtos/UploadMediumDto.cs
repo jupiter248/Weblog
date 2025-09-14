@@ -16,7 +16,5 @@ namespace Weblog.Application.Dtos.MediaDtos
         public int EntityId { get; set; }
         public bool IsPrimary { get; set; }
         public bool IsOnPoster { get; set; }
-
-
     }
 }

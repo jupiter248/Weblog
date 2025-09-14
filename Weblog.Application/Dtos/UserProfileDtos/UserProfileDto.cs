@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Weblog.Domain.Enums;
 
-namespace Weblog.Domain.Models
+namespace Weblog.Application.Dtos.UserProfileDtos
 {
-    public class UserProfile
+    public class UserProfileDto
     {
-        [Key]
         public int Id { get; set; }
         public required string Name { get; set; }
         public required string Path { get; set; }
-        public required string UserId { get; set; }        
-        public required AppUser AppUser { get; set; }        
+        public required string UserId { get; set; }
+        public required string UserName { get; set; }       
     }
 }

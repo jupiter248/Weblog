@@ -16,10 +16,8 @@ namespace Weblog.Infrastructure.Extension
     {
         public static void AddInfrastructure(this IServiceCollection services)
         {
-
             //Services
             services.AddSingleton<IErrorService, ErrorService>();
-            
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ITagService, TagService>();
@@ -37,9 +35,8 @@ namespace Weblog.Infrastructure.Extension
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFavoriteListService, FavoriteListService>();
             services.AddScoped<ILikeContentService, LikeContentService>();
-            // services.AddScoped<IViewContentService, ViewContentService>();
+            services.AddScoped<IUserProfileService, UserProfileService>();
             services.AddScoped<IContentExistenceService, ContentExistenceService>();
-
         }
     }
 }
