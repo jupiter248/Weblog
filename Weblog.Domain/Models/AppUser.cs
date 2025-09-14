@@ -16,13 +16,12 @@ namespace Weblog.Domain.Models
         public  DateTimeOffset CreatedAt { get; set; }
         public  DateTimeOffset UpdatedAt { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
-        public List<Medium> Media { get; set; } = new List<Medium>();
+        public List<UserProfile> UserProfiles { get; set; } = new List<UserProfile>();
         public List<FavoriteArticle> FavoriteArticles { get; set; } = new List<FavoriteArticle>();
         public List<FavoriteEvent> FavoriteEvents { get; set; } = new List<FavoriteEvent>();
         public List<FavoritePodcast> FavoritePodcasts { get; set; } = new List<FavoritePodcast>();
         public List<TakingPart> TakingParts { get; set; } = new List<TakingPart>();
         public List<LikeContent> LikeContents { get; set; } = new List<LikeContent>();
-        // public List<ViewContent> ViewContents { get; set; } = new List<ViewContent>();
 
     }
 }

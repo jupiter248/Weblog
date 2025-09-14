@@ -102,7 +102,7 @@ namespace Weblog.Application.Mappers
             //User
             CreateMap<UpdateUserDto, AppUser>();
             CreateMap<AppUser, UserDto>()
-                .ForMember(dest => dest.Media, opt => opt.MapFrom(src => src.Media))
+                .ForMember(dest => dest.Profiles, opt => opt.MapFrom(src => src.UserProfiles))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.ToShamsi())); 
             //Favorite List

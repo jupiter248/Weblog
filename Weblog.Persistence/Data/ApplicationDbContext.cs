@@ -31,13 +31,8 @@ namespace Weblog.Persistence.Data
         public DbSet<TakingPart> TakingParts { get; set; }
         public DbSet<FavoriteList> FavoriteLists { get; set; }
         public DbSet<LikeContent> LikeContents { get; set; }
-        // public DbSet<ViewContent> ViewContents { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
 
-        
-
-
-
-        
         
 
 

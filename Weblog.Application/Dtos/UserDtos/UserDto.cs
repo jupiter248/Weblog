@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Weblog.Application.Dtos.MediaDtos;
 
 namespace Weblog.Application.Dtos.UserDtos
@@ -18,6 +19,6 @@ namespace Weblog.Application.Dtos.UserDtos
         public required string UserActiveDuration { get; set; }
         public required string CreatedAt { get; set; }
         public string? UpdatedAt { get; set; }
-        public List<MediumDto>? Media { get; set; }
+        public List<Profile>? Profiles { get; set; }
     }
 }
