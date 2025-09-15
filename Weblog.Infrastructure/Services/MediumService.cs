@@ -54,13 +54,8 @@ namespace Weblog.Infrastructure.Services
         public async Task DeleteMediumAsync(int mediaId)
         {
             Medium medium = await _mediumRepo.GetMediumByIdAsync(mediaId) ?? throw new NotFoundException(MediumErrorCodes.MediumNotFound);
-            string filePath = Path.Combine(_webHost.WebRootPath, medium.Path);
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-
             await _mediumRepo.DeleteMediumAsync(medium);
+            await FileManager.DeleteFile(_webHost, medium.Path);
         }
 
         public async Task<List<MediumDto>> GetAllMediaAsync()
@@ -96,7 +91,7 @@ namespace Weblog.Infrastructure.Services
                     throw new BadRequestException(MediumErrorCodes.MediumParentIdInvalid);
             }
 
-            string fileName = await Uploader.FileUploader(_webHost , new FileUploaderDto
+            string fileName = await FileManager.UploadFile(_webHost , new FileUploaderDto
             {
                 UploadedFile = uploadMediaDto.UploadedFile,
                 MediumType = uploadMediaDto.MediumType

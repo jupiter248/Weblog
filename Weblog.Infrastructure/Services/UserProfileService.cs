@@ -45,9 +45,10 @@ namespace Weblog.Infrastructure.Services
                 foreach (UserProfile item in userProfiles)
                 {
                     await _userProfileRepo.DeleteUserProfileAsync(item);
+                    await FileManager.DeleteFile(_webHost,item.Path);
                 }
             }
-            string fileName = await Uploader.FileUploader(_webHost, new FileUploaderDto
+            string fileName = await FileManager.UploadFile(_webHost, new FileUploaderDto
             {
                 UploadedFile = uploadUserProfileDto.UploadedFile,
                 MediumType = MediumType.Image
@@ -71,6 +72,7 @@ namespace Weblog.Infrastructure.Services
             if (appUser.Id == userId || await _userManager.IsInRoleAsync(appUser, "Admin"))
             {
                 await _userProfileRepo.DeleteUserProfileAsync(userProfile);
+                await FileManager.DeleteFile(_webHost, userProfile.Path);
             }
         }
 

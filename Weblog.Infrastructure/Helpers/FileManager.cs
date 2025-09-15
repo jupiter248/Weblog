@@ -10,9 +10,9 @@ using Weblog.Domain.Errors.Medium;
 
 namespace Weblog.Infrastructure.Helpers
 {
-    public static class Uploader
+    public static class FileManager
     {
-        public static async Task<string> FileUploader(IWebHostEnvironment webHost, FileUploaderDto fileUploaderDto)
+        public static async Task<string> UploadFile(IWebHostEnvironment webHost, FileUploaderDto fileUploaderDto)
         {
             IFormFile mediumFile = fileUploaderDto.UploadedFile;
             if (mediumFile == null || mediumFile.Length == 0)
@@ -37,6 +37,14 @@ namespace Weblog.Infrastructure.Helpers
                 await mediumFile.CopyToAsync(stream);
             }
             return fileName;
+        }
+        public static async Task DeleteFile(IWebHostEnvironment webHost , string filePath)
+        {
+            var fullPath = Path.Combine(webHost.WebRootPath, filePath);
+            if (File.Exists(fullPath))
+            {
+                await Task.Run(() => File.Delete(fullPath));
+            }
         }
     }
 }
