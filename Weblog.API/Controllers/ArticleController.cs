@@ -45,7 +45,7 @@ namespace Weblog.API.Controllers
         {
             Validator.ValidateAndThrow(addArticleDto, new AddArticleValidator());
             ArticleDto articleDto = await _articleService.AddArticleAsync(addArticleDto);
-            return CreatedAtAction(nameof(GetArticleById), new { id = articleDto.Id }, articleDto);
+                return CreatedAtAction(nameof(GetArticleById), new { id = articleDto.Id }, articleDto);
         }
         [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]

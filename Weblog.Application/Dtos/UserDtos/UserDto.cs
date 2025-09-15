@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Weblog.Application.Dtos.MediaDtos;
+using Weblog.Application.Dtos.UserProfileDtos;
 
 namespace Weblog.Application.Dtos.UserDtos
 {
@@ -16,9 +17,8 @@ namespace Weblog.Application.Dtos.UserDtos
         public required string LastName { get; set; }
         public required string FullName { get; set; }
         public required IList<string> Roles { get; set; }
-        public required string UserActiveDuration { get; set; }
         public required string CreatedAt { get; set; }
         public string? UpdatedAt { get; set; }
-        public List<Profile>? Profiles { get; set; }
+        public List<UserProfileDto>? Profiles { get; set; }
     }
 }

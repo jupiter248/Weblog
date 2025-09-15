@@ -55,7 +55,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<UserDto> GetCurrentUser(string userId)
         {
-            AppUser? appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            AppUser? appUser = await _userManager.Users.Include(p => p.UserProfiles).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             UserDto userDto = _mapper.Map<UserDto>(appUser);
             userDto.Roles = await _userManager.GetRolesAsync(appUser);
             return userDto;

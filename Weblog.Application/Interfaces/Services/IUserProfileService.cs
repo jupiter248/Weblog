@@ -10,7 +10,7 @@ namespace Weblog.Application.Interfaces.Services
     public interface IUserProfileService
     {
         public Task<List<UserProfileDto>> GetAllProfilesAsync();
-        public Task<UserProfileDto?> GetUserProfileByIdAsync(int userProfileId);
+        public Task<UserProfileDto> GetUserProfileByIdAsync(int userProfileId);
         public Task<UserProfileDto> AddUserProfileAsync(UploadUserProfileDto uploadUserProfileDto , string userId);
         public Task DeleteUserProfileAsync(int userProfileId , string userId);
     }

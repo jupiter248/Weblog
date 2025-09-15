@@ -106,6 +106,7 @@ namespace Weblog.Application.Mappers
                 .ForMember(dest => dest.Profiles, opt => opt.MapFrom(src => src.UserProfiles))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.ToShamsi()));
+                
             //Favorite List
             CreateMap<FavoriteList, FavoriteListDto>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
@@ -115,6 +116,7 @@ namespace Weblog.Application.Mappers
             //User Profile
             CreateMap<UserProfile, UserProfileDto>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.AppUser.UserName));
+                
 
         }
     }

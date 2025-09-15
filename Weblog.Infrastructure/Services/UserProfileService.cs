@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.MediaDtos;
 using Weblog.Application.Dtos.UserProfileDtos;
@@ -65,7 +66,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task DeleteUserProfileAsync(int userProfileId, string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            AppUser appUser = await _userManager.Users.Include(p => p.UserProfiles).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             UserProfile userProfile = await _userProfileRepo.GetUserProfileByIdAsync(userProfileId) ?? throw new NotFoundException(UserProfileErrorCodes.UserProfileNotFound);
             if (appUser.Id == userId || await _userManager.IsInRoleAsync(appUser, "Admin"))
             {
@@ -80,7 +81,7 @@ namespace Weblog.Infrastructure.Services
             return userProfileDtos;
         }
 
-        public async Task<UserProfileDto?> GetUserProfileByIdAsync(int userProfileId)
+        public async Task<UserProfileDto> GetUserProfileByIdAsync(int userProfileId)
         {
             UserProfile userProfile = await _userProfileRepo.GetUserProfileByIdAsync(userProfileId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             return _mapper.Map<UserProfileDto>(userProfile);
