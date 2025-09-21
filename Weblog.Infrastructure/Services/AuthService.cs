@@ -70,6 +70,7 @@ namespace Weblog.Infrastructure.Services
                 UserName = registerDto.Username,
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
+                PhoneNumber = registerDto.PhoneNumber,
                 FullName = $"{registerDto.FirstName} {registerDto.LastName}",
                 CreatedAt = DateTimeOffset.Now
             };
