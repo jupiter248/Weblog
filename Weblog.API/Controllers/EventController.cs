@@ -127,6 +127,19 @@ namespace Weblog.API.Controllers
             });
         }
         [Authorize]
+        [HttpGet("{eventId:int}/participant-status")]
+        public async Task<IActionResult> GetParticipantStatus(int eventId)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
+            bool isParticipant = await _takingPartService.IsUserParticipantAsync(userId, eventId);
+            return Ok(new
+            {
+                eventId = eventId,
+                isParticipant = isParticipant
+            });
+        }
+        [Authorize]
         [HttpDelete("{id:int}/favorite")]
         public async Task<IActionResult> DeleteEventOfFavorite(int id)
         {

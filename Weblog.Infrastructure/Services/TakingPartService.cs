@@ -89,7 +89,7 @@ namespace Weblog.Infrastructure.Services
                 EventId = eventModel.Id,
                 Event = eventModel
             };
-            bool IsUserParticipant = await _takingPartRepo.IsUserParticipant(takingPart);
+            bool IsUserParticipant = await _takingPartRepo.IsUserParticipantAsync(takingPart);
             if (IsUserParticipant)
             {
                 throw new ConflictException(ParticipantErrorCodes.AlreadyTookPart);
@@ -106,6 +106,14 @@ namespace Weblog.Infrastructure.Services
                 eventSummaryDtos = _mapper.Map<List<EventSummaryDto>>(eventSummaryDtos);
             }
             return eventSummaryDtos;
+        }
+
+        public async Task<bool> IsUserParticipantAsync(string userId, int eventId)
+        {
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
+            bool isFavorite = await _takingPartRepo.IsUserParticipantAsync(new TakingPart { UserId = userId, EventId = eventId, AppUser = appUser });
+            return isFavorite;
         }
     }
 }

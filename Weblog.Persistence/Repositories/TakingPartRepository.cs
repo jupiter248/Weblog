@@ -58,7 +58,7 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> IsUserParticipant(TakingPart takingPart)
+        public async Task<bool> IsUserParticipantAsync(TakingPart takingPart)
         {
             TakingPart? takingPartExists = await _context.TakingParts.FirstOrDefaultAsync(t => t.UserId == takingPart.UserId && t.EventId == takingPart.EventId);
             if (takingPartExists == null)

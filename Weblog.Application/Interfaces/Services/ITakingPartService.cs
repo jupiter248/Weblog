@@ -12,6 +12,7 @@ namespace Weblog.Application.Interfaces.Services
     {
         Task<List<ParticipantDto>> GetAllParticipantsAsync(int eventId , ParticipantFilteringParams participantFilteringParams);
         Task<List<EventSummaryDto>> GetAllTookPartEventsAsync(string userId , int? categoryId);
+        Task<bool> IsUserParticipantAsync(string userId, int eventId);
         Task TakePartAsync(int eventId , string userId);
         Task CancelTakingPartAsync(int eventId , string userId);
         Task UpdateTakingPartAsync(int id , bool isConfirmed);

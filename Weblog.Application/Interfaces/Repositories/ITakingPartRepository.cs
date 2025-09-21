@@ -17,7 +17,7 @@ namespace Weblog.Application.Interfaces.Repositories
         Task<List<TakingPart>> GetAllTookPartsByEventsAsync(string userId , int? categoryId);
         Task<TakingPart?> GetTakingPartByIdAsync(int id);
         Task<TakingPart?> GetTakingPartByUserIdAndEventIdAsync(string userId , int eventId);
-        Task<bool> IsUserParticipant(TakingPart takingPart);
+        Task<bool> IsUserParticipantAsync(TakingPart takingPart);
         Task UpdateTakingPartAsync(TakingPart takingPart);
     }
 }
