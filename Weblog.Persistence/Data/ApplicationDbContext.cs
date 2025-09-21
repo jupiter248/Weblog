@@ -22,7 +22,7 @@ namespace Weblog.Persistence.Data
         public DbSet<Medium> Media { get; set; }
         public DbSet<Podcast> Podcasts { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Tag> Tags { get; set; }    
         public DbSet<Contributor> Contributors { get; set; }
         public DbSet<VerificationCode> VerificationCodes { get; set; }
         public DbSet<FavoriteArticle> FavoriteArticles { get; set; }
@@ -64,14 +64,8 @@ namespace Weblog.Persistence.Data
             modelBuilder.Entity<Podcast>()
                 .HasMany(c => c.Contributors)
                 .WithMany(p => p.Podcasts);
+            // one to many for medium table
 
-            // One to many between comment and user 
-            // modelBuilder.Entity<Comment>()
-            //     .HasOne<AppUser>()
-            //     .WithMany()
-            //     .HasForeignKey(c => c.UserId);
-
-            
 
             base.OnModelCreating(modelBuilder);
         }

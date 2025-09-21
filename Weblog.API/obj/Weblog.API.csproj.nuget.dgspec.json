@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/mohammad/Programming/Weblog/Weblog.API/Weblog.API.csproj": {}
+    "/home/mohammad/Programming/Weblog/Backend/Weblog.API/Weblog.API.csproj": {}
   },
   "projects": {
-    "/home/mohammad/Programming/Weblog/Weblog.API/Weblog.API.csproj": {
+    "/home/mohammad/Programming/Weblog/Backend/Weblog.API/Weblog.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mohammad/Programming/Weblog/Weblog.API/Weblog.API.csproj",
+        "projectUniqueName": "/home/mohammad/Programming/Weblog/Backend/Weblog.API/Weblog.API.csproj",
         "projectName": "Weblog.API",
-        "projectPath": "/home/mohammad/Programming/Weblog/Weblog.API/Weblog.API.csproj",
+        "projectPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.API/Weblog.API.csproj",
         "packagesPath": "/home/mohammad/.nuget/packages/",
-        "outputPath": "/home/mohammad/Programming/Weblog/Weblog.API/obj/",
+        "outputPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mohammad/.nuget/NuGet/NuGet.Config"
@@ -26,11 +26,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj": {
-                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj"
+              "/home/mohammad/Programming/Weblog/Backend/Weblog.Infrastructure/Weblog.Infrastructure.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Infrastructure/Weblog.Infrastructure.csproj"
               },
-              "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj": {
-                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj"
+              "/home/mohammad/Programming/Weblog/Backend/Weblog.Persistence/Weblog.Persistence.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Persistence/Weblog.Persistence.csproj"
               }
             }
           }
@@ -87,14 +87,14 @@
         }
       }
     },
-    "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj": {
+    "/home/mohammad/Programming/Weblog/Backend/Weblog.Application/Weblog.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj",
+        "projectUniqueName": "/home/mohammad/Programming/Weblog/Backend/Weblog.Application/Weblog.Application.csproj",
         "projectName": "Weblog.Application",
-        "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj",
+        "projectPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Application/Weblog.Application.csproj",
         "packagesPath": "/home/mohammad/.nuget/packages/",
-        "outputPath": "/home/mohammad/Programming/Weblog/Weblog.Application/obj/",
+        "outputPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Application/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mohammad/.nuget/NuGet/NuGet.Config"
@@ -109,8 +109,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj": {
-                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj"
+              "/home/mohammad/Programming/Weblog/Backend/Weblog.Domain/Weblog.Domain.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Domain/Weblog.Domain.csproj"
               }
             }
           }
@@ -162,14 +162,14 @@
         }
       }
     },
-    "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj": {
+    "/home/mohammad/Programming/Weblog/Backend/Weblog.Domain/Weblog.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj",
+        "projectUniqueName": "/home/mohammad/Programming/Weblog/Backend/Weblog.Domain/Weblog.Domain.csproj",
         "projectName": "Weblog.Domain",
-        "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Domain/Weblog.Domain.csproj",
+        "projectPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Domain/Weblog.Domain.csproj",
         "packagesPath": "/home/mohammad/.nuget/packages/",
-        "outputPath": "/home/mohammad/Programming/Weblog/Weblog.Domain/obj/",
+        "outputPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mohammad/.nuget/NuGet/NuGet.Config"
@@ -221,14 +221,14 @@
         }
       }
     },
-    "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj": {
+    "/home/mohammad/Programming/Weblog/Backend/Weblog.Infrastructure/Weblog.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj",
+        "projectUniqueName": "/home/mohammad/Programming/Weblog/Backend/Weblog.Infrastructure/Weblog.Infrastructure.csproj",
         "projectName": "Weblog.Infrastructure",
-        "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj",
+        "projectPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Infrastructure/Weblog.Infrastructure.csproj",
         "packagesPath": "/home/mohammad/.nuget/packages/",
-        "outputPath": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/obj/",
+        "outputPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mohammad/.nuget/NuGet/NuGet.Config"
@@ -243,8 +243,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj": {
-                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Application/Weblog.Application.csproj"
+              "/home/mohammad/Programming/Weblog/Backend/Weblog.Application/Weblog.Application.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Application/Weblog.Application.csproj"
               }
             }
           }
@@ -309,14 +309,14 @@
         }
       }
     },
-    "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj": {
+    "/home/mohammad/Programming/Weblog/Backend/Weblog.Persistence/Weblog.Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj",
+        "projectUniqueName": "/home/mohammad/Programming/Weblog/Backend/Weblog.Persistence/Weblog.Persistence.csproj",
         "projectName": "Weblog.Persistence",
-        "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Persistence/Weblog.Persistence.csproj",
+        "projectPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Persistence/Weblog.Persistence.csproj",
         "packagesPath": "/home/mohammad/.nuget/packages/",
-        "outputPath": "/home/mohammad/Programming/Weblog/Weblog.Persistence/obj/",
+        "outputPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Persistence/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mohammad/.nuget/NuGet/NuGet.Config"
@@ -331,8 +331,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj": {
-                "projectPath": "/home/mohammad/Programming/Weblog/Weblog.Infrastructure/Weblog.Infrastructure.csproj"
+              "/home/mohammad/Programming/Weblog/Backend/Weblog.Infrastructure/Weblog.Infrastructure.csproj": {
+                "projectPath": "/home/mohammad/Programming/Weblog/Backend/Weblog.Infrastructure/Weblog.Infrastructure.csproj"
               }
             }
           }

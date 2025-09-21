@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+YObx9AIOLCuLFwzgb2vwzkTyaBehFqmV2I5dO0AjFR9op40kWA8s38j9yK/h7Q1HBVBqT4ZB86062KgLEeCtw==",
+  "dgSpecHash": "BkRdMuZ7UbgUkKczyjEL+Y6esZXw/uqMIJqUbgMt6cERJ5Sxq5aTelm9FTS04mkX2Fd1a7aOh5EeCwLkfEyPHA==",
   "success": true,
-  "projectFilePath": "/home/mohammad/Programming/Weblog/Weblog.API/Weblog.API.csproj",
+  "projectFilePath": "/home/mohammad/Programming/Weblog/Backend/Weblog.API/Weblog.API.csproj",
   "expectedPackageFiles": [
     "/home/mohammad/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/home/mohammad/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
