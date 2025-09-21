@@ -181,21 +181,6 @@ namespace Weblog.Infrastructure.Services
                     eventModel.DisplayedAt = DateTimeOffset.MinValue;
                 }
             }
-
-            if (eventModel.IsFinished == true)
-            {
-                if (eventModel.FinishedAt == DateTimeOffset.MinValue)
-                {
-                    eventModel.FinishedAt = DateTimeOffset.Now;
-                }
-            }
-            else
-            {
-                if (eventModel.FinishedAt != DateTimeOffset.MinValue)
-                {
-                    eventModel.FinishedAt = DateTimeOffset.MinValue;
-                }
-            }
             await _eventRepo.UpdateEventAsync(eventModel);
             return _mapper.Map<EventDto>(eventModel);
         }
