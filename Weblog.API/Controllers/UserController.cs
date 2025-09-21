@@ -59,6 +59,18 @@ namespace Weblog.API.Controllers
                 user = userDto
             });
         }
+        [Authorize]
+        [HttpPut("{userId}/change-password")]
+        public async Task<IActionResult> ChangeUserPassword(string userId,[FromBody] UpdateUserPasswordDto updateUserPasswordDto)
+        {
+            Validator.ValidateAndThrow(updateUserPasswordDto, new ChangeUserPasswordValidator());
+            UserDto userDto = await _userService.ChangeUserPasswordAsync(updateUserPasswordDto, userId);
+            return Ok(new
+            {
+                message = "User password updated successfully",
+                user = userDto
+            });
+        }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteUser(string userId)

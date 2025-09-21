@@ -12,6 +12,7 @@ namespace Weblog.Application.Interfaces.Services
         Task<UserDto> GetCurrentUser(string userId);
         Task<UserDto> GetUserByIdAsync(string userId);
         Task<UserDto> UpdateUserAsync(UpdateUserDto updateUserDto , string userId);
+        Task<UserDto> ChangeUserPasswordAsync(UpdateUserPasswordDto updateUserPasswordDto , string userId);
         Task DeleteUserAsync(string userId);
     }
 }

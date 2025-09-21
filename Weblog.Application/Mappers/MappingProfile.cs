@@ -102,6 +102,7 @@ namespace Weblog.Application.Mappers
             CreateMap<UpdateCommentDto, Comment>();
             //User
             CreateMap<UpdateUserDto, AppUser>();
+            CreateMap<UpdateUserPasswordDto, AppUser>();
             CreateMap<AppUser, UserDto>()
                 .ForMember(dest => dest.Profiles, opt => opt.MapFrom(src => src.UserProfiles))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))

@@ -29,6 +29,26 @@ namespace Weblog.Infrastructure.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public async Task<UserDto> ChangeUserPasswordAsync(UpdateUserPasswordDto updateUserPasswordDto, string userId)
+        {
+            var currentUser = _httpContextAccessor.HttpContext?.User;
+            string? currentUserId = currentUser?.GetUserId();
+
+            if (currentUserId != userId && !currentUser.IsInRole("Admin"))
+            {
+                throw new NotFoundException("Not a correct user or an admin");
+            }
+            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            appUser = _mapper.Map(updateUserPasswordDto, appUser);
+            var result = await _userManager.ChangePasswordAsync(appUser, updateUserPasswordDto.OldPassword, updateUserPasswordDto.NewPassword);
+            if (!result.Succeeded)
+            {
+                throw new UnauthorizedException(UserErrorCodes.PasswordChangeFailed, []);
+            }
+            await _userManager.UpdateAsync(appUser);
+            return _mapper.Map<UserDto>(appUser);
+        }
+
         public async Task DeleteUserAsync(string userId)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
@@ -81,17 +101,10 @@ namespace Weblog.Infrastructure.Services
                 throw new NotFoundException("Not a correct user or an admin");
             }
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-
             appUser = _mapper.Map(updateUserDto, appUser);
-            var result = await _userManager.ChangePasswordAsync(appUser, updateUserDto.OldPassword, updateUserDto.NewPassword);
-            if (!result.Succeeded)
-            {
-                throw new UnauthorizedException(UserErrorCodes.PasswordChangeFailed, []);
-            }
+
             appUser.UpdatedAt = DateTimeOffset.Now;
             appUser.FullName = $"{appUser.FirstName} {appUser.LastName}";
-
-
             await _userManager.UpdateAsync(appUser);
             return _mapper.Map<UserDto>(appUser);
         }

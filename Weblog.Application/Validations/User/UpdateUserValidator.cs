@@ -28,13 +28,7 @@ namespace Weblog.Application.Validations.User
                 .NotEmpty().WithMessage(UserErrorCodes.UserLastNameRequired)
                 .Length(2, 100).WithMessage(UserErrorCodes.UserLastNameMaxLength);
 
-            RuleFor(x => x.OldPassword)
-                .NotEmpty().WithMessage(UserErrorCodes.PasswordRequired)
-                .Length(8, 100).WithMessage(UserErrorCodes.PasswordLength);
 
-            RuleFor(x => x.NewPassword)
-                .NotEmpty().WithMessage(UserErrorCodes.PasswordRequired)
-                .Length(8, 100).WithMessage(UserErrorCodes.PasswordLength);
         }
     }
 }
