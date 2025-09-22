@@ -66,6 +66,11 @@ namespace Weblog.Persistence.Data
                 .WithMany(p => p.Podcasts);
             // one to many for medium table
 
+            modelBuilder.Entity<UserProfile>()
+                .HasOne(p => p.AppUser)
+                .WithMany(u => u.UserProfiles) // or WithMany if one-to-many
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using Weblog.Application.Extensions;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Errors.User;
 using Weblog.Domain.Models;
+using Weblog.Infrastructure.Helpers;
 
 namespace Weblog.Infrastructure.Services
 {
@@ -20,13 +22,15 @@ namespace Weblog.Infrastructure.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHost;
 
 
-        public UserService(UserManager<AppUser> userManager, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public UserService(IWebHostEnvironment webHost, UserManager<AppUser> userManager, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
+            _webHost = webHost;
         }
 
         public async Task<UserDto> ChangeUserPasswordAsync(UpdateUserPasswordDto updateUserPasswordDto, string userId)
@@ -51,13 +55,17 @@ namespace Weblog.Infrastructure.Services
 
         public async Task DeleteUserAsync(string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            AppUser appUser = await _userManager.Users.Include(p => p.UserProfiles).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            foreach (var item in appUser.UserProfiles)
+            {
+                await FileManager.DeleteFile(_webHost, item.Path);
+            } 
             await _userManager.DeleteAsync(appUser);
         }
 
         public async Task<List<UserDto>> GetAllUsersAsync()
         {
-            List<AppUser> appUsers = await _userManager.Users.ToListAsync();
+            List<AppUser> appUsers = await _userManager.Users.Include(p => p.UserProfiles).ToListAsync();
             List<UserDto> userDtos = _mapper.Map<List<UserDto>>(appUsers);
             foreach (var user in appUsers)
             {
