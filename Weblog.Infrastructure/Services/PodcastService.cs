@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.PodcastDtos;
 using Weblog.Application.Interfaces.Repositories;
@@ -16,6 +17,7 @@ using Weblog.Domain.Errors.Podcast;
 using Weblog.Domain.Errors.Tag;
 using Weblog.Domain.Models;
 using Weblog.Infrastructure.Extension;
+using Weblog.Infrastructure.Helpers;
 
 namespace Weblog.Infrastructure.Services
 {
@@ -27,7 +29,9 @@ namespace Weblog.Infrastructure.Services
         private readonly ITagRepository _tagRepo;
         private readonly IContributorRepository _contributorRepo;
         private readonly ILikeContentRepository _likeContentRepo;
-        public PodcastService( ILikeContentRepository likeContentRepo,   IPodcastRepository podcastRepo, IMapper mapper, ICategoryRepository categoryRepo, ITagRepository tagRepo, IContributorRepository contributorRepo)
+        private readonly IMediumRepository _mediumRepo;
+        private readonly IWebHostEnvironment _webHost;
+        public PodcastService(IWebHostEnvironment webHostEnvironment, IMediumRepository mediumRepository, ILikeContentRepository likeContentRepo, IPodcastRepository podcastRepo, IMapper mapper, ICategoryRepository categoryRepo, ITagRepository tagRepo, IContributorRepository contributorRepo)
         {
             _podcastRepo = podcastRepo;
             _mapper = mapper;
@@ -35,6 +39,8 @@ namespace Weblog.Infrastructure.Services
             _tagRepo = tagRepo;
             _contributorRepo = contributorRepo;
             _likeContentRepo = likeContentRepo;
+            _webHost = webHostEnvironment;
+            _mediumRepo = mediumRepository;
         }
         public async Task AddContributorAsync(int podcastId, int contributorId)
         {
@@ -83,6 +89,11 @@ namespace Weblog.Infrastructure.Services
         {
             Podcast podcast = await _podcastRepo.GetPodcastByIdAsync(podcastId) ?? throw new NotFoundException(PodcastErrorCodes.PodcastNotFound);
             await _podcastRepo.DeletePodcastAsync(podcast);
+            foreach (Medium item in podcast.Media)
+            {
+                await _mediumRepo.DeleteMediumAsync(item);
+                await FileManager.DeleteFile(_webHost, item.Path);
+            }
         }
 
         public async Task DeleteTagAsync(int podcastId, int tagId)

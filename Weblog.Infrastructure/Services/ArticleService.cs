@@ -18,6 +18,8 @@ using Weblog.Infrastructure.Extension;
 using Weblog.Domain.Errors.Category;
 using Weblog.Domain.Errors.Contributor;
 using Weblog.Domain.Errors.Common;
+using Weblog.Infrastructure.Helpers;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Weblog.Infrastructure.Services
 {
@@ -29,10 +31,12 @@ namespace Weblog.Infrastructure.Services
         private readonly ITagRepository _tagRepo;
         private readonly IContributorRepository _contributorRepo;
         private readonly ILikeContentRepository _likeContentRepo;
+        private readonly IMediumRepository _mediumRepo;
+        private readonly IWebHostEnvironment _webHost;
 
 
 
-        public ArticleService(ILikeContentRepository likeContentRepo, IArticleRepository articleRepo, IMapper mapper, IContributorRepository contributorRepo, ICategoryRepository categoryRepo, ITagRepository tagRepo)
+        public ArticleService(IWebHostEnvironment webHostEnvironment, IMediumRepository mediumRepo, ILikeContentRepository likeContentRepo, IArticleRepository articleRepo, IMapper mapper, IContributorRepository contributorRepo, ICategoryRepository categoryRepo, ITagRepository tagRepo)
         {
             _articleRepo = articleRepo;
             _mapper = mapper;
@@ -40,6 +44,8 @@ namespace Weblog.Infrastructure.Services
             _tagRepo = tagRepo;
             _contributorRepo = contributorRepo;
             _likeContentRepo = likeContentRepo;
+            _mediumRepo = mediumRepo;
+            _webHost = webHostEnvironment;
         }
         public async Task<ArticleDto> AddArticleAsync(AddArticleDto addArticleDto)
         {
@@ -68,6 +74,11 @@ namespace Weblog.Infrastructure.Services
         {
             Article article = await _articleRepo.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.ArticleNotFound);
             await _articleRepo.DeleteArticleByIdAsync(article);
+            foreach (Medium item in article.Media)
+            {
+                await _mediumRepo.DeleteMediumAsync(item);
+                await FileManager.DeleteFile(_webHost, item.Path);
+            }
         }
         public async Task<List<ArticleSummaryDto>> GetAllArticlesAsync(PaginationParams paginationParams, ArticleFilteringParams articleFilteringParams)
         {

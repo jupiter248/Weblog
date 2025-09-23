@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.EventDtos;
 using Weblog.Application.Interfaces.Repositories;
@@ -16,6 +17,7 @@ using Weblog.Domain.Errors.Event;
 using Weblog.Domain.Errors.Tag;
 using Weblog.Domain.Models;
 using Weblog.Infrastructure.Extension;
+using Weblog.Infrastructure.Helpers;
 
 namespace Weblog.Infrastructure.Services
 {
@@ -26,9 +28,11 @@ namespace Weblog.Infrastructure.Services
         private readonly IMapper _mapper;
         private readonly ICategoryRepository _categoryRepo;
         private readonly IContributorRepository _contributorRepo;
-
         private readonly ILikeContentRepository _likeContentRepo;
-        public EventService( ILikeContentRepository likeContentRepo,IContributorRepository contributorRepo, IEventRepository eventRepo, ITagRepository tagRepo, IMapper mapper, ICategoryRepository categoryRepo)
+        private readonly IMediumRepository _mediumRepo;
+        private readonly IWebHostEnvironment _webHost;
+
+        public EventService(IWebHostEnvironment webHostEnvironment, IMediumRepository mediumRepository, ILikeContentRepository likeContentRepo, IContributorRepository contributorRepo, IEventRepository eventRepo, ITagRepository tagRepo, IMapper mapper, ICategoryRepository categoryRepo)
         {
             _categoryRepo = categoryRepo;
             _eventRepo = eventRepo;
@@ -36,6 +40,8 @@ namespace Weblog.Infrastructure.Services
             _tagRepo = tagRepo;
             _contributorRepo = contributorRepo;
             _likeContentRepo = likeContentRepo;
+            _webHost = webHostEnvironment;
+            _mediumRepo = mediumRepository;
         }
 
         public async Task AddContributorAsync(int eventId, int contributorId)
@@ -87,6 +93,11 @@ namespace Weblog.Infrastructure.Services
         {
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
             await _eventRepo.DeleteEventAsync(eventModel);
+            foreach (Medium item in eventModel.Media)
+            {
+                await _mediumRepo.DeleteMediumAsync(item);
+                await FileManager.DeleteFile(_webHost, item.Path);
+            }
         }
 
         public async Task DeleteTagAsync(int eventId, int tagId)

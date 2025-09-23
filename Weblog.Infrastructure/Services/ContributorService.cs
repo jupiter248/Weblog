@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Weblog.Application.CustomExceptions;
 using Weblog.Application.Dtos.CommentDtos;
 using Weblog.Application.Dtos.ContributorDtos;
@@ -11,6 +12,7 @@ using Weblog.Application.Interfaces.Repositories;
 using Weblog.Application.Interfaces.Services;
 using Weblog.Domain.Errors.Contributor;
 using Weblog.Domain.Models;
+using Weblog.Infrastructure.Helpers;
 
 namespace Weblog.Infrastructure.Services
 {
@@ -18,11 +20,15 @@ namespace Weblog.Infrastructure.Services
     {
         private readonly IContributorRepository _contributorRepo;
         private readonly IMapper _mapper;
+        private readonly IMediumRepository _mediumRepo;
+        private readonly IWebHostEnvironment _webHost;
 
-        public ContributorService(IContributorRepository contributorRepo, IMapper mapper)
+        public ContributorService(IWebHostEnvironment webHostEnvironment, IMediumRepository mediumRepository, IContributorRepository contributorRepo, IMapper mapper)
         {
             _contributorRepo = contributorRepo;
             _mapper = mapper;
+            _webHost = webHostEnvironment;
+            _mediumRepo = mediumRepository;
         }
 
         public async Task<ContributorDto> AddContributorAsync(AddContributorDto addContributorDto)
@@ -38,6 +44,11 @@ namespace Weblog.Infrastructure.Services
         {
             Contributor contributor = await _contributorRepo.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             await _contributorRepo.DeleteContributorAsync(contributor);
+            foreach (Medium item in contributor.Media)
+            {
+                await _mediumRepo.DeleteMediumAsync(item);
+                await FileManager.DeleteFile(_webHost, item.Path);
+            }
         }
 
         public async Task<List<ContributorDto>> GetAllContributorsAsync()
