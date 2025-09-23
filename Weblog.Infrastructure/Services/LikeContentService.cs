@@ -52,7 +52,7 @@ namespace Weblog.Infrastructure.Services
 
         public async Task<bool> IsLikedAsync(string userId, int entityTypeId, LikeAndViewType entityType)
         {
-          return await _likeContentRepo.IsLikedAsync(userId, entityTypeId, entityType);
+            return await _likeContentRepo.IsLikedAsync(userId, entityTypeId, entityType);
         }
 
         public async Task LikeAsync(string userId, LikeContentDto likeContentDto)

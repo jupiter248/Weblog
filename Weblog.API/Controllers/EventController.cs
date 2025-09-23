@@ -166,7 +166,7 @@ namespace Weblog.API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}/taking-part")]
-        public async Task<IActionResult> UpdateTakingPart(int id, bool isConfirmed)
+        public async Task<IActionResult> UpdateTakingPart(int id , [FromBody] bool isConfirmed)
         {
             await _takingPartService.UpdateTakingPartAsync(id, isConfirmed);
             return NoContent();

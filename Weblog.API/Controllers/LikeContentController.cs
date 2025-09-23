@@ -34,6 +34,20 @@ namespace Weblog.API.Controllers
             return Ok(likeCount);
         }
         [Authorize]
+        [HttpGet("{contentId:int}/like-status")]
+        public async Task<IActionResult> GetFavoriteStatus(int contentId , [FromQuery] LikeAndViewType contentType)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
+            bool isLiked = await _likeContentService.IsLikedAsync(userId , contentId , contentType);
+            return Ok(new
+            {
+                contentId = contentId,
+                contentType = contentType,
+                isLiked = isLiked
+            });
+        }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> LikeContent([FromQuery] LikeContentDto likeContentDto)
         {
