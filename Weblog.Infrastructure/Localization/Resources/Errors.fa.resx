@@ -24,6 +24,18 @@
     <data name="ARTICLE_TITLE_REQUIRED" xml:space="preserve">
         <value>عنوان مقاله الزامی است.</value>
     </data>
+    <data name="ARTICLE_ABOVE_TITLE_REQUIRED" xml:space="preserve">
+        <value>عنوان بالای مقاله باید مقدار داشته باشد.</value>
+    </data>
+    <data name="ARTICLE_ABOVE_TITLE_MAX_LENGTH" xml:space="preserve">
+        <value>عنوان بالای مقاله نمی‌تواند بیشتر از ۱۵۰ کاراکتر باشد.</value>
+    </data>
+    <data name="ARTICLE_BELOW_TITLE_REQUIRED" xml:space="preserve">
+        <value>عنوان پایین مقاله باید مقدار داشته باشد.</value>
+    </data>
+    <data name="ARTICLE_BELOW_TITLE_MAX_LENGTH" xml:space="preserve">
+        <value>عنوان پایین مقاله نمی‌تواند بیشتر از ۱۵۰ کاراکتر باشد.</value>
+    </data>
     <data name="ARTICLE_TITLE_MAX_LENGTH" xml:space="preserve">
         <value>عنوان مقاله نمی‌تواند بیش از ۱۵۰ کاراکتر باشد.</value>
     </data>
@@ -119,6 +131,18 @@
     </data>
     <data name="EVENT_TITLE_MAX_LENGTH" xml:space="preserve">
         <value>عنوان رویداد نمی‌تواند بیش از ۱۵۰ کاراکتر باشد.</value>
+    </data>
+    <data name="EVENT_ABOVE_TITLE_REQUIRED" xml:space="preserve">
+        <value>عنوان بالای رویداد باید مقدار داشته باشد.</value>
+    </data>
+    <data name="EVENT_ABOVE_TITLE_MAX_LENGTH" xml:space="preserve">
+        <value>عنوان بالای رویداد نمی‌تواند بیشتر از ۱۵۰ کاراکتر باشد.</value>
+    </data>
+    <data name="EVENT_BELOW_TITLE_REQUIRED" xml:space="preserve">
+        <value>عنوان پایین رویداد باید مقدار داشته باشد.</value>
+    </data>
+    <data name="EVENT_BELOW_TITLE_MAX_LENGTH" xml:space="preserve">
+        <value>عنوان پایین رویداد نمی‌تواند بیشتر از ۱۵۰ کاراکتر باشد.</value>
     </data>
     <data name="EVENT_DESCRIPTION_REQUIRED" xml:space="preserve">
         <value>توضیحات رویداد الزامی است.</value>

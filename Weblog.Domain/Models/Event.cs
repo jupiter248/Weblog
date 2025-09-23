@@ -12,6 +12,8 @@ namespace Weblog.Domain.Models
         [Key]
         public int Id { get; set; }
         public required string Title { get; set; }
+        public string? AboveTitle { get; set; }
+        public string? BelowTitle { get; set; }
         public required string Slug { get; set; }
         public required string Context { get; set; }
         public required string Description { get; set; }
@@ -27,8 +29,6 @@ namespace Weblog.Domain.Models
         public DateTimeOffset UpdatedAt { get; set; }
         public DateTimeOffset StartedAt { get; set; }
         public DateTimeOffset FinishedAt { get; set; }
-        // public TimeSpan? StartTime { get; set; }
-        // public TimeSpan? EndTime { get; set; }
         public List<Medium> Media { get; set; } = new List<Medium>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
         public List<Contributor> Contributors { get; set; } = new List<Contributor>();

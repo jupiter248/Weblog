@@ -14,6 +14,8 @@ namespace Weblog.Domain.Models
         [Key]
         public int Id { get; set; }
         public required string Title { get; set; }
+        public string? AboveTitle { get; set; }
+        public string? BelowTitle { get; set; }
         public required string Slug { get; set; }
         public required string Context { get; set; }
         public required string Description { get; set; }
