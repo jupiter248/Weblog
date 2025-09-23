@@ -22,8 +22,8 @@ namespace Weblog.Application.Validations.Podcast
 
             RuleFor(x => x.Link)
                 .NotEmpty().WithMessage(PodcastErrorCodes.PodcastLinkRequired)
-                .MaximumLength(300).WithMessage(PodcastErrorCodes.PodcastLinkMaxLength)
-                .Must(link => Uri.IsWellFormedUriString(link, UriKind.Absolute)).WithMessage(PodcastErrorCodes.PodcastLinkInvalid);
+                .MaximumLength(500).WithMessage(PodcastErrorCodes.PodcastLinkMaxLength);
+                // .Must(link => Uri.IsWellFormedUriString(link, UriKind.Absolute)).WithMessage(PodcastErrorCodes.PodcastLinkInvalid);
         }
     }
 }

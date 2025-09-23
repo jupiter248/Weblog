@@ -277,7 +277,7 @@
         <value>Podcast link must have value.</value>
     </data>
     <data name="PODCAST_LINK_MAX_LENGTH" xml:space="preserve">
-        <value>Podcast link can not be more than 300.</value>
+        <value>Podcast link can not be more than 500.</value>
     </data>
     <data name="PODCAST_LINK_INVALID" xml:space="preserve">
         <value>Podcast link is invalid.</value>

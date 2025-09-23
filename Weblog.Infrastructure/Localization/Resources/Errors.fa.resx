@@ -274,7 +274,7 @@
         <value>لینک پادکست الزامی است.</value>
     </data>
     <data name="PODCAST_LINK_MAX_LENGTH" xml:space="preserve">
-        <value>لینک پادکست نمی‌تواند بیش از ۳۰۰ کاراکتر باشد.</value>
+        <value>لینک پادکست نمی‌تواند بیش از ۵۰۰ کاراکتر باشد.</value>
     </data>
     <data name="PODCAST_LINK_INVALID" xml:space="preserve">
         <value>لینک پادکست نامعتبر است.</value>
