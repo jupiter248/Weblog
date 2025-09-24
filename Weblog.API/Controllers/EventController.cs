@@ -113,7 +113,7 @@ namespace Weblog.API.Controllers
             await _favoriteEventService.AddEventToFavoriteAsync(userId, addFavoriteEventDto);
             return NoContent();
         }
-        [Authorize]
+        [Authorize()]
         [HttpGet("{eventId:int}/favorite-status")]
         public async Task<IActionResult> GetFavoriteStatus(int eventId)
         {
@@ -149,19 +149,33 @@ namespace Weblog.API.Controllers
             return NoContent();
         }
         [Authorize]
-        [HttpPost("{id:int}/take-part")]
-        public async Task<IActionResult> TakePart(int id)
+        [HttpPost("{id:int}/user-take-part")]
+        public async Task<IActionResult> UserTakePart(int id)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
-            await _takingPartService.TakePartAsync(id, userId);
+            await _takingPartService.UserTakePartAsync(id, userId);
+            return NoContent();
+        }
+        [HttpPost("{id:int}/guest-take-part")]
+        public async Task<IActionResult> GuestTakePart(int id , [FromBody] AddGuestTakinPartDto addGuestTakinPartDto)
+        {
+            Validator.ValidateAndThrow(addGuestTakinPartDto, new AddGuestTakingPartValidator());
+            await _takingPartService.GuestTakePartAsync(id, addGuestTakinPartDto);
             return NoContent();
         }
         [Authorize(Roles = "Admin")]
-        [HttpGet("{id:int}/participants")]
-        public async Task<IActionResult> GetAllParticipantsByEventId(int id , [FromQuery] ParticipantFilteringParams participantFilteringParams)
+        [HttpGet("{id:int}/user-participants")]
+        public async Task<IActionResult> GetAllUserParticipantsByEventId(int id , [FromQuery] ParticipantFilteringParams participantFilteringParams)
         {
-            List<ParticipantDto> participantDtos = await _takingPartService.GetAllParticipantsAsync(id , participantFilteringParams);
+            List<ParticipantDto> participantDtos = await _takingPartService.GetAllUserParticipantsAsync(id , participantFilteringParams);
+            return Ok(participantDtos);
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpGet("{id:int}/guest-participants")]
+        public async Task<IActionResult> GetAllGuestParticipantsByEventId(int id , [FromQuery] ParticipantFilteringParams participantFilteringParams)
+        {
+            List<ParticipantDto> participantDtos = await _takingPartService.GetAllGuestParticipantsAsync(id , participantFilteringParams);
             return Ok(participantDtos);
         }
         [Authorize(Roles = "Admin")]
@@ -171,13 +185,11 @@ namespace Weblog.API.Controllers
             await _takingPartService.UpdateTakingPartAsync(id, isConfirmed);
             return NoContent();
         }
-        [Authorize]
-        [HttpDelete("{id:int}/cancel-taking-part")]
-        public async Task<IActionResult> CancelTakingPart(int id)
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("deny-taking-part/{takingPartId:int}")]
+        public async Task<IActionResult> DenyTakingPart(int takingPartId)
         {
-            string? userId = User.GetUserId();
-            if (string.IsNullOrWhiteSpace(userId)) return BadRequest("UserId is invalid");
-            await _takingPartService.CancelTakingPartAsync(id, userId);
+            await _takingPartService.DenyTakingPartAsync(takingPartId);
             return NoContent();
         }
         [HttpGet("{id:int}/suggestion")]

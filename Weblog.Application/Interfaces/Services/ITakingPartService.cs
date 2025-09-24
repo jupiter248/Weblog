@@ -10,11 +10,13 @@ namespace Weblog.Application.Interfaces.Services
 {
     public interface ITakingPartService
     {
-        Task<List<ParticipantDto>> GetAllParticipantsAsync(int eventId , ParticipantFilteringParams participantFilteringParams);
+        Task<List<ParticipantDto>> GetAllUserParticipantsAsync(int eventId , ParticipantFilteringParams participantFilteringParams);
+        Task<List<ParticipantDto>> GetAllGuestParticipantsAsync(int eventId , ParticipantFilteringParams participantFilteringParams);
         Task<List<EventSummaryDto>> GetAllTookPartEventsAsync(string userId , int? categoryId);
         Task<bool> IsUserParticipantAsync(string userId, int eventId);
-        Task TakePartAsync(int eventId , string userId);
-        Task CancelTakingPartAsync(int eventId , string userId);
+        Task UserTakePartAsync(int eventId , string userId );
+        Task GuestTakePartAsync(int eventId , AddGuestTakinPartDto? addGuestTakinPartDto);
+        Task DenyTakingPartAsync(int takingPartId);
         Task UpdateTakingPartAsync(int id , bool isConfirmed);
 
     }

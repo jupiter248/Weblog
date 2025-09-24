@@ -34,13 +34,10 @@ namespace Weblog.Infrastructure.Services
             _eventRepo = eventRepo;
             _mapper = mapper;
         }
-        public async Task CancelTakingPartAsync(int eventId, string userId)
+        public async Task DenyTakingPartAsync(int takingPartId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
-            
-            TakingPart takingPart = await _takingPartRepo.GetTakingPartByUserIdAndEventIdAsync(userId, eventId) ?? throw new NotFoundException(ParticipantErrorCodes.ParticipantNotFound);
-            await _takingPartRepo.CancelTakingPartAsync(takingPart);
+            TakingPart takingPart = await _takingPartRepo.GetTakingPartByIdAsync(takingPartId) ?? throw new NotFoundException(ParticipantErrorCodes.ParticipantNotFound);
+            await _takingPartRepo.DenyTakingPartAsync(takingPart);
         }
 
         public async Task UpdateTakingPartAsync(int id, bool isConfirmed)
@@ -62,9 +59,9 @@ namespace Weblog.Infrastructure.Services
             await _takingPartRepo.UpdateTakingPartAsync(takingPart);
         }
 
-        public async Task<List<ParticipantDto>> GetAllParticipantsAsync(int eventId , ParticipantFilteringParams participantFilteringParams)
+        public async Task<List<ParticipantDto>> GetAllUserParticipantsAsync(int eventId , ParticipantFilteringParams participantFilteringParams)
         {
-            List<TakingPart> takingParts = await _takingPartRepo.GetAllTakingPartsByEventIdAsync(eventId , participantFilteringParams);
+            List<UserTakingPart> takingParts = await _takingPartRepo.GetAllUserTakingPartsByEventIdAsync(eventId , participantFilteringParams);
             List<ParticipantDto> participantDtos = takingParts.Select(s => new ParticipantDto()
             {
                 Id = s.Id,
@@ -78,28 +75,41 @@ namespace Weblog.Infrastructure.Services
             return participantDtos;
         }
 
-        public async Task TakePartAsync(int eventId, string userId)
+        public async Task UserTakePartAsync(int eventId, string userId)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
-            TakingPart takingPart = new TakingPart
+            UserTakingPart takingPart = new UserTakingPart
             {
                 UserId = appUser.Id,
                 AppUser = appUser,
                 EventId = eventModel.Id,
-                Event = eventModel
+                Event = eventModel,
             };
             bool IsUserParticipant = await _takingPartRepo.IsUserParticipantAsync(takingPart);
             if (IsUserParticipant)
             {
                 throw new ConflictException(ParticipantErrorCodes.AlreadyTookPart);
             }
-            await _takingPartRepo.TakePartAsync(takingPart);
+            await _takingPartRepo.UserTakePartAsync(takingPart);
+        }
+        public async Task GuestTakePartAsync(int eventId, AddGuestTakinPartDto addGuestTakinPartDto)
+        {
+            Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
+            GuestTakingPart takingPart = new GuestTakingPart
+            {
+                EventId = eventModel.Id,
+                Event = eventModel,
+                GuestName = addGuestTakinPartDto.GuestName,
+                GuestFamily = addGuestTakinPartDto.GuestFamily,
+                GuestPhone = addGuestTakinPartDto.GuestPhone,
+            };
+            await _takingPartRepo.GuestTakePartAsync(takingPart);
         }
 
-        public async Task<List<EventSummaryDto>> GetAllTookPartEventsAsync(string userId , int? categoryId)
+        public async Task<List<EventSummaryDto>> GetAllTookPartEventsAsync(string userId, int? categoryId)
         {
-            List<TakingPart> takingParts = await _takingPartRepo.GetAllTookPartsByEventsAsync(userId , categoryId);
+            List<UserTakingPart> takingParts = await _takingPartRepo.GetAllTookPartsByEventsAsync(userId, categoryId);
             List<EventSummaryDto> eventSummaryDtos = _mapper.Map<List<EventSummaryDto>>(takingParts.Select(t => t.Event).ToList());
             if (categoryId.HasValue)
             {
@@ -112,8 +122,24 @@ namespace Weblog.Infrastructure.Services
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             Event eventModel = await _eventRepo.GetEventByIdAsync(eventId) ?? throw new NotFoundException(EventErrorCodes.EventNotFound);
-            bool isFavorite = await _takingPartRepo.IsUserParticipantAsync(new TakingPart { UserId = userId, EventId = eventId, AppUser = appUser });
+            bool isFavorite = await _takingPartRepo.IsUserParticipantAsync(new UserTakingPart { UserId = userId, EventId = eventId, AppUser = appUser });
             return isFavorite;
         }
+
+        public async Task<List<ParticipantDto>> GetAllGuestParticipantsAsync(int eventId, ParticipantFilteringParams participantFilteringParams)
+        {
+            List<GuestTakingPart> takingParts = await _takingPartRepo.GetAllGuestTakingPartsByEventIdAsync(eventId, participantFilteringParams);
+            List<ParticipantDto> participantDtos = takingParts.Select(s => new ParticipantDto()
+            {
+                Id = s.Id,
+                FirstName = s.GuestName,
+                LastName = s.GuestFamily,
+                Phone = s.GuestPhone,
+                IsConfirmed = s.IsConfirmed
+
+            }).ToList();
+            return participantDtos;
+        }
+
     }
 }

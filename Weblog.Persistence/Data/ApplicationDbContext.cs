@@ -72,6 +72,12 @@ namespace Weblog.Persistence.Data
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<TakingPart>()
+                .HasDiscriminator<string>("ParticipantType")
+                .HasValue<UserTakingPart>("User")
+                .HasValue<GuestTakingPart>("Guest");
+
+
             base.OnModelCreating(modelBuilder);
         }
     }

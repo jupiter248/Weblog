@@ -18,15 +18,15 @@ namespace Weblog.Persistence.Repositories
         {
             _context = context;
         }
-        public async Task CancelTakingPartAsync(TakingPart takingPart)
+        public async Task DenyTakingPartAsync(TakingPart takingPart)
         {
             _context.TakingParts.Remove(takingPart);
             await _context.SaveChangesAsync(); 
         }
 
-        public async Task<List<TakingPart>> GetAllTakingPartsByEventIdAsync(int eventId, ParticipantFilteringParams participantFilteringParams)
+        public async Task<List<UserTakingPart>> GetAllUserTakingPartsByEventIdAsync(int eventId, ParticipantFilteringParams participantFilteringParams)
         {
-            List<TakingPart> takingParts = await _context.TakingParts.Include(t => t.AppUser).Include(t => t.Event).Where(t => t.EventId == eventId).ToListAsync();
+            List<UserTakingPart> takingParts = await _context.Set<UserTakingPart>().Include(t => t.AppUser).Include(t => t.Event).Where(t => t.EventId == eventId).ToListAsync();
             if (participantFilteringParams.IsConfirmed.HasValue)
             {
                 if (participantFilteringParams.IsConfirmed == true)
@@ -51,16 +51,21 @@ namespace Weblog.Persistence.Repositories
             return takingPart;
         }
 
-        public async Task TakePartAsync(TakingPart takingPart)
+        public async Task UserTakePartAsync(UserTakingPart takingPart)
         {
-            
-            await _context.TakingParts.AddAsync(takingPart);
+            await _context.Set<UserTakingPart>().AddAsync(takingPart);
+            await _context.SaveChangesAsync();
+        }
+        public async Task GuestTakePartAsync(GuestTakingPart takingPart)
+        {
+            await _context.Set<GuestTakingPart>().AddAsync(takingPart);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> IsUserParticipantAsync(TakingPart takingPart)
+
+        public async Task<bool> IsUserParticipantAsync(UserTakingPart takingPart)
         {
-            TakingPart? takingPartExists = await _context.TakingParts.FirstOrDefaultAsync(t => t.UserId == takingPart.UserId && t.EventId == takingPart.EventId);
+            TakingPart? takingPartExists = await _context.Set<UserTakingPart>().FirstOrDefaultAsync(t => t.UserId == takingPart.UserId && t.EventId == takingPart.EventId);
             if (takingPartExists == null)
             {
                 return false;
@@ -74,9 +79,12 @@ namespace Weblog.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<TakingPart>> GetAllTookPartsByEventsAsync(string userId, int? categoryId)
+        public async Task<List<UserTakingPart>> GetAllTookPartsByEventsAsync(string userId, int? categoryId)
         {
-            var takingParts = await _context.TakingParts.Where(t => t.UserId == userId).Include(e => e.Event).ToListAsync();
+            var takingParts = await _context.Set<UserTakingPart>()
+            .Where(u => u.UserId == userId)
+            .Include(e => e.Event)
+            .ToListAsync();
             if (categoryId.HasValue)
             {
                 takingParts = takingParts.Where(t => t.Event.CategoryId == categoryId).ToList();
@@ -84,14 +92,31 @@ namespace Weblog.Persistence.Repositories
             return takingParts;
         }
 
-        public async Task<TakingPart?> GetTakingPartByUserIdAndEventIdAsync(string userId, int eventId)
+        public async Task<UserTakingPart?> GetTakingPartByUserIdAndEventIdAsync(string userId, int eventId)
         {
-            TakingPart? takingPart = await _context.TakingParts.FirstOrDefaultAsync(t => t.EventId == eventId && t.UserId == userId);
+            UserTakingPart? takingPart = await _context.Set<UserTakingPart>().FirstOrDefaultAsync(t => t.EventId == eventId && t.UserId == userId);
             if (takingPart == null)
             {
                 return null;
             }
             return takingPart;
+        }
+
+        public async Task<List<GuestTakingPart>> GetAllGuestTakingPartsByEventIdAsync(int eventId, ParticipantFilteringParams participantFilteringParams)
+        {
+            List<GuestTakingPart> takingParts = await _context.Set<GuestTakingPart>().Include(t => t.Event).Where(t => t.EventId == eventId).ToListAsync();
+            if (participantFilteringParams.IsConfirmed.HasValue)
+            {
+                if (participantFilteringParams.IsConfirmed == true)
+                {
+                    takingParts = takingParts.Where(t => t.IsConfirmed == true).ToList();
+                }
+                else if (participantFilteringParams.IsConfirmed == false)
+                {
+                    takingParts = takingParts.Where(t => t.IsConfirmed == false).ToList();
+                }
+            }
+            return takingParts; 
         }
     }
 }

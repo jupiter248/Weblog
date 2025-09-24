@@ -6,16 +6,13 @@ using Weblog.Domain.Models;
 
 namespace Weblog.Domain.JoinModels
 {
-    public class TakingPart
+    public abstract class TakingPart
     {
         public int Id { get; set; }
         public int EventId { get; set; }
         public Event? Event { get; set; }
-        public required string UserId { get; set; }
-        public required AppUser AppUser { get; set; }
         public bool IsConfirmed { get; set; }
         public DateTimeOffset ConfirmedAt { get; set; }
         public DateTimeOffset AskedAt { get; set; }
-        
     }
 }

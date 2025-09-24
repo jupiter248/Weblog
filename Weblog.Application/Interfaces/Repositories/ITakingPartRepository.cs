@@ -11,13 +11,15 @@ namespace Weblog.Application.Interfaces.Repositories
 {
     public interface ITakingPartRepository
     {
-        Task TakePartAsync(TakingPart takingPart);
-        Task CancelTakingPartAsync(TakingPart takingPart);
-        Task<List<TakingPart>> GetAllTakingPartsByEventIdAsync(int eventId , ParticipantFilteringParams participantFilteringParams);
-        Task<List<TakingPart>> GetAllTookPartsByEventsAsync(string userId , int? categoryId);
+        Task UserTakePartAsync(UserTakingPart takingPart);
+        Task GuestTakePartAsync(GuestTakingPart takingPart);
+        Task DenyTakingPartAsync(TakingPart takingPart);
+        Task<List<UserTakingPart>> GetAllUserTakingPartsByEventIdAsync(int eventId , ParticipantFilteringParams participantFilteringParams);
+        Task<List<GuestTakingPart>> GetAllGuestTakingPartsByEventIdAsync(int eventId , ParticipantFilteringParams participantFilteringParams);
+        Task<List<UserTakingPart>> GetAllTookPartsByEventsAsync(string userId , int? categoryId);
         Task<TakingPart?> GetTakingPartByIdAsync(int id);
-        Task<TakingPart?> GetTakingPartByUserIdAndEventIdAsync(string userId , int eventId);
-        Task<bool> IsUserParticipantAsync(TakingPart takingPart);
+        Task<UserTakingPart?> GetTakingPartByUserIdAndEventIdAsync(string userId , int eventId);
+        Task<bool> IsUserParticipantAsync(UserTakingPart takingPart);
         Task UpdateTakingPartAsync(TakingPart takingPart);
     }
 }
