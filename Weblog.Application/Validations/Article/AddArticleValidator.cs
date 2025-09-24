@@ -17,11 +17,9 @@ namespace Weblog.Application.Validations.Article
                 .MaximumLength(150).WithMessage(ArticleErrorCodes.ArticleTitleMaxLength);
                 
             RuleFor(t => t.AboveTitle)
-                .NotEmpty().WithMessage(ArticleErrorCodes.ArticleAboveTitleRequired)
                 .MaximumLength(150).WithMessage(ArticleErrorCodes.ArticleAboveTitleMaxLength);
 
             RuleFor(t => t.BelowTitle)
-                .NotEmpty().WithMessage(ArticleErrorCodes.ArticleBelowTitleRequired)
                 .MaximumLength(150).WithMessage(ArticleErrorCodes.ArticleBelowTitleMaxLength);
 
             RuleFor(d => d.Description)

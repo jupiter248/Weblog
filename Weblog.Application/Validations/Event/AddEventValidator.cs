@@ -17,11 +17,9 @@ namespace Weblog.Application.Validations.Event
                 .MaximumLength(150).WithMessage(EventErrorCodes.EventTitleMaxLength);
 
             RuleFor(t => t.AboveTitle)
-                .NotEmpty().WithMessage(EventErrorCodes.EventAboveTitleRequired)
                 .MaximumLength(150).WithMessage(EventErrorCodes.EventAboveTitleMaxLength);
 
             RuleFor(t => t.BelowTitle)
-                .NotEmpty().WithMessage(EventErrorCodes.EventBelowTitleRequired)
                 .MaximumLength(150).WithMessage(EventErrorCodes.EventBelowTitleMaxLength);
 
             RuleFor(d => d.Description)
