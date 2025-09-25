@@ -148,7 +148,7 @@ namespace Weblog.Persistence.Repositories
         public async Task<List<Podcast>> SearchByTitleAsync(string keyword)
         {
             return await _context.Podcasts
-            .Where(p => p.Name.ToLower().Contains(keyword))
+            .Where(p => p.Name.ToLower().Contains(keyword) && p.IsDisplayed == true)
             .ToListAsync();
         }
 

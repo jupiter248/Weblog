@@ -182,7 +182,7 @@ namespace Weblog.Persistence.Repositories
         public async Task<List<Event>> SearchByTitleAsync(string keyword)
         {
             return await _context.Events
-            .Where(p => p.Title.ToLower().Contains(keyword))
+            .Where(p => p.Title.ToLower().Contains(keyword) && p.IsDisplayed == true)
             .ToListAsync();
         }
 

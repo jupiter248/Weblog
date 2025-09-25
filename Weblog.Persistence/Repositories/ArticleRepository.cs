@@ -149,7 +149,7 @@ namespace Weblog.Persistence.Repositories
         public async Task<List<Article>> SearchByTitleAsync(string keyword)
         {
             return await _context.Articles
-            .Where(a => a.Title.ToLower().Contains(keyword))
+            .Where(a => a.Title.ToLower().Contains(keyword) && a.IsPublished == true)
             .ToListAsync();
         }
 

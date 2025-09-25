@@ -102,6 +102,7 @@ namespace Weblog.Infrastructure.Services
                 Name = fileName,
                 Path = $"uploads/{uploadMediaDto.MediumType}/{fileName}",
                 IsPrimary = uploadMediaDto.IsPrimary,
+                IsOnPoster = uploadMediaDto.IsOnPoster,
                 MediumType = uploadMediaDto.MediumType,
                 EntityType = uploadMediaDto.EntityType,
                 EntityId = uploadMediaDto.EntityId,
